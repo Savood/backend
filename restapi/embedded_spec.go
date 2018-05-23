@@ -68,6 +68,29 @@ func init() {
         }
       }
     },
+    "/healthcheck": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Server status",
+        "operationId": "healthcheckGet",
+        "responses": {
+          "200": {
+            "description": "Server is healthy"
+          },
+          "501": {
+            "description": "Server is unhealthy",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
     "/message": {
       "post": {
         "consumes": [
@@ -174,7 +197,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
@@ -287,7 +310,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
@@ -400,7 +423,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
@@ -679,6 +702,29 @@ func init() {
         }
       }
     },
+    "/healthcheck": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Server status",
+        "operationId": "healthcheckGet",
+        "responses": {
+          "200": {
+            "description": "Server is healthy"
+          },
+          "501": {
+            "description": "Server is unhealthy",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
     "/message": {
       "post": {
         "consumes": [
@@ -797,7 +843,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
@@ -922,7 +968,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
@@ -1047,7 +1093,7 @@ func init() {
       },
       "parameters": [
         {
-          "type": "integer",
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true

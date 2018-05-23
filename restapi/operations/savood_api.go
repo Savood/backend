@@ -20,6 +20,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/feed"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/message"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offering"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/profile"
@@ -44,6 +45,9 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		JSONProducer:        runtime.JSONProducer(),
 		FeedFeedGetHandler: feed.FeedGetHandlerFunc(func(params feed.FeedGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation FeedFeedGet has not yet been implemented")
+		}),
+		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation HealthHealthcheckGet has not yet been implemented")
 		}),
 		MessageMessageIDDeleteHandler: message.MessageIDDeleteHandlerFunc(func(params message.MessageIDDeleteParams) middleware.Responder {
 			return middleware.NotImplemented("operation MessageMessageIDDelete has not yet been implemented")
@@ -114,6 +118,8 @@ type SavoodAPI struct {
 
 	// FeedFeedGetHandler sets the operation handler for the feed get operation
 	FeedFeedGetHandler feed.FeedGetHandler
+	// HealthHealthcheckGetHandler sets the operation handler for the healthcheck get operation
+	HealthHealthcheckGetHandler health.HealthcheckGetHandler
 	// MessageMessageIDDeleteHandler sets the operation handler for the message Id delete operation
 	MessageMessageIDDeleteHandler message.MessageIDDeleteHandler
 	// MessageMessageIDGetHandler sets the operation handler for the message Id get operation
@@ -203,6 +209,10 @@ func (o *SavoodAPI) Validate() error {
 
 	if o.FeedFeedGetHandler == nil {
 		unregistered = append(unregistered, "feed.FeedGetHandler")
+	}
+
+	if o.HealthHealthcheckGetHandler == nil {
+		unregistered = append(unregistered, "health.HealthcheckGetHandler")
 	}
 
 	if o.MessageMessageIDDeleteHandler == nil {
@@ -355,6 +365,11 @@ func (o *SavoodAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/feed"] = feed.NewFeedGet(o.context, o.FeedFeedGetHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/healthcheck"] = health.NewHealthcheckGet(o.context, o.HealthHealthcheckGetHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
