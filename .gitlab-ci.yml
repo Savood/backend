@@ -1,0 +1,45 @@
+variables:
+  CONTAINER_IMAGE: docker.dhbw.chd.cx/$CI_PROJECT_PATH
+
+stages:
+- pre_build
+- build
+- test
+
+build:
+  image: docker:latest
+  services:
+   - docker:dind
+  stage: build
+  script:
+   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+   - docker pull $CONTAINER_IMAGE:latest || true
+   - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
+   - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
+   - docker push $CONTAINER_IMAGE:latest
+  only:
+   - master
+
+buildStaging:
+  image: docker:latest
+  services:
+   - docker:dind
+  stage: build
+  script:
+   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+   - docker pull $CONTAINER_IMAGE:latest || true
+   - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
+   - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
+  except:
+   - master
+
+
+test:
+  image: docker:latest
+  services:
+   - name: $CONTAINER_IMAGE:$CI_BUILD_REF
+     alias: test_container
+  stage: test
+  script:
+    - sleep 10
+    - wget --server-response test_container:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
