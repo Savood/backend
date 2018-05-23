@@ -1,0 +1,30 @@
+variables:
+  CONTAINER_IMAGE: git.dhbw.chd.cx:4567/$CI_PROJECT_PATH
+
+
+build:
+  image: docker:latest
+  services:
+   - docker:dind
+  stage: build
+  script:
+   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN git.dhbw.chd.cx:4567
+   - docker pull $CONTAINER_IMAGE:latest || true
+   - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
+   - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
+   - docker push $CONTAINER_IMAGE:latest
+  only:
+   - master
+
+buildTest:
+  image: docker:latest
+  services:
+   - docker:dind
+  stage: build
+  script:
+   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN git.dhbw.chd.cx:4567
+   - docker pull $CONTAINER_IMAGE:latest || true
+   - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
+   - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
+  except:
+   - master
