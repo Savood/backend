@@ -1,6 +1,10 @@
 variables:
-  CONTAINER_IMAGE: git.dhbw.chd.cx:4567/$CI_PROJECT_PATH
+  CONTAINER_IMAGE: docker.dhbw.chd.cx/$CI_PROJECT_PATH
 
+stages:
+- pre_build
+- build
+- test
 
 build:
   image: docker:latest
@@ -16,15 +20,27 @@ build:
   only:
    - master
 
-buildTest:
+buildStaging:
   image: docker:latest
   services:
    - docker:dind
   stage: build
   script:
-   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN git.dhbw.chd.cx:4567
+   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
    - docker pull $CONTAINER_IMAGE:latest || true
    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
    - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
   except:
    - master
+
+
+test:
+  image: docker:latest
+  services:
+   - docker:dind
+  stage: test
+  script:
+    - docker run -d -p 80:80 --name test_container $CONTAINER_IMAGE:$CI_BUILD_REF
+    - sleep 10
+    - docker logs test_container
+    - wget --server-response localhost:80 -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
