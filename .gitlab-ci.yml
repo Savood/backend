@@ -40,7 +40,7 @@ test:
    - docker:dind
   stage: test
   script:
-     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
     - docker run -d -p 80:80 --name test_container $CONTAINER_IMAGE:$CI_BUILD_REF
     - sleep 10
     - docker logs test_container
