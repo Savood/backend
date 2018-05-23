@@ -20,4 +20,4 @@ COPY --from=builder /go/bin/backend /usr/local/bin/
 
 
 EXPOSE 8080
-CMD ["backend", "--port 80"]
+CMD ["backend", "--port", "8080"]
