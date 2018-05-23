@@ -16,6 +16,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/message"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offering"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/profile"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml
@@ -37,6 +38,10 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
+
+	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+		return health.NewHealthcheckGetOK()
+	})
 
 	api.FeedFeedGetHandler = feed.FeedGetHandlerFunc(func(params feed.FeedGetParams) middleware.Responder {
 		return middleware.NotImplemented("operation feed.FeedGet has not yet been implemented")
