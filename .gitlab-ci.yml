@@ -42,5 +42,4 @@ test:
   stage: test
   script:
     - sleep 10
-    - wget --server-response test_container:8080 -O ip-current 2>&1
-    - wget --server-response test_container:8080 -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
+    - wget --server-response test_container:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
