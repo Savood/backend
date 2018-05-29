@@ -13,35 +13,26 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// Message message
-// swagger:model Message
-type Message struct {
+// Comment comment
+// swagger:model Comment
+type Comment struct {
 
 	// content
 	Content string `json:"content,omitempty"`
 
-	// from id
-	FromID int64 `json:"from-id,omitempty"`
+	// creator id
+	CreatorID int64 `json:"creator-id,omitempty"`
 
 	// id
 	ID string `json:"id,omitempty"`
 
-	// important
-	Important bool `json:"important,omitempty"`
-
-	// offering id
-	OfferingID int64 `json:"offering-id,omitempty"`
-
 	// time
 	// Format: date-time
 	Time strfmt.DateTime `json:"time,omitempty"`
-
-	// to id
-	ToID int64 `json:"to-id,omitempty"`
 }
 
-// Validate validates this message
-func (m *Message) Validate(formats strfmt.Registry) error {
+// Validate validates this comment
+func (m *Comment) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateTime(formats); err != nil {
@@ -54,7 +45,7 @@ func (m *Message) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Message) validateTime(formats strfmt.Registry) error {
+func (m *Comment) validateTime(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Time) { // not required
 		return nil
@@ -68,7 +59,7 @@ func (m *Message) validateTime(formats strfmt.Registry) error {
 }
 
 // MarshalBinary interface implementation
-func (m *Message) MarshalBinary() ([]byte, error) {
+func (m *Comment) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -76,8 +67,8 @@ func (m *Message) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *Message) UnmarshalBinary(b []byte) error {
-	var res Message
+func (m *Comment) UnmarshalBinary(b []byte) error {
+	var res Comment
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

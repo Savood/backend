@@ -43,47 +43,47 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		FeedFeedGetHandler: feed.FeedGetHandlerFunc(func(params feed.FeedGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation FeedFeedGet has not yet been implemented")
+		MessageCreateNewMessageHandler: message.CreateNewMessageHandlerFunc(func(params message.CreateNewMessageParams) middleware.Responder {
+			return middleware.NotImplemented("operation MessageCreateNewMessage has not yet been implemented")
+		}),
+		OfferingCreateNewOfferingHandler: offering.CreateNewOfferingHandlerFunc(func(params offering.CreateNewOfferingParams) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingCreateNewOffering has not yet been implemented")
+		}),
+		ProfileCreateNewProfileHandler: profile.CreateNewProfileHandlerFunc(func(params profile.CreateNewProfileParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProfileCreateNewProfile has not yet been implemented")
+		}),
+		MessageDeleteMessageByIDHandler: message.DeleteMessageByIDHandlerFunc(func(params message.DeleteMessageByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation MessageDeleteMessageByID has not yet been implemented")
+		}),
+		OfferingDeleteOfferingByIDHandler: offering.DeleteOfferingByIDHandlerFunc(func(params offering.DeleteOfferingByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingDeleteOfferingByID has not yet been implemented")
+		}),
+		ProfileDeleteProfileByIDHandler: profile.DeleteProfileByIDHandlerFunc(func(params profile.DeleteProfileByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProfileDeleteProfileByID has not yet been implemented")
+		}),
+		FeedGetFeedHandler: feed.GetFeedHandlerFunc(func(params feed.GetFeedParams) middleware.Responder {
+			return middleware.NotImplemented("operation FeedGetFeed has not yet been implemented")
+		}),
+		MessageGetMessageByIDHandler: message.GetMessageByIDHandlerFunc(func(params message.GetMessageByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation MessageGetMessageByID has not yet been implemented")
+		}),
+		OfferingGetOfferingByIDHandler: offering.GetOfferingByIDHandlerFunc(func(params offering.GetOfferingByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingGetOfferingByID has not yet been implemented")
+		}),
+		ProfileGetProfileByIDHandler: profile.GetProfileByIDHandlerFunc(func(params profile.GetProfileByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProfileGetProfileByID has not yet been implemented")
 		}),
 		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation HealthHealthcheckGet has not yet been implemented")
 		}),
-		MessageMessageIDDeleteHandler: message.MessageIDDeleteHandlerFunc(func(params message.MessageIDDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageMessageIDDelete has not yet been implemented")
+		MessageUpdateMessageByIDHandler: message.UpdateMessageByIDHandlerFunc(func(params message.UpdateMessageByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation MessageUpdateMessageByID has not yet been implemented")
 		}),
-		MessageMessageIDGetHandler: message.MessageIDGetHandlerFunc(func(params message.MessageIDGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageMessageIDGet has not yet been implemented")
+		OfferingUpdateOfferingByIDHandler: offering.UpdateOfferingByIDHandlerFunc(func(params offering.UpdateOfferingByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingUpdateOfferingByID has not yet been implemented")
 		}),
-		MessageMessageIDPutHandler: message.MessageIDPutHandlerFunc(func(params message.MessageIDPutParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageMessageIDPut has not yet been implemented")
-		}),
-		MessageMessagePostHandler: message.MessagePostHandlerFunc(func(params message.MessagePostParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageMessagePost has not yet been implemented")
-		}),
-		OfferingOfferingIDDeleteHandler: offering.OfferingIDDeleteHandlerFunc(func(params offering.OfferingIDDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingOfferingIDDelete has not yet been implemented")
-		}),
-		OfferingOfferingIDGetHandler: offering.OfferingIDGetHandlerFunc(func(params offering.OfferingIDGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingOfferingIDGet has not yet been implemented")
-		}),
-		OfferingOfferingIDPutHandler: offering.OfferingIDPutHandlerFunc(func(params offering.OfferingIDPutParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingOfferingIDPut has not yet been implemented")
-		}),
-		OfferingOfferingPostHandler: offering.OfferingPostHandlerFunc(func(params offering.OfferingPostParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingOfferingPost has not yet been implemented")
-		}),
-		ProfileProfileIDDeleteHandler: profile.ProfileIDDeleteHandlerFunc(func(params profile.ProfileIDDeleteParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileProfileIDDelete has not yet been implemented")
-		}),
-		ProfileProfileIDGetHandler: profile.ProfileIDGetHandlerFunc(func(params profile.ProfileIDGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileProfileIDGet has not yet been implemented")
-		}),
-		ProfileProfileIDPutHandler: profile.ProfileIDPutHandlerFunc(func(params profile.ProfileIDPutParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileProfileIDPut has not yet been implemented")
-		}),
-		ProfileProfilePostHandler: profile.ProfilePostHandlerFunc(func(params profile.ProfilePostParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileProfilePost has not yet been implemented")
+		ProfileUpdateProfileByIDHandler: profile.UpdateProfileByIDHandlerFunc(func(params profile.UpdateProfileByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation ProfileUpdateProfileByID has not yet been implemented")
 		}),
 	}
 }
@@ -116,34 +116,34 @@ type SavoodAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// FeedFeedGetHandler sets the operation handler for the feed get operation
-	FeedFeedGetHandler feed.FeedGetHandler
+	// MessageCreateNewMessageHandler sets the operation handler for the create new message operation
+	MessageCreateNewMessageHandler message.CreateNewMessageHandler
+	// OfferingCreateNewOfferingHandler sets the operation handler for the create new offering operation
+	OfferingCreateNewOfferingHandler offering.CreateNewOfferingHandler
+	// ProfileCreateNewProfileHandler sets the operation handler for the create new profile operation
+	ProfileCreateNewProfileHandler profile.CreateNewProfileHandler
+	// MessageDeleteMessageByIDHandler sets the operation handler for the delete message by Id operation
+	MessageDeleteMessageByIDHandler message.DeleteMessageByIDHandler
+	// OfferingDeleteOfferingByIDHandler sets the operation handler for the delete offering by Id operation
+	OfferingDeleteOfferingByIDHandler offering.DeleteOfferingByIDHandler
+	// ProfileDeleteProfileByIDHandler sets the operation handler for the delete profile by Id operation
+	ProfileDeleteProfileByIDHandler profile.DeleteProfileByIDHandler
+	// FeedGetFeedHandler sets the operation handler for the get feed operation
+	FeedGetFeedHandler feed.GetFeedHandler
+	// MessageGetMessageByIDHandler sets the operation handler for the get message by Id operation
+	MessageGetMessageByIDHandler message.GetMessageByIDHandler
+	// OfferingGetOfferingByIDHandler sets the operation handler for the get offering by Id operation
+	OfferingGetOfferingByIDHandler offering.GetOfferingByIDHandler
+	// ProfileGetProfileByIDHandler sets the operation handler for the get profile by Id operation
+	ProfileGetProfileByIDHandler profile.GetProfileByIDHandler
 	// HealthHealthcheckGetHandler sets the operation handler for the healthcheck get operation
 	HealthHealthcheckGetHandler health.HealthcheckGetHandler
-	// MessageMessageIDDeleteHandler sets the operation handler for the message Id delete operation
-	MessageMessageIDDeleteHandler message.MessageIDDeleteHandler
-	// MessageMessageIDGetHandler sets the operation handler for the message Id get operation
-	MessageMessageIDGetHandler message.MessageIDGetHandler
-	// MessageMessageIDPutHandler sets the operation handler for the message Id put operation
-	MessageMessageIDPutHandler message.MessageIDPutHandler
-	// MessageMessagePostHandler sets the operation handler for the message post operation
-	MessageMessagePostHandler message.MessagePostHandler
-	// OfferingOfferingIDDeleteHandler sets the operation handler for the offering Id delete operation
-	OfferingOfferingIDDeleteHandler offering.OfferingIDDeleteHandler
-	// OfferingOfferingIDGetHandler sets the operation handler for the offering Id get operation
-	OfferingOfferingIDGetHandler offering.OfferingIDGetHandler
-	// OfferingOfferingIDPutHandler sets the operation handler for the offering Id put operation
-	OfferingOfferingIDPutHandler offering.OfferingIDPutHandler
-	// OfferingOfferingPostHandler sets the operation handler for the offering post operation
-	OfferingOfferingPostHandler offering.OfferingPostHandler
-	// ProfileProfileIDDeleteHandler sets the operation handler for the profile Id delete operation
-	ProfileProfileIDDeleteHandler profile.ProfileIDDeleteHandler
-	// ProfileProfileIDGetHandler sets the operation handler for the profile Id get operation
-	ProfileProfileIDGetHandler profile.ProfileIDGetHandler
-	// ProfileProfileIDPutHandler sets the operation handler for the profile Id put operation
-	ProfileProfileIDPutHandler profile.ProfileIDPutHandler
-	// ProfileProfilePostHandler sets the operation handler for the profile post operation
-	ProfileProfilePostHandler profile.ProfilePostHandler
+	// MessageUpdateMessageByIDHandler sets the operation handler for the update message by Id operation
+	MessageUpdateMessageByIDHandler message.UpdateMessageByIDHandler
+	// OfferingUpdateOfferingByIDHandler sets the operation handler for the update offering by Id operation
+	OfferingUpdateOfferingByIDHandler offering.UpdateOfferingByIDHandler
+	// ProfileUpdateProfileByIDHandler sets the operation handler for the update profile by Id operation
+	ProfileUpdateProfileByIDHandler profile.UpdateProfileByIDHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -207,60 +207,60 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.FeedFeedGetHandler == nil {
-		unregistered = append(unregistered, "feed.FeedGetHandler")
+	if o.MessageCreateNewMessageHandler == nil {
+		unregistered = append(unregistered, "message.CreateNewMessageHandler")
+	}
+
+	if o.OfferingCreateNewOfferingHandler == nil {
+		unregistered = append(unregistered, "offering.CreateNewOfferingHandler")
+	}
+
+	if o.ProfileCreateNewProfileHandler == nil {
+		unregistered = append(unregistered, "profile.CreateNewProfileHandler")
+	}
+
+	if o.MessageDeleteMessageByIDHandler == nil {
+		unregistered = append(unregistered, "message.DeleteMessageByIDHandler")
+	}
+
+	if o.OfferingDeleteOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offering.DeleteOfferingByIDHandler")
+	}
+
+	if o.ProfileDeleteProfileByIDHandler == nil {
+		unregistered = append(unregistered, "profile.DeleteProfileByIDHandler")
+	}
+
+	if o.FeedGetFeedHandler == nil {
+		unregistered = append(unregistered, "feed.GetFeedHandler")
+	}
+
+	if o.MessageGetMessageByIDHandler == nil {
+		unregistered = append(unregistered, "message.GetMessageByIDHandler")
+	}
+
+	if o.OfferingGetOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offering.GetOfferingByIDHandler")
+	}
+
+	if o.ProfileGetProfileByIDHandler == nil {
+		unregistered = append(unregistered, "profile.GetProfileByIDHandler")
 	}
 
 	if o.HealthHealthcheckGetHandler == nil {
 		unregistered = append(unregistered, "health.HealthcheckGetHandler")
 	}
 
-	if o.MessageMessageIDDeleteHandler == nil {
-		unregistered = append(unregistered, "message.MessageIDDeleteHandler")
+	if o.MessageUpdateMessageByIDHandler == nil {
+		unregistered = append(unregistered, "message.UpdateMessageByIDHandler")
 	}
 
-	if o.MessageMessageIDGetHandler == nil {
-		unregistered = append(unregistered, "message.MessageIDGetHandler")
+	if o.OfferingUpdateOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offering.UpdateOfferingByIDHandler")
 	}
 
-	if o.MessageMessageIDPutHandler == nil {
-		unregistered = append(unregistered, "message.MessageIDPutHandler")
-	}
-
-	if o.MessageMessagePostHandler == nil {
-		unregistered = append(unregistered, "message.MessagePostHandler")
-	}
-
-	if o.OfferingOfferingIDDeleteHandler == nil {
-		unregistered = append(unregistered, "offering.OfferingIDDeleteHandler")
-	}
-
-	if o.OfferingOfferingIDGetHandler == nil {
-		unregistered = append(unregistered, "offering.OfferingIDGetHandler")
-	}
-
-	if o.OfferingOfferingIDPutHandler == nil {
-		unregistered = append(unregistered, "offering.OfferingIDPutHandler")
-	}
-
-	if o.OfferingOfferingPostHandler == nil {
-		unregistered = append(unregistered, "offering.OfferingPostHandler")
-	}
-
-	if o.ProfileProfileIDDeleteHandler == nil {
-		unregistered = append(unregistered, "profile.ProfileIDDeleteHandler")
-	}
-
-	if o.ProfileProfileIDGetHandler == nil {
-		unregistered = append(unregistered, "profile.ProfileIDGetHandler")
-	}
-
-	if o.ProfileProfileIDPutHandler == nil {
-		unregistered = append(unregistered, "profile.ProfileIDPutHandler")
-	}
-
-	if o.ProfileProfilePostHandler == nil {
-		unregistered = append(unregistered, "profile.ProfilePostHandler")
+	if o.ProfileUpdateProfileByIDHandler == nil {
+		unregistered = append(unregistered, "profile.UpdateProfileByIDHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -361,75 +361,75 @@ func (o *SavoodAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/message"] = message.NewCreateNewMessage(o.context, o.MessageCreateNewMessageHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/offering"] = offering.NewCreateNewOffering(o.context, o.OfferingCreateNewOfferingHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/profile"] = profile.NewCreateNewProfile(o.context, o.ProfileCreateNewProfileHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/message/{id}"] = message.NewDeleteMessageByID(o.context, o.MessageDeleteMessageByIDHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/offering/{id}"] = offering.NewDeleteOfferingByID(o.context, o.OfferingDeleteOfferingByIDHandler)
+
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/profile/{id}"] = profile.NewDeleteProfileByID(o.context, o.ProfileDeleteProfileByIDHandler)
+
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/feed"] = feed.NewFeedGet(o.context, o.FeedFeedGetHandler)
+	o.handlers["GET"]["/feed"] = feed.NewGetFeed(o.context, o.FeedGetFeedHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/message/{id}"] = message.NewGetMessageByID(o.context, o.MessageGetMessageByIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/offering/{id}"] = offering.NewGetOfferingByID(o.context, o.OfferingGetOfferingByIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/profile/{id}"] = profile.NewGetProfileByID(o.context, o.ProfileGetProfileByIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/healthcheck"] = health.NewHealthcheckGet(o.context, o.HealthHealthcheckGetHandler)
 
-	if o.handlers["DELETE"] == nil {
-		o.handlers["DELETE"] = make(map[string]http.Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/message/{id}"] = message.NewMessageIDDelete(o.context, o.MessageMessageIDDeleteHandler)
+	o.handlers["PATCH"]["/message/{id}"] = message.NewUpdateMessageByID(o.context, o.MessageUpdateMessageByIDHandler)
 
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/message/{id}"] = message.NewMessageIDGet(o.context, o.MessageMessageIDGetHandler)
+	o.handlers["PATCH"]["/offering/{id}"] = offering.NewUpdateOfferingByID(o.context, o.OfferingUpdateOfferingByIDHandler)
 
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/message/{id}"] = message.NewMessageIDPut(o.context, o.MessageMessageIDPutHandler)
-
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/message"] = message.NewMessagePost(o.context, o.MessageMessagePostHandler)
-
-	if o.handlers["DELETE"] == nil {
-		o.handlers["DELETE"] = make(map[string]http.Handler)
-	}
-	o.handlers["DELETE"]["/offering/{id}"] = offering.NewOfferingIDDelete(o.context, o.OfferingOfferingIDDeleteHandler)
-
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/offering/{id}"] = offering.NewOfferingIDGet(o.context, o.OfferingOfferingIDGetHandler)
-
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
-	o.handlers["PUT"]["/offering/{id}"] = offering.NewOfferingIDPut(o.context, o.OfferingOfferingIDPutHandler)
-
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/offering"] = offering.NewOfferingPost(o.context, o.OfferingOfferingPostHandler)
-
-	if o.handlers["DELETE"] == nil {
-		o.handlers["DELETE"] = make(map[string]http.Handler)
-	}
-	o.handlers["DELETE"]["/profile/{id}"] = profile.NewProfileIDDelete(o.context, o.ProfileProfileIDDeleteHandler)
-
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/profile/{id}"] = profile.NewProfileIDGet(o.context, o.ProfileProfileIDGetHandler)
-
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
-	o.handlers["PUT"]["/profile/{id}"] = profile.NewProfileIDPut(o.context, o.ProfileProfileIDPutHandler)
-
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/profile"] = profile.NewProfilePost(o.context, o.ProfileProfilePostHandler)
+	o.handlers["PATCH"]["/profile/{id}"] = profile.NewUpdateProfileByID(o.context, o.ProfileUpdateProfileByIDHandler)
 
 }
 
