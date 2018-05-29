@@ -7,7 +7,7 @@ stages:
 - test
 
 unittest:
-  image: golang:1.10-alpine
+  image: golang:1.10
   stage: pre_build
   script:
     # Install Linting
