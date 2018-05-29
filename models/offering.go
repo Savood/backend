@@ -6,6 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"strconv"
+
 	strfmt "github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
@@ -24,11 +26,17 @@ type Offering struct {
 	// Format: date
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
+	// comments
+	Comments []*Comment `json:"comments"`
+
 	// creator id
 	CreatorID int64 `json:"creator-id,omitempty"`
 
+	// header
+	Header string `json:"header,omitempty"`
+
 	// id
-	ID int64 `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 
 	// location
 	Location string `json:"location,omitempty"`
@@ -38,6 +46,19 @@ type Offering struct {
 
 	// requested by
 	RequestedBy int64 `json:"requested-by,omitempty"`
+
+	// time
+	// Format: date-time
+	Time strfmt.DateTime `json:"time,omitempty"`
+
+	// total comments
+	TotalComments string `json:"total_comments,omitempty"`
+
+	// total likes
+	TotalLikes string `json:"total_likes,omitempty"`
+
+	// total savoods
+	TotalSavoods string `json:"total_savoods,omitempty"`
 }
 
 // Validate validates this offering
@@ -45,6 +66,14 @@ func (m *Offering) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBestByDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateComments(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTime(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -61,6 +90,44 @@ func (m *Offering) validateBestByDate(formats strfmt.Registry) error {
 	}
 
 	if err := validate.FormatOf("best-by-date", "body", "date", m.BestByDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Offering) validateComments(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Comments) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Comments); i++ {
+		if swag.IsZero(m.Comments[i]) { // not required
+			continue
+		}
+
+		if m.Comments[i] != nil {
+			if err := m.Comments[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("comments" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Offering) validateTime(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Time) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("time", "body", "date-time", m.Time.String(), formats); err != nil {
 		return err
 	}
 

@@ -19,7 +19,7 @@ type ProfileAddress struct {
 	City string `json:"city,omitempty"`
 
 	// number
-	Number int64 `json:"number,omitempty"`
+	Number string `json:"number,omitempty"`
 
 	// street
 	Street string `json:"street,omitempty"`
