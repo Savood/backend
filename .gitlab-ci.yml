@@ -11,10 +11,9 @@ unittest:
   stage: pre_build
   script:
     - env
-    - pwd
     - ls -al
     - mkdir -p /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH
-    - cp -r $CI_PROJECT_DIR /go/src/git.dhbw.chd.cx/CI_PROJECT_NAMESPACE
+    - cp -a $CI_PROJECT_DIR/. /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH/
     #- ln -s /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH /go/src/_/builds/$CI_PROJECT_PATH
     - cd /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH
     - pwd
