@@ -13,10 +13,10 @@ import (
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/feed"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/message"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offering"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/profile"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml
@@ -39,48 +39,47 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	api.MessageCreateNewMessageHandler = message.CreateNewMessageHandlerFunc(func(params message.CreateNewMessageParams) middleware.Responder {
+		return middleware.NotImplemented("operation message.CreateNewMessage has not yet been implemented")
+	})
+	api.OfferingCreateNewOfferingHandler = offering.CreateNewOfferingHandlerFunc(func(params offering.CreateNewOfferingParams) middleware.Responder {
+		return middleware.NotImplemented("operation offering.CreateNewOffering has not yet been implemented")
+	})
+	api.ProfileCreateNewProfileHandler = profile.CreateNewProfileHandlerFunc(func(params profile.CreateNewProfileParams) middleware.Responder {
+		return middleware.NotImplemented("operation profile.CreateNewProfile has not yet been implemented")
+	})
+	api.MessageDeleteMessageByIDHandler = message.DeleteMessageByIDHandlerFunc(func(params message.DeleteMessageByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation message.DeleteMessageByID has not yet been implemented")
+	})
+	api.OfferingDeleteOfferingByIDHandler = offering.DeleteOfferingByIDHandlerFunc(func(params offering.DeleteOfferingByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation offering.DeleteOfferingByID has not yet been implemented")
+	})
+	api.ProfileDeleteProfileByIDHandler = profile.DeleteProfileByIDHandlerFunc(func(params profile.DeleteProfileByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation profile.DeleteProfileByID has not yet been implemented")
+	})
+	api.FeedGetFeedHandler = feed.GetFeedHandlerFunc(func(params feed.GetFeedParams) middleware.Responder {
+		return middleware.NotImplemented("operation feed.GetFeed has not yet been implemented")
+	})
+	api.MessageGetMessageByIDHandler = message.GetMessageByIDHandlerFunc(func(params message.GetMessageByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation message.GetMessageByID has not yet been implemented")
+	})
+	api.OfferingGetOfferingByIDHandler = offering.GetOfferingByIDHandlerFunc(func(params offering.GetOfferingByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation offering.GetOfferingByID has not yet been implemented")
+	})
+	api.ProfileGetProfileByIDHandler = profile.GetProfileByIDHandlerFunc(func(params profile.GetProfileByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation profile.GetProfileByID has not yet been implemented")
+	})
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
 		return health.NewHealthcheckGetOK()
 	})
-
-	api.FeedFeedGetHandler = feed.FeedGetHandlerFunc(func(params feed.FeedGetParams) middleware.Responder {
-		return middleware.NotImplemented("operation feed.FeedGet has not yet been implemented")
+	api.MessageUpdateMessageByIDHandler = message.UpdateMessageByIDHandlerFunc(func(params message.UpdateMessageByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation message.UpdateMessageByID has not yet been implemented")
 	})
-	api.MessageMessageIDDeleteHandler = message.MessageIDDeleteHandlerFunc(func(params message.MessageIDDeleteParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.MessageIDDelete has not yet been implemented")
+	api.OfferingUpdateOfferingByIDHandler = offering.UpdateOfferingByIDHandlerFunc(func(params offering.UpdateOfferingByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation offering.UpdateOfferingByID has not yet been implemented")
 	})
-	api.MessageMessageIDGetHandler = message.MessageIDGetHandlerFunc(func(params message.MessageIDGetParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.MessageIDGet has not yet been implemented")
-	})
-	api.MessageMessageIDPutHandler = message.MessageIDPutHandlerFunc(func(params message.MessageIDPutParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.MessageIDPut has not yet been implemented")
-	})
-	api.MessageMessagePostHandler = message.MessagePostHandlerFunc(func(params message.MessagePostParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.MessagePost has not yet been implemented")
-	})
-	api.OfferingOfferingIDDeleteHandler = offering.OfferingIDDeleteHandlerFunc(func(params offering.OfferingIDDeleteParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.OfferingIDDelete has not yet been implemented")
-	})
-	api.OfferingOfferingIDGetHandler = offering.OfferingIDGetHandlerFunc(func(params offering.OfferingIDGetParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.OfferingIDGet has not yet been implemented")
-	})
-	api.OfferingOfferingIDPutHandler = offering.OfferingIDPutHandlerFunc(func(params offering.OfferingIDPutParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.OfferingIDPut has not yet been implemented")
-	})
-	api.OfferingOfferingPostHandler = offering.OfferingPostHandlerFunc(func(params offering.OfferingPostParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.OfferingPost has not yet been implemented")
-	})
-	api.ProfileProfileIDDeleteHandler = profile.ProfileIDDeleteHandlerFunc(func(params profile.ProfileIDDeleteParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.ProfileIDDelete has not yet been implemented")
-	})
-	api.ProfileProfileIDGetHandler = profile.ProfileIDGetHandlerFunc(func(params profile.ProfileIDGetParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.ProfileIDGet has not yet been implemented")
-	})
-	api.ProfileProfileIDPutHandler = profile.ProfileIDPutHandlerFunc(func(params profile.ProfileIDPutParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.ProfileIDPut has not yet been implemented")
-	})
-	api.ProfileProfilePostHandler = profile.ProfilePostHandlerFunc(func(params profile.ProfilePostParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.ProfilePost has not yet been implemented")
+	api.ProfileUpdateProfileByIDHandler = profile.UpdateProfileByIDHandlerFunc(func(params profile.UpdateProfileByIDParams) middleware.Responder {
+		return middleware.NotImplemented("operation profile.UpdateProfileByID has not yet been implemented")
 	})
 
 	api.ServerShutdown = func() {}
