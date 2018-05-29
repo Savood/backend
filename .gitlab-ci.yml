@@ -13,6 +13,7 @@ unittest:
     - mkdir -p /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH /go/src/_/builds
     - cp -r $CI_PROJECT_DIR /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH
     - ln -s /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH /go/src/_/builds/$CI_PROJECT_PATH
+    - cd /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH
     # Install Linting
     - go get -u github.com/golang/lint/golint
     # Linting
