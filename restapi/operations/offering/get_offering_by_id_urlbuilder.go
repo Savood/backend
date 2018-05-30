@@ -50,9 +50,6 @@ func (o *GetOfferingByIDURL) Build() (*url.URL, error) {
 	}
 
 	_basePath := o._basePath
-	if _basePath == "" {
-		_basePath = "/TimMaa/Savood/1.0"
-	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
 	return &result, nil

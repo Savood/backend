@@ -42,9 +42,6 @@ func (o *GetFeedURL) Build() (*url.URL, error) {
 	var _path = "/feed"
 
 	_basePath := o._basePath
-	if _basePath == "" {
-		_basePath = "/TimMaa/Savood/1.0"
-	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
 	qs := make(url.Values)

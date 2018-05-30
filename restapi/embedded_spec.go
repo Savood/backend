@@ -19,7 +19,6 @@ var (
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
-    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -32,8 +31,6 @@ func init() {
     },
     "version": "1.0"
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/TimMaa/Savood/1.0",
   "paths": {
     "/feed": {
       "get": {
@@ -757,7 +754,6 @@ func init() {
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
-    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -770,8 +766,6 @@ func init() {
     },
     "version": "1.0"
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/TimMaa/Savood/1.0",
   "paths": {
     "/feed": {
       "get": {
