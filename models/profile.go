@@ -23,8 +23,14 @@ type Profile struct {
 	// avatar id
 	AvatarID string `json:"avatar-id,omitempty"`
 
+	// background id
+	BackgroundID string `json:"background-id,omitempty"`
+
 	// badges
 	Badges []string `json:"badges"`
+
+	// description
+	Description string `json:"description,omitempty"`
 
 	// email
 	// Format: email
@@ -34,13 +40,13 @@ type Profile struct {
 	Firstname string `json:"firstname,omitempty"`
 
 	// id
-	ID int64 `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 
 	// lastname
 	Lastname string `json:"lastname,omitempty"`
 
-	// telefon
-	Telefon string `json:"telefon,omitempty"`
+	// phone
+	Phone string `json:"phone,omitempty"`
 }
 
 // Validate validates this profile

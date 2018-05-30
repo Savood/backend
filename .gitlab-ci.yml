@@ -10,7 +10,7 @@ unittest:
   image: golang:1.10
   stage: pre_build
   script:
-    - env
+    #- env
     - ls -al
     - mkdir -p /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH
     - cp -a $CI_PROJECT_DIR/. /go/src/git.dhbw.chd.cx/$CI_PROJECT_PATH/
@@ -37,6 +37,7 @@ build:
    - docker:dind
   stage: build
   script:
+   #- env
    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
    - docker pull $CONTAINER_IMAGE:latest || true
    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
@@ -51,6 +52,7 @@ buildStaging:
    - docker:dind
   stage: build
   script:
+   #- env
    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
    - docker pull $CONTAINER_IMAGE:latest || true
    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
@@ -62,6 +64,7 @@ buildStaging:
 test:
   image: docker:latest
   services:
+   - docker:dind
    - name: $CONTAINER_IMAGE:$CI_BUILD_REF
      alias: test_container
   stage: test

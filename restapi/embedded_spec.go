@@ -29,10 +29,9 @@ func init() {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.0"
+    "version": "1.0"
   },
-  "host": "savood.com",
-  "basePath": "/v2",
+  "basePath": "/v2/",
   "paths": {
     "/feed": {
       "get": {
@@ -46,7 +45,7 @@ func init() {
           "feed"
         ],
         "summary": "Display a feed",
-        "operationId": "feedGet",
+        "operationId": "getFeed",
         "parameters": [
           {
             "type": "string",
@@ -103,7 +102,7 @@ func init() {
           "message"
         ],
         "summary": "Add a new message",
-        "operationId": "messagePost",
+        "operationId": "createNewMessage",
         "parameters": [
           {
             "description": "Message that needs to be added",
@@ -139,35 +138,14 @@ func init() {
         "tags": [
           "message"
         ],
-        "summary": "Display an message",
-        "operationId": "messageIdGet",
+        "summary": "Display a message",
+        "operationId": "getMessageById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Message"
             }
-          },
-          "404": {
-            "$ref": "#/responses/InvalidParameterInput"
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "message"
-        ],
-        "summary": "Update an message",
-        "operationId": "messageIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -184,11 +162,43 @@ func init() {
         "tags": [
           "message"
         ],
-        "summary": "Delete an message",
-        "operationId": "messageIdDelete",
+        "summary": "Delete a message",
+        "operationId": "deleteMessageById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "message"
+        ],
+        "summary": "Update a message",
+        "operationId": "updateMessageById",
+        "parameters": [
+          {
+            "description": "New parameters of the message",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -216,7 +226,7 @@ func init() {
           "offering"
         ],
         "summary": "Add a new offering",
-        "operationId": "offeringPost",
+        "operationId": "createNewOffering",
         "parameters": [
           {
             "description": "Offering that needs to be added",
@@ -253,34 +263,13 @@ func init() {
           "offering"
         ],
         "summary": "Display an offering",
-        "operationId": "offeringIdGet",
+        "operationId": "getOfferingById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Offering"
             }
-          },
-          "404": {
-            "$ref": "#/responses/InvalidParameterInput"
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "offering"
-        ],
-        "summary": "Update an offering",
-        "operationId": "offeringIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -298,10 +287,42 @@ func init() {
           "offering"
         ],
         "summary": "Delete an offering",
-        "operationId": "offeringIdDelete",
+        "operationId": "deleteOfferingById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Update an offering",
+        "operationId": "updateOfferingById",
+        "parameters": [
+          {
+            "description": "New parameters of the offering",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Offering"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -329,10 +350,10 @@ func init() {
           "profile"
         ],
         "summary": "Add a new profile",
-        "operationId": "profilePost",
+        "operationId": "createNewProfile",
         "parameters": [
           {
-            "description": "Offering that needs to be added",
+            "description": "Profile that needs to be added",
             "name": "body",
             "in": "body",
             "required": true,
@@ -365,35 +386,14 @@ func init() {
         "tags": [
           "profile"
         ],
-        "summary": "Display an profile",
-        "operationId": "profileIdGet",
+        "summary": "Display a profile",
+        "operationId": "getProfileById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Profile"
             }
-          },
-          "404": {
-            "$ref": "#/responses/InvalidParameterInput"
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "profile"
-        ],
-        "summary": "Update an profile",
-        "operationId": "profileIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -410,11 +410,43 @@ func init() {
         "tags": [
           "profile"
         ],
-        "summary": "Delete an profile",
-        "operationId": "profileIdDelete",
+        "summary": "Delete a profile",
+        "operationId": "deleteProfileById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "profile"
+        ],
+        "summary": "Update a profile",
+        "operationId": "updateProfileById",
+        "parameters": [
+          {
+            "description": "New parameters of the profile",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "$ref": "#/responses/InvalidParameterInput"
@@ -432,6 +464,28 @@ func init() {
     }
   },
   "definitions": {
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "creator-id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "xml": {
+        "name": "Comment"
+      }
+    },
     "ErrorModel": {
       "required": [
         "code",
@@ -482,8 +536,7 @@ func init() {
           "format": "int64"
         },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "important": {
           "type": "boolean"
@@ -515,13 +568,21 @@ func init() {
           "type": "string",
           "format": "date"
         },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
         "creator-id": {
           "type": "integer",
           "format": "int64"
         },
+        "header": {
+          "type": "string"
+        },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "location": {
           "type": "string"
@@ -532,6 +593,19 @@ func init() {
         "requested-by": {
           "type": "integer",
           "format": "int64"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "total_comments": {
+          "type": "string"
+        },
+        "total_likes": {
+          "type": "string"
+        },
+        "total_savoods": {
+          "type": "string"
         }
       },
       "xml": {
@@ -548,8 +622,7 @@ func init() {
               "type": "string"
             },
             "number": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             },
             "street": {
               "type": "string"
@@ -563,11 +636,17 @@ func init() {
         "avatar-id": {
           "type": "string"
         },
+        "background-id": {
+          "type": "string"
+        },
         "badges": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "description": {
+          "type": "string"
         },
         "email": {
           "type": "string",
@@ -577,19 +656,45 @@ func init() {
           "type": "string"
         },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "lastname": {
           "type": "string"
         },
-        "telefon": {
+        "phone": {
           "type": "string",
-          "format": "telefon"
+          "format": "phone"
         }
       },
       "xml": {
         "name": "Profile"
+      },
+      "example": {
+        "address": {
+          "city": "Musterstadt",
+          "number": 1337,
+          "street": "Musterstraße",
+          "zip": 42069
+        },
+        "avatar-id": "",
+        "background-id": "",
+        "badges": [
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          false
+        ],
+        "description": "I save the wrap and the world",
+        "email": "apiteam@swagger.io",
+        "firstname": "Marty",
+        "id": 5,
+        "lastname": "McFlfy",
+        "phone": "202-555-0191"
       }
     }
   },
@@ -660,10 +765,9 @@ func init() {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.0"
+    "version": "1.0"
   },
-  "host": "savood.com",
-  "basePath": "/v2",
+  "basePath": "/v2/",
   "paths": {
     "/feed": {
       "get": {
@@ -677,7 +781,7 @@ func init() {
           "feed"
         ],
         "summary": "Display a feed",
-        "operationId": "feedGet",
+        "operationId": "getFeed",
         "parameters": [
           {
             "type": "string",
@@ -737,7 +841,7 @@ func init() {
           "message"
         ],
         "summary": "Add a new message",
-        "operationId": "messagePost",
+        "operationId": "createNewMessage",
         "parameters": [
           {
             "description": "Message that needs to be added",
@@ -776,38 +880,14 @@ func init() {
         "tags": [
           "message"
         ],
-        "summary": "Display an message",
-        "operationId": "messageIdGet",
+        "summary": "Display a message",
+        "operationId": "getMessageById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Message"
             }
-          },
-          "404": {
-            "description": "Invalid parameter input was passed",
-            "schema": {
-              "$ref": "#/definitions/InvalidParameterInput"
-            }
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "message"
-        ],
-        "summary": "Update an message",
-        "operationId": "messageIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -827,11 +907,46 @@ func init() {
         "tags": [
           "message"
         ],
-        "summary": "Delete an message",
-        "operationId": "messageIdDelete",
+        "summary": "Delete a message",
+        "operationId": "deleteMessageById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "message"
+        ],
+        "summary": "Update a message",
+        "operationId": "updateMessageById",
+        "parameters": [
+          {
+            "description": "New parameters of the message",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -862,7 +977,7 @@ func init() {
           "offering"
         ],
         "summary": "Add a new offering",
-        "operationId": "offeringPost",
+        "operationId": "createNewOffering",
         "parameters": [
           {
             "description": "Offering that needs to be added",
@@ -902,37 +1017,13 @@ func init() {
           "offering"
         ],
         "summary": "Display an offering",
-        "operationId": "offeringIdGet",
+        "operationId": "getOfferingById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Offering"
             }
-          },
-          "404": {
-            "description": "Invalid parameter input was passed",
-            "schema": {
-              "$ref": "#/definitions/InvalidParameterInput"
-            }
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "offering"
-        ],
-        "summary": "Update an offering",
-        "operationId": "offeringIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -953,10 +1044,45 @@ func init() {
           "offering"
         ],
         "summary": "Delete an offering",
-        "operationId": "offeringIdDelete",
+        "operationId": "deleteOfferingById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offering"
+        ],
+        "summary": "Update an offering",
+        "operationId": "updateOfferingById",
+        "parameters": [
+          {
+            "description": "New parameters of the offering",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Offering"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -987,10 +1113,10 @@ func init() {
           "profile"
         ],
         "summary": "Add a new profile",
-        "operationId": "profilePost",
+        "operationId": "createNewProfile",
         "parameters": [
           {
-            "description": "Offering that needs to be added",
+            "description": "Profile that needs to be added",
             "name": "body",
             "in": "body",
             "required": true,
@@ -1026,38 +1152,14 @@ func init() {
         "tags": [
           "profile"
         ],
-        "summary": "Display an profile",
-        "operationId": "profileIdGet",
+        "summary": "Display a profile",
+        "operationId": "getProfileById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
               "$ref": "#/definitions/Profile"
             }
-          },
-          "404": {
-            "description": "Invalid parameter input was passed",
-            "schema": {
-              "$ref": "#/definitions/InvalidParameterInput"
-            }
-          }
-        }
-      },
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "profile"
-        ],
-        "summary": "Update an profile",
-        "operationId": "profileIdPut",
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -1077,11 +1179,46 @@ func init() {
         "tags": [
           "profile"
         ],
-        "summary": "Delete an profile",
-        "operationId": "profileIdDelete",
+        "summary": "Delete a profile",
+        "operationId": "deleteProfileById",
         "responses": {
           "204": {
             "description": "Removed; No response."
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "profile"
+        ],
+        "summary": "Update a profile",
+        "operationId": "updateProfileById",
+        "parameters": [
+          {
+            "description": "New parameters of the profile",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
           },
           "404": {
             "description": "Invalid parameter input was passed",
@@ -1102,6 +1239,28 @@ func init() {
     }
   },
   "definitions": {
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "creator-id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "xml": {
+        "name": "Comment"
+      }
+    },
     "ErrorModel": {
       "required": [
         "code",
@@ -1152,8 +1311,7 @@ func init() {
           "format": "int64"
         },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "important": {
           "type": "boolean"
@@ -1185,13 +1343,21 @@ func init() {
           "type": "string",
           "format": "date"
         },
+        "comments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Comment"
+          }
+        },
         "creator-id": {
           "type": "integer",
           "format": "int64"
         },
+        "header": {
+          "type": "string"
+        },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "location": {
           "type": "string"
@@ -1202,6 +1368,19 @@ func init() {
         "requested-by": {
           "type": "integer",
           "format": "int64"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "total_comments": {
+          "type": "string"
+        },
+        "total_likes": {
+          "type": "string"
+        },
+        "total_savoods": {
+          "type": "string"
         }
       },
       "xml": {
@@ -1217,11 +1396,17 @@ func init() {
         "avatar-id": {
           "type": "string"
         },
+        "background-id": {
+          "type": "string"
+        },
         "badges": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "description": {
+          "type": "string"
         },
         "email": {
           "type": "string",
@@ -1231,19 +1416,45 @@ func init() {
           "type": "string"
         },
         "id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "lastname": {
           "type": "string"
         },
-        "telefon": {
+        "phone": {
           "type": "string",
-          "format": "telefon"
+          "format": "phone"
         }
       },
       "xml": {
         "name": "Profile"
+      },
+      "example": {
+        "address": {
+          "city": "Musterstadt",
+          "number": 1337,
+          "street": "Musterstraße",
+          "zip": 42069
+        },
+        "avatar-id": "",
+        "background-id": "",
+        "badges": [
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          false,
+          true,
+          false
+        ],
+        "description": "I save the wrap and the world",
+        "email": "apiteam@swagger.io",
+        "firstname": "Marty",
+        "id": 5,
+        "lastname": "McFlfy",
+        "phone": "202-555-0191"
       }
     },
     "profileAddress": {
@@ -1253,8 +1464,7 @@ func init() {
           "type": "string"
         },
         "number": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "street": {
           "type": "string"
