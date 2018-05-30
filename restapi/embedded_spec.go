@@ -31,6 +31,7 @@ func init() {
     },
     "version": "1.0"
   },
+  "basePath": "/v2/",
   "paths": {
     "/feed": {
       "get": {
@@ -766,6 +767,7 @@ func init() {
     },
     "version": "1.0"
   },
+  "basePath": "/v2/",
   "paths": {
     "/feed": {
       "get": {
