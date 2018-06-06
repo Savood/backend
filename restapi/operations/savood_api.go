@@ -19,11 +19,10 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/feed"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/message"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/offering"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/profile"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/messages"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
 )
 
 // NewSavoodAPI creates a new Savood instance
@@ -43,48 +42,68 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		MessageCreateNewMessageHandler: message.CreateNewMessageHandlerFunc(func(params message.CreateNewMessageParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageCreateNewMessage has not yet been implemented")
+		MessagesCreateNewMessageHandler: messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesCreateNewMessage has not yet been implemented")
 		}),
-		OfferingCreateNewOfferingHandler: offering.CreateNewOfferingHandlerFunc(func(params offering.CreateNewOfferingParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingCreateNewOffering has not yet been implemented")
+		OfferingsCreateNewOfferingHandler: offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsCreateNewOffering has not yet been implemented")
 		}),
-		ProfileCreateNewProfileHandler: profile.CreateNewProfileHandlerFunc(func(params profile.CreateNewProfileParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileCreateNewProfile has not yet been implemented")
+		UsersCreateNewUserHandler: users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation UsersCreateNewUser has not yet been implemented")
 		}),
-		MessageDeleteMessageByIDHandler: message.DeleteMessageByIDHandlerFunc(func(params message.DeleteMessageByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageDeleteMessageByID has not yet been implemented")
+		MessagesDeleteMessageByIDHandler: messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesDeleteMessageByID has not yet been implemented")
 		}),
-		OfferingDeleteOfferingByIDHandler: offering.DeleteOfferingByIDHandlerFunc(func(params offering.DeleteOfferingByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingDeleteOfferingByID has not yet been implemented")
+		OfferingsDeleteOfferingByIDHandler: offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsDeleteOfferingByID has not yet been implemented")
 		}),
-		ProfileDeleteProfileByIDHandler: profile.DeleteProfileByIDHandlerFunc(func(params profile.DeleteProfileByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileDeleteProfileByID has not yet been implemented")
+		UsersDeleteUserByIDHandler: users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation UsersDeleteUserByID has not yet been implemented")
 		}),
-		FeedGetFeedHandler: feed.GetFeedHandlerFunc(func(params feed.GetFeedParams) middleware.Responder {
-			return middleware.NotImplemented("operation FeedGetFeed has not yet been implemented")
+		MessagesGetAllChatsHandler: messages.GetAllChatsHandlerFunc(func(params messages.GetAllChatsParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesGetAllChats has not yet been implemented")
 		}),
-		MessageGetMessageByIDHandler: message.GetMessageByIDHandlerFunc(func(params message.GetMessageByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageGetMessageByID has not yet been implemented")
+		GetAllChatsForOfferingHandler: GetAllChatsForOfferingHandlerFunc(func(params GetAllChatsForOfferingParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation GetAllChatsForOffering has not yet been implemented")
 		}),
-		OfferingGetOfferingByIDHandler: offering.GetOfferingByIDHandlerFunc(func(params offering.GetOfferingByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingGetOfferingByID has not yet been implemented")
+		MessagesGetAllMessagesForChatHandler: messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesGetAllMessagesForChat has not yet been implemented")
 		}),
-		ProfileGetProfileByIDHandler: profile.GetProfileByIDHandlerFunc(func(params profile.GetProfileByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileGetProfileByID has not yet been implemented")
+		OfferingsGetFeedHandler: offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsGetFeed has not yet been implemented")
 		}),
-		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+		MessagesGetMessageByIDHandler: messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesGetMessageByID has not yet been implemented")
+		}),
+		OfferingsGetOfferingByIDHandler: offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsGetOfferingByID has not yet been implemented")
+		}),
+		OfferingsGetOfferingsHandler: offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsGetOfferings has not yet been implemented")
+		}),
+		UsersGetUserByIDHandler: users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation UsersGetUserByID has not yet been implemented")
+		}),
+		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation HealthHealthcheckGet has not yet been implemented")
 		}),
-		MessageUpdateMessageByIDHandler: message.UpdateMessageByIDHandlerFunc(func(params message.UpdateMessageByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation MessageUpdateMessageByID has not yet been implemented")
+		MessagesUpdateMessageByIDHandler: messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation MessagesUpdateMessageByID has not yet been implemented")
 		}),
-		OfferingUpdateOfferingByIDHandler: offering.UpdateOfferingByIDHandlerFunc(func(params offering.UpdateOfferingByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation OfferingUpdateOfferingByID has not yet been implemented")
+		OfferingsUpdateOfferingByIDHandler: offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation OfferingsUpdateOfferingByID has not yet been implemented")
 		}),
-		ProfileUpdateProfileByIDHandler: profile.UpdateProfileByIDHandlerFunc(func(params profile.UpdateProfileByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation ProfileUpdateProfileByID has not yet been implemented")
+		UsersUpdateUserByIDHandler: users.UpdateUserByIDHandlerFunc(func(params users.UpdateUserByIDParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation UsersUpdateUserByID has not yet been implemented")
 		}),
+
+		// Applies when the "Authorization" header is set
+		BearerAuth: func(token string) (interface{}, error) {
+			return nil, errors.NotImplemented("api key auth (bearer) Authorization from header param [Authorization] has not yet been implemented")
+		},
+
+		// default authorizer is authorized meaning no requests are blocked
+		APIAuthorizer: security.Authorized(),
 	}
 }
 
@@ -116,34 +135,49 @@ type SavoodAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// MessageCreateNewMessageHandler sets the operation handler for the create new message operation
-	MessageCreateNewMessageHandler message.CreateNewMessageHandler
-	// OfferingCreateNewOfferingHandler sets the operation handler for the create new offering operation
-	OfferingCreateNewOfferingHandler offering.CreateNewOfferingHandler
-	// ProfileCreateNewProfileHandler sets the operation handler for the create new profile operation
-	ProfileCreateNewProfileHandler profile.CreateNewProfileHandler
-	// MessageDeleteMessageByIDHandler sets the operation handler for the delete message by Id operation
-	MessageDeleteMessageByIDHandler message.DeleteMessageByIDHandler
-	// OfferingDeleteOfferingByIDHandler sets the operation handler for the delete offering by Id operation
-	OfferingDeleteOfferingByIDHandler offering.DeleteOfferingByIDHandler
-	// ProfileDeleteProfileByIDHandler sets the operation handler for the delete profile by Id operation
-	ProfileDeleteProfileByIDHandler profile.DeleteProfileByIDHandler
-	// FeedGetFeedHandler sets the operation handler for the get feed operation
-	FeedGetFeedHandler feed.GetFeedHandler
-	// MessageGetMessageByIDHandler sets the operation handler for the get message by Id operation
-	MessageGetMessageByIDHandler message.GetMessageByIDHandler
-	// OfferingGetOfferingByIDHandler sets the operation handler for the get offering by Id operation
-	OfferingGetOfferingByIDHandler offering.GetOfferingByIDHandler
-	// ProfileGetProfileByIDHandler sets the operation handler for the get profile by Id operation
-	ProfileGetProfileByIDHandler profile.GetProfileByIDHandler
+	// BearerAuth registers a function that takes a token and returns a principal
+	// it performs authentication based on an api key Authorization provided in the header
+	BearerAuth func(string) (interface{}, error)
+
+	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
+	APIAuthorizer runtime.Authorizer
+
+	// MessagesCreateNewMessageHandler sets the operation handler for the create new message operation
+	MessagesCreateNewMessageHandler messages.CreateNewMessageHandler
+	// OfferingsCreateNewOfferingHandler sets the operation handler for the create new offering operation
+	OfferingsCreateNewOfferingHandler offerings.CreateNewOfferingHandler
+	// UsersCreateNewUserHandler sets the operation handler for the create new user operation
+	UsersCreateNewUserHandler users.CreateNewUserHandler
+	// MessagesDeleteMessageByIDHandler sets the operation handler for the delete message by Id operation
+	MessagesDeleteMessageByIDHandler messages.DeleteMessageByIDHandler
+	// OfferingsDeleteOfferingByIDHandler sets the operation handler for the delete offering by Id operation
+	OfferingsDeleteOfferingByIDHandler offerings.DeleteOfferingByIDHandler
+	// UsersDeleteUserByIDHandler sets the operation handler for the delete user by Id operation
+	UsersDeleteUserByIDHandler users.DeleteUserByIDHandler
+	// MessagesGetAllChatsHandler sets the operation handler for the get all chats operation
+	MessagesGetAllChatsHandler messages.GetAllChatsHandler
+	// GetAllChatsForOfferingHandler sets the operation handler for the get all chats for offering operation
+	GetAllChatsForOfferingHandler GetAllChatsForOfferingHandler
+	// MessagesGetAllMessagesForChatHandler sets the operation handler for the get all messages for chat operation
+	MessagesGetAllMessagesForChatHandler messages.GetAllMessagesForChatHandler
+	// OfferingsGetFeedHandler sets the operation handler for the get feed operation
+	OfferingsGetFeedHandler offerings.GetFeedHandler
+	// MessagesGetMessageByIDHandler sets the operation handler for the get message by Id operation
+	MessagesGetMessageByIDHandler messages.GetMessageByIDHandler
+	// OfferingsGetOfferingByIDHandler sets the operation handler for the get offering by Id operation
+	OfferingsGetOfferingByIDHandler offerings.GetOfferingByIDHandler
+	// OfferingsGetOfferingsHandler sets the operation handler for the get offerings operation
+	OfferingsGetOfferingsHandler offerings.GetOfferingsHandler
+	// UsersGetUserByIDHandler sets the operation handler for the get user by Id operation
+	UsersGetUserByIDHandler users.GetUserByIDHandler
 	// HealthHealthcheckGetHandler sets the operation handler for the healthcheck get operation
 	HealthHealthcheckGetHandler health.HealthcheckGetHandler
-	// MessageUpdateMessageByIDHandler sets the operation handler for the update message by Id operation
-	MessageUpdateMessageByIDHandler message.UpdateMessageByIDHandler
-	// OfferingUpdateOfferingByIDHandler sets the operation handler for the update offering by Id operation
-	OfferingUpdateOfferingByIDHandler offering.UpdateOfferingByIDHandler
-	// ProfileUpdateProfileByIDHandler sets the operation handler for the update profile by Id operation
-	ProfileUpdateProfileByIDHandler profile.UpdateProfileByIDHandler
+	// MessagesUpdateMessageByIDHandler sets the operation handler for the update message by Id operation
+	MessagesUpdateMessageByIDHandler messages.UpdateMessageByIDHandler
+	// OfferingsUpdateOfferingByIDHandler sets the operation handler for the update offering by Id operation
+	OfferingsUpdateOfferingByIDHandler offerings.UpdateOfferingByIDHandler
+	// UsersUpdateUserByIDHandler sets the operation handler for the update user by Id operation
+	UsersUpdateUserByIDHandler users.UpdateUserByIDHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -207,60 +241,80 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.MessageCreateNewMessageHandler == nil {
-		unregistered = append(unregistered, "message.CreateNewMessageHandler")
+	if o.BearerAuth == nil {
+		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
-	if o.OfferingCreateNewOfferingHandler == nil {
-		unregistered = append(unregistered, "offering.CreateNewOfferingHandler")
+	if o.MessagesCreateNewMessageHandler == nil {
+		unregistered = append(unregistered, "messages.CreateNewMessageHandler")
 	}
 
-	if o.ProfileCreateNewProfileHandler == nil {
-		unregistered = append(unregistered, "profile.CreateNewProfileHandler")
+	if o.OfferingsCreateNewOfferingHandler == nil {
+		unregistered = append(unregistered, "offerings.CreateNewOfferingHandler")
 	}
 
-	if o.MessageDeleteMessageByIDHandler == nil {
-		unregistered = append(unregistered, "message.DeleteMessageByIDHandler")
+	if o.UsersCreateNewUserHandler == nil {
+		unregistered = append(unregistered, "users.CreateNewUserHandler")
 	}
 
-	if o.OfferingDeleteOfferingByIDHandler == nil {
-		unregistered = append(unregistered, "offering.DeleteOfferingByIDHandler")
+	if o.MessagesDeleteMessageByIDHandler == nil {
+		unregistered = append(unregistered, "messages.DeleteMessageByIDHandler")
 	}
 
-	if o.ProfileDeleteProfileByIDHandler == nil {
-		unregistered = append(unregistered, "profile.DeleteProfileByIDHandler")
+	if o.OfferingsDeleteOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offerings.DeleteOfferingByIDHandler")
 	}
 
-	if o.FeedGetFeedHandler == nil {
-		unregistered = append(unregistered, "feed.GetFeedHandler")
+	if o.UsersDeleteUserByIDHandler == nil {
+		unregistered = append(unregistered, "users.DeleteUserByIDHandler")
 	}
 
-	if o.MessageGetMessageByIDHandler == nil {
-		unregistered = append(unregistered, "message.GetMessageByIDHandler")
+	if o.MessagesGetAllChatsHandler == nil {
+		unregistered = append(unregistered, "messages.GetAllChatsHandler")
 	}
 
-	if o.OfferingGetOfferingByIDHandler == nil {
-		unregistered = append(unregistered, "offering.GetOfferingByIDHandler")
+	if o.GetAllChatsForOfferingHandler == nil {
+		unregistered = append(unregistered, "GetAllChatsForOfferingHandler")
 	}
 
-	if o.ProfileGetProfileByIDHandler == nil {
-		unregistered = append(unregistered, "profile.GetProfileByIDHandler")
+	if o.MessagesGetAllMessagesForChatHandler == nil {
+		unregistered = append(unregistered, "messages.GetAllMessagesForChatHandler")
+	}
+
+	if o.OfferingsGetFeedHandler == nil {
+		unregistered = append(unregistered, "offerings.GetFeedHandler")
+	}
+
+	if o.MessagesGetMessageByIDHandler == nil {
+		unregistered = append(unregistered, "messages.GetMessageByIDHandler")
+	}
+
+	if o.OfferingsGetOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offerings.GetOfferingByIDHandler")
+	}
+
+	if o.OfferingsGetOfferingsHandler == nil {
+		unregistered = append(unregistered, "offerings.GetOfferingsHandler")
+	}
+
+	if o.UsersGetUserByIDHandler == nil {
+		unregistered = append(unregistered, "users.GetUserByIDHandler")
 	}
 
 	if o.HealthHealthcheckGetHandler == nil {
 		unregistered = append(unregistered, "health.HealthcheckGetHandler")
 	}
 
-	if o.MessageUpdateMessageByIDHandler == nil {
-		unregistered = append(unregistered, "message.UpdateMessageByIDHandler")
+	if o.MessagesUpdateMessageByIDHandler == nil {
+		unregistered = append(unregistered, "messages.UpdateMessageByIDHandler")
 	}
 
-	if o.OfferingUpdateOfferingByIDHandler == nil {
-		unregistered = append(unregistered, "offering.UpdateOfferingByIDHandler")
+	if o.OfferingsUpdateOfferingByIDHandler == nil {
+		unregistered = append(unregistered, "offerings.UpdateOfferingByIDHandler")
 	}
 
-	if o.ProfileUpdateProfileByIDHandler == nil {
-		unregistered = append(unregistered, "profile.UpdateProfileByIDHandler")
+	if o.UsersUpdateUserByIDHandler == nil {
+		unregistered = append(unregistered, "users.UpdateUserByIDHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -278,14 +332,24 @@ func (o *SavoodAPI) ServeErrorFor(operationID string) func(http.ResponseWriter, 
 // AuthenticatorsFor gets the authenticators for the specified security schemes
 func (o *SavoodAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
 
-	return nil
+	result := make(map[string]runtime.Authenticator)
+	for name, scheme := range schemes {
+		switch name {
+
+		case "bearer":
+
+			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, o.BearerAuth)
+
+		}
+	}
+	return result
 
 }
 
 // Authorizer returns the registered authorizer
 func (o *SavoodAPI) Authorizer() runtime.Authorizer {
 
-	return nil
+	return o.APIAuthorizer
 
 }
 
@@ -364,52 +428,72 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/message"] = message.NewCreateNewMessage(o.context, o.MessageCreateNewMessageHandler)
+	o.handlers["POST"]["/chats/{chatID}/messages"] = messages.NewCreateNewMessage(o.context, o.MessagesCreateNewMessageHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/offering"] = offering.NewCreateNewOffering(o.context, o.OfferingCreateNewOfferingHandler)
+	o.handlers["POST"]["/offerings"] = offerings.NewCreateNewOffering(o.context, o.OfferingsCreateNewOfferingHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/profile"] = profile.NewCreateNewProfile(o.context, o.ProfileCreateNewProfileHandler)
+	o.handlers["POST"]["/users"] = users.NewCreateNewUser(o.context, o.UsersCreateNewUserHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/message/{id}"] = message.NewDeleteMessageByID(o.context, o.MessageDeleteMessageByIDHandler)
+	o.handlers["DELETE"]["/chats/{chatID}/messages/{id}"] = messages.NewDeleteMessageByID(o.context, o.MessagesDeleteMessageByIDHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/offering/{id}"] = offering.NewDeleteOfferingByID(o.context, o.OfferingDeleteOfferingByIDHandler)
+	o.handlers["DELETE"]["/offerings/{id}"] = offerings.NewDeleteOfferingByID(o.context, o.OfferingsDeleteOfferingByIDHandler)
 
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/profile/{id}"] = profile.NewDeleteProfileByID(o.context, o.ProfileDeleteProfileByIDHandler)
+	o.handlers["DELETE"]["/users/{id}"] = users.NewDeleteUserByID(o.context, o.UsersDeleteUserByIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/feed"] = feed.NewGetFeed(o.context, o.FeedGetFeedHandler)
+	o.handlers["GET"]["/chats"] = messages.NewGetAllChats(o.context, o.MessagesGetAllChatsHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/message/{id}"] = message.NewGetMessageByID(o.context, o.MessageGetMessageByIDHandler)
+	o.handlers["GET"]["/offerings/{id}/chats"] = NewGetAllChatsForOffering(o.context, o.GetAllChatsForOfferingHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/offering/{id}"] = offering.NewGetOfferingByID(o.context, o.OfferingGetOfferingByIDHandler)
+	o.handlers["GET"]["/chats/{chatID}/messages"] = messages.NewGetAllMessagesForChat(o.context, o.MessagesGetAllMessagesForChatHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/profile/{id}"] = profile.NewGetProfileByID(o.context, o.ProfileGetProfileByIDHandler)
+	o.handlers["GET"]["/feed"] = offerings.NewGetFeed(o.context, o.OfferingsGetFeedHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/chats/{chatID}/messages/{id}"] = messages.NewGetMessageByID(o.context, o.MessagesGetMessageByIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/offerings/{id}"] = offerings.NewGetOfferingByID(o.context, o.OfferingsGetOfferingByIDHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/offerings"] = offerings.NewGetOfferings(o.context, o.OfferingsGetOfferingsHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/users/{id}"] = users.NewGetUserByID(o.context, o.UsersGetUserByIDHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -419,17 +503,17 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/message/{id}"] = message.NewUpdateMessageByID(o.context, o.MessageUpdateMessageByIDHandler)
+	o.handlers["PATCH"]["/chats/{chatID}/messages/{id}"] = messages.NewUpdateMessageByID(o.context, o.MessagesUpdateMessageByIDHandler)
 
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/offering/{id}"] = offering.NewUpdateOfferingByID(o.context, o.OfferingUpdateOfferingByIDHandler)
+	o.handlers["PATCH"]["/offerings/{id}"] = offerings.NewUpdateOfferingByID(o.context, o.OfferingsUpdateOfferingByIDHandler)
 
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/profile/{id}"] = profile.NewUpdateProfileByID(o.context, o.ProfileUpdateProfileByIDHandler)
+	o.handlers["PATCH"]["/users/{id}"] = users.NewUpdateUserByID(o.context, o.UsersUpdateUserByIDHandler)
 
 }
 
