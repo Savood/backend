@@ -20,29 +20,21 @@ type Message struct {
 	// content
 	Content string `json:"content,omitempty"`
 
-	// from id
-	FromID int64 `json:"from-id,omitempty"`
-
-	// id
-	ID string `json:"id,omitempty"`
-
-	// important
-	Important bool `json:"important,omitempty"`
-
-	// offering id
-	OfferingID int64 `json:"offering-id,omitempty"`
+	// from
+	From *MessageFrom `json:"from,omitempty"`
 
 	// time
 	// Format: date-time
 	Time strfmt.DateTime `json:"time,omitempty"`
-
-	// to id
-	ToID int64 `json:"to-id,omitempty"`
 }
 
 // Validate validates this message
 func (m *Message) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateFrom(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateTime(formats); err != nil {
 		res = append(res, err)
@@ -51,6 +43,24 @@ func (m *Message) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Message) validateFrom(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.From) { // not required
+		return nil
+	}
+
+	if m.From != nil {
+		if err := m.From.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("from")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

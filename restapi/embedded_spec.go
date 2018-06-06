@@ -33,7 +33,7 @@ func init() {
   },
   "basePath": "/v2/",
   "paths": {
-    "/feed": {
+    "/chats/": {
       "get": {
         "consumes": [
           "application/json"
@@ -42,23 +42,15 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "feed"
+          "messages"
         ],
-        "summary": "Display a feed",
-        "operationId": "getFeed",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "location",
-            "in": "query",
-            "required": true
-          }
-        ],
+        "summary": "Get all Chats",
+        "operationId": "getAllChats",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Feed"
+              "$ref": "#/definitions/Chats"
             }
           },
           "404": {
@@ -67,30 +59,28 @@ func init() {
         }
       }
     },
-    "/healthcheck": {
+    "/chats/{chatID}/messages": {
       "get": {
         "produces": [
           "application/json"
         ],
         "tags": [
-          "health"
+          "messages"
         ],
-        "summary": "Check Server status",
-        "operationId": "healthcheckGet",
+        "summary": "Add a new message",
+        "operationId": "getAllMessagesForChat",
         "responses": {
           "200": {
-            "description": "Server is healthy"
-          },
-          "501": {
-            "description": "Server is unhealthy",
+            "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/ErrorModel"
+              "$ref": "#/definitions/Messages"
             }
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
           }
         }
-      }
-    },
-    "/message": {
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -99,7 +89,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Add a new message",
         "operationId": "createNewMessage",
@@ -125,9 +115,17 @@ func init() {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "chatID",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
-    "/message/{id}": {
+    "/chats/{chatID}/messages/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -136,7 +134,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Display a message",
         "operationId": "getMessageById",
@@ -160,7 +158,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Delete a message",
         "operationId": "deleteMessageById",
@@ -181,7 +179,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Update a message",
         "operationId": "updateMessageById",
@@ -208,13 +206,114 @@ func init() {
       "parameters": [
         {
           "type": "string",
+          "name": "chatID",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
         }
       ]
     },
-    "/offering": {
+    "/feed": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings"
+        ],
+        "summary": "Display a feed of nearby offerings",
+        "operationId": "getFeed",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "location",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "number",
+            "description": "Distance in Meters",
+            "name": "distance",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Offerings"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      }
+    },
+    "/healthcheck": {
+      "get": {
+        "security": [],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Server status",
+        "operationId": "healthcheckGet",
+        "responses": {
+          "200": {
+            "description": "Server is healthy"
+          },
+          "501": {
+            "description": "Server is unhealthy",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/offerings": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings"
+        ],
+        "summary": "Display a feed of nearby offerings",
+        "operationId": "getOfferings",
+        "parameters": [
+          {
+            "enum": [
+              "owned",
+              "requested"
+            ],
+            "type": "string",
+            "description": "Filteres offerings by owned or requested",
+            "name": "filter",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Offerings"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -223,7 +322,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Add a new offering",
         "operationId": "createNewOffering",
@@ -251,16 +350,13 @@ func init() {
         }
       }
     },
-    "/offering/{id}": {
+    "/offerings/{id}": {
       "get": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Display an offering",
         "operationId": "getOfferingById",
@@ -277,14 +373,11 @@ func init() {
         }
       },
       "delete": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Delete an offering",
         "operationId": "deleteOfferingById",
@@ -305,7 +398,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Update an offering",
         "operationId": "updateOfferingById",
@@ -338,7 +431,39 @@ func init() {
         }
       ]
     },
-    "/profile": {
+    "/offerings/{id}/chats": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "messages"
+        ],
+        "summary": "Display a user",
+        "operationId": "getAllChatsForOffering",
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Chats"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/users": {
       "post": {
         "consumes": [
           "application/json"
@@ -347,18 +472,18 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Add a new profile",
-        "operationId": "createNewProfile",
+        "summary": "Add a new user",
+        "operationId": "createNewUser",
         "parameters": [
           {
-            "description": "Profile that needs to be added",
+            "description": "User that needs to be added",
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -366,7 +491,7 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           },
           "404": {
@@ -375,7 +500,7 @@ func init() {
         }
       }
     },
-    "/profile/{id}": {
+    "/users/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -384,15 +509,15 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Display a profile",
-        "operationId": "getProfileById",
+        "summary": "Display a user",
+        "operationId": "getUserById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           },
           "404": {
@@ -408,10 +533,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Delete a profile",
-        "operationId": "deleteProfileById",
+        "summary": "Delete a users",
+        "operationId": "deleteUserById",
         "responses": {
           "204": {
             "description": "Removed; No response."
@@ -429,18 +554,18 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Update a profile",
-        "operationId": "updateProfileById",
+        "summary": "Update a user",
+        "operationId": "updateUserById",
         "parameters": [
           {
-            "description": "New parameters of the profile",
+            "description": "New parameters of the User",
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -464,26 +589,41 @@ func init() {
     }
   },
   "definitions": {
-    "Comment": {
+    "Chat": {
       "type": "object",
       "properties": {
-        "content": {
-          "type": "string"
-        },
-        "creator-id": {
-          "type": "integer",
-          "format": "int64"
-        },
         "id": {
           "type": "string"
         },
-        "time": {
-          "type": "string",
-          "format": "date-time"
+        "offering-id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "partner": {
+          "type": "object",
+          "properties": {
+            "avatar-id": {
+              "type": "string"
+            },
+            "firstname": {
+              "type": "string"
+            },
+            "lastname": {
+              "type": "string"
+            },
+            "user-id": {
+              "type": "string"
+            }
+          }
         }
-      },
-      "xml": {
-        "name": "Comment"
+      }
+    },
+    "Chats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Chat"
       }
     },
     "ErrorModel": {
@@ -499,15 +639,6 @@ func init() {
         "message": {
           "type": "string"
         }
-      }
-    },
-    "Feed": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Offering"
-      },
-      "xml": {
-        "name": "Feed"
       }
     },
     "InvalidParameterInput": {
@@ -531,31 +662,36 @@ func init() {
         "content": {
           "type": "string"
         },
-        "from-id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "id": {
-          "type": "string"
-        },
-        "important": {
-          "type": "boolean"
-        },
-        "offering-id": {
-          "type": "integer",
-          "format": "int64"
+        "from": {
+          "type": "object",
+          "properties": {
+            "avatar-id": {
+              "type": "string"
+            },
+            "firstname": {
+              "type": "string"
+            },
+            "lastname": {
+              "type": "string"
+            },
+            "user-id": {
+              "type": "string"
+            }
+          }
         },
         "time": {
           "type": "string",
           "format": "date-time"
-        },
-        "to-id": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "xml": {
         "name": "Message"
+      }
+    },
+    "Messages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Message"
       }
     },
     "Offering": {
@@ -567,12 +703,6 @@ func init() {
         "best-by-date": {
           "type": "string",
           "format": "date"
-        },
-        "comments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Comment"
-          }
         },
         "creator-id": {
           "type": "integer",
@@ -594,25 +724,45 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "time": {
           "type": "string",
           "format": "date-time"
-        },
-        "total_comments": {
-          "type": "string"
-        },
-        "total_likes": {
-          "type": "string"
-        },
-        "total_savoods": {
-          "type": "string"
         }
       },
       "xml": {
         "name": "Offering"
       }
     },
-    "Profile": {
+    "Offerings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Offering"
+      },
+      "xml": {
+        "name": "Feed"
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
       "type": "object",
       "properties": {
         "address": {
@@ -667,7 +817,7 @@ func init() {
         }
       },
       "xml": {
-        "name": "Profile"
+        "name": "user"
       },
       "example": {
         "address": {
@@ -692,7 +842,7 @@ func init() {
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
         "firstname": "Marty",
-        "id": 5,
+        "id": "5",
         "lastname": "McFlfy",
         "phone": "202-555-0191"
       }
@@ -719,37 +869,33 @@ func init() {
     }
   },
   "securityDefinitions": {
-    "api_key": {
+    "bearer": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "Authorization",
       "in": "header"
-    },
-    "petstore_auth": {
-      "type": "oauth2",
-      "flow": "implicit",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "scopes": {
-        "read:pets": "read your pets",
-        "write:pets": "modify pets in your account"
-      }
     }
   },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "tags": [
     {
-      "description": "Management of profiles and user representation",
-      "name": "profile"
+      "description": "Management of users",
+      "name": "users"
     },
     {
       "description": "Management of offered food items",
-      "name": "offering"
+      "name": "offerings"
     },
     {
-      "description": "Collection of nearby offerings",
-      "name": "feed"
+      "description": "Operations about users",
+      "name": "messages"
     },
     {
-      "description": "Operations about user",
-      "name": "message"
+      "description": "Operation regarding helath of application",
+      "name": "health"
     }
   ]
 }`))
@@ -769,7 +915,7 @@ func init() {
   },
   "basePath": "/v2/",
   "paths": {
-    "/feed": {
+    "/chats/": {
       "get": {
         "consumes": [
           "application/json"
@@ -778,23 +924,15 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "feed"
+          "messages"
         ],
-        "summary": "Display a feed",
-        "operationId": "getFeed",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "location",
-            "in": "query",
-            "required": true
-          }
-        ],
+        "summary": "Get all Chats",
+        "operationId": "getAllChats",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Feed"
+              "$ref": "#/definitions/Chats"
             }
           },
           "404": {
@@ -806,30 +944,31 @@ func init() {
         }
       }
     },
-    "/healthcheck": {
+    "/chats/{chatID}/messages": {
       "get": {
         "produces": [
           "application/json"
         ],
         "tags": [
-          "health"
+          "messages"
         ],
-        "summary": "Check Server status",
-        "operationId": "healthcheckGet",
+        "summary": "Add a new message",
+        "operationId": "getAllMessagesForChat",
         "responses": {
           "200": {
-            "description": "Server is healthy"
-          },
-          "501": {
-            "description": "Server is unhealthy",
+            "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/ErrorModel"
+              "$ref": "#/definitions/Messages"
+            }
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
             }
           }
         }
-      }
-    },
-    "/message": {
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -838,7 +977,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Add a new message",
         "operationId": "createNewMessage",
@@ -867,9 +1006,17 @@ func init() {
             }
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "chatID",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
-    "/message/{id}": {
+    "/chats/{chatID}/messages/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -878,7 +1025,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Display a message",
         "operationId": "getMessageById",
@@ -905,7 +1052,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Delete a message",
         "operationId": "deleteMessageById",
@@ -929,7 +1076,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "message"
+          "messages"
         ],
         "summary": "Update a message",
         "operationId": "updateMessageById",
@@ -959,13 +1106,120 @@ func init() {
       "parameters": [
         {
           "type": "string",
+          "name": "chatID",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
           "name": "id",
           "in": "path",
           "required": true
         }
       ]
     },
-    "/offering": {
+    "/feed": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings"
+        ],
+        "summary": "Display a feed of nearby offerings",
+        "operationId": "getFeed",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "location",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "number",
+            "description": "Distance in Meters",
+            "name": "distance",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Offerings"
+            }
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      }
+    },
+    "/healthcheck": {
+      "get": {
+        "security": [],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Server status",
+        "operationId": "healthcheckGet",
+        "responses": {
+          "200": {
+            "description": "Server is healthy"
+          },
+          "501": {
+            "description": "Server is unhealthy",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/offerings": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings"
+        ],
+        "summary": "Display a feed of nearby offerings",
+        "operationId": "getOfferings",
+        "parameters": [
+          {
+            "enum": [
+              "owned",
+              "requested"
+            ],
+            "type": "string",
+            "description": "Filteres offerings by owned or requested",
+            "name": "filter",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Offerings"
+            }
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "application/json"
@@ -974,7 +1228,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Add a new offering",
         "operationId": "createNewOffering",
@@ -1005,16 +1259,13 @@ func init() {
         }
       }
     },
-    "/offering/{id}": {
+    "/offerings/{id}": {
       "get": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Display an offering",
         "operationId": "getOfferingById",
@@ -1034,14 +1285,11 @@ func init() {
         }
       },
       "delete": {
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Delete an offering",
         "operationId": "deleteOfferingById",
@@ -1065,7 +1313,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "offering"
+          "offerings"
         ],
         "summary": "Update an offering",
         "operationId": "updateOfferingById",
@@ -1101,7 +1349,42 @@ func init() {
         }
       ]
     },
-    "/profile": {
+    "/offerings/{id}/chats": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "messages"
+        ],
+        "summary": "Display a user",
+        "operationId": "getAllChatsForOffering",
+        "responses": {
+          "200": {
+            "description": "Object found and returned",
+            "schema": {
+              "$ref": "#/definitions/Chats"
+            }
+          },
+          "404": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/users": {
       "post": {
         "consumes": [
           "application/json"
@@ -1110,18 +1393,18 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Add a new profile",
-        "operationId": "createNewProfile",
+        "summary": "Add a new user",
+        "operationId": "createNewUser",
         "parameters": [
           {
-            "description": "Profile that needs to be added",
+            "description": "User that needs to be added",
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -1129,7 +1412,7 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           },
           "404": {
@@ -1141,7 +1424,7 @@ func init() {
         }
       }
     },
-    "/profile/{id}": {
+    "/users/{id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -1150,15 +1433,15 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Display a profile",
-        "operationId": "getProfileById",
+        "summary": "Display a user",
+        "operationId": "getUserById",
         "responses": {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           },
           "404": {
@@ -1177,10 +1460,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Delete a profile",
-        "operationId": "deleteProfileById",
+        "summary": "Delete a users",
+        "operationId": "deleteUserById",
         "responses": {
           "204": {
             "description": "Removed; No response."
@@ -1201,18 +1484,18 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "profile"
+          "users"
         ],
-        "summary": "Update a profile",
-        "operationId": "updateProfileById",
+        "summary": "Update a user",
+        "operationId": "updateUserById",
         "parameters": [
           {
-            "description": "New parameters of the profile",
+            "description": "New parameters of the User",
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Profile"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -1239,26 +1522,27 @@ func init() {
     }
   },
   "definitions": {
-    "Comment": {
+    "Chat": {
       "type": "object",
       "properties": {
-        "content": {
-          "type": "string"
-        },
-        "creator-id": {
-          "type": "integer",
-          "format": "int64"
-        },
         "id": {
           "type": "string"
         },
-        "time": {
-          "type": "string",
-          "format": "date-time"
+        "offering-id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "partner": {
+          "$ref": "#/definitions/chatPartner"
         }
-      },
-      "xml": {
-        "name": "Comment"
+      }
+    },
+    "Chats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Chat"
       }
     },
     "ErrorModel": {
@@ -1274,15 +1558,6 @@ func init() {
         "message": {
           "type": "string"
         }
-      }
-    },
-    "Feed": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Offering"
-      },
-      "xml": {
-        "name": "Feed"
       }
     },
     "InvalidParameterInput": {
@@ -1306,31 +1581,22 @@ func init() {
         "content": {
           "type": "string"
         },
-        "from-id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "id": {
-          "type": "string"
-        },
-        "important": {
-          "type": "boolean"
-        },
-        "offering-id": {
-          "type": "integer",
-          "format": "int64"
+        "from": {
+          "$ref": "#/definitions/messageFrom"
         },
         "time": {
           "type": "string",
           "format": "date-time"
-        },
-        "to-id": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "xml": {
         "name": "Message"
+      }
+    },
+    "Messages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Message"
       }
     },
     "Offering": {
@@ -1342,12 +1608,6 @@ func init() {
         "best-by-date": {
           "type": "string",
           "format": "date"
-        },
-        "comments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Comment"
-          }
         },
         "creator-id": {
           "type": "integer",
@@ -1369,29 +1629,49 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "time": {
           "type": "string",
           "format": "date-time"
-        },
-        "total_comments": {
-          "type": "string"
-        },
-        "total_likes": {
-          "type": "string"
-        },
-        "total_savoods": {
-          "type": "string"
         }
       },
       "xml": {
         "name": "Offering"
       }
     },
-    "Profile": {
+    "Offerings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Offering"
+      },
+      "xml": {
+        "name": "Feed"
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
       "type": "object",
       "properties": {
         "address": {
-          "$ref": "#/definitions/profileAddress"
+          "$ref": "#/definitions/userAddress"
         },
         "avatar-id": {
           "type": "string"
@@ -1427,7 +1707,7 @@ func init() {
         }
       },
       "xml": {
-        "name": "Profile"
+        "name": "user"
       },
       "example": {
         "address": {
@@ -1452,12 +1732,48 @@ func init() {
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
         "firstname": "Marty",
-        "id": 5,
+        "id": "5",
         "lastname": "McFlfy",
         "phone": "202-555-0191"
       }
     },
-    "profileAddress": {
+    "chatPartner": {
+      "type": "object",
+      "properties": {
+        "avatar-id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "user-id": {
+          "type": "string"
+        }
+      },
+      "x-go-gen-location": "models"
+    },
+    "messageFrom": {
+      "type": "object",
+      "properties": {
+        "avatar-id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "user-id": {
+          "type": "string"
+        }
+      },
+      "x-go-gen-location": "models"
+    },
+    "userAddress": {
       "type": "object",
       "properties": {
         "city": {
@@ -1498,37 +1814,33 @@ func init() {
     }
   },
   "securityDefinitions": {
-    "api_key": {
+    "bearer": {
       "type": "apiKey",
-      "name": "api_key",
+      "name": "Authorization",
       "in": "header"
-    },
-    "petstore_auth": {
-      "type": "oauth2",
-      "flow": "implicit",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "scopes": {
-        "read:pets": "read your pets",
-        "write:pets": "modify pets in your account"
-      }
     }
   },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "tags": [
     {
-      "description": "Management of profiles and user representation",
-      "name": "profile"
+      "description": "Management of users",
+      "name": "users"
     },
     {
       "description": "Management of offered food items",
-      "name": "offering"
+      "name": "offerings"
     },
     {
-      "description": "Collection of nearby offerings",
-      "name": "feed"
+      "description": "Operations about users",
+      "name": "messages"
     },
     {
-      "description": "Operations about user",
-      "name": "message"
+      "description": "Operation regarding helath of application",
+      "name": "health"
     }
   ]
 }`))
