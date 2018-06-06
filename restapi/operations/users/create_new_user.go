@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // CreateNewUserHandlerFunc turns a function with the right signature into a create new user handler
-type CreateNewUserHandlerFunc func(CreateNewUserParams, interface{}) middleware.Responder
+type CreateNewUserHandlerFunc func(CreateNewUserParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn CreateNewUserHandlerFunc) Handle(params CreateNewUserParams, principal interface{}) middleware.Responder {
+func (fn CreateNewUserHandlerFunc) Handle(params CreateNewUserParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // CreateNewUserHandler interface for that can handle valid create new user params
 type CreateNewUserHandler interface {
-	Handle(CreateNewUserParams, interface{}) middleware.Responder
+	Handle(CreateNewUserParams, *models.Principal) middleware.Responder
 }
 
 // NewCreateNewUser creates a new http.Handler for the create new user operation
@@ -54,9 +56,9 @@ func (o *CreateNewUser) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

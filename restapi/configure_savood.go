@@ -12,14 +12,15 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/feed"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/message"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/offering"
-	"git.dhbw.chd.cx/savood/backend/restapi/operations/profile"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/messages"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
-//go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml
+//go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
 
 func configureFlags(api *operations.SavoodAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -39,47 +40,70 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	api.MessageCreateNewMessageHandler = message.CreateNewMessageHandlerFunc(func(params message.CreateNewMessageParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.CreateNewMessage has not yet been implemented")
+	// Applies when the "Authorization" header is set
+	api.BearerAuth = func(token string) (*models.Principal, error) {
+		return nil, errors.NotImplemented("api key auth (bearer) Authorization from header param [Authorization] has not yet been implemented")
+	}
+
+	// Set your custom authorizer if needed. Default one is security.Authorized()
+	// Expected interface runtime.Authorizer
+	//
+	// Example:
+	// api.APIAuthorizer = security.Authorized()
+
+	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
 	})
-	api.OfferingCreateNewOfferingHandler = offering.CreateNewOfferingHandlerFunc(func(params offering.CreateNewOfferingParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.CreateNewOffering has not yet been implemented")
+	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.CreateNewOffering has not yet been implemented")
 	})
-	api.ProfileCreateNewProfileHandler = profile.CreateNewProfileHandlerFunc(func(params profile.CreateNewProfileParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.CreateNewProfile has not yet been implemented")
+	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation users.CreateNewUser has not yet been implemented")
 	})
-	api.MessageDeleteMessageByIDHandler = message.DeleteMessageByIDHandlerFunc(func(params message.DeleteMessageByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.DeleteMessageByID has not yet been implemented")
+	api.MessagesDeleteMessageByIDHandler = messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.DeleteMessageByID has not yet been implemented")
 	})
-	api.OfferingDeleteOfferingByIDHandler = offering.DeleteOfferingByIDHandlerFunc(func(params offering.DeleteOfferingByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.DeleteOfferingByID has not yet been implemented")
+	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.DeleteOfferingByID has not yet been implemented")
 	})
-	api.ProfileDeleteProfileByIDHandler = profile.DeleteProfileByIDHandlerFunc(func(params profile.DeleteProfileByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.DeleteProfileByID has not yet been implemented")
+	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation users.DeleteUserByID has not yet been implemented")
 	})
-	api.FeedGetFeedHandler = feed.GetFeedHandlerFunc(func(params feed.GetFeedParams) middleware.Responder {
-		return middleware.NotImplemented("operation feed.GetFeed has not yet been implemented")
+	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(func(params messages.GetAllChatsParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.GetAllChats has not yet been implemented")
 	})
-	api.MessageGetMessageByIDHandler = message.GetMessageByIDHandlerFunc(func(params message.GetMessageByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.GetMessageByID has not yet been implemented")
+	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(func(params operations.GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation .GetAllChatsForOffering has not yet been implemented")
 	})
-	api.OfferingGetOfferingByIDHandler = offering.GetOfferingByIDHandlerFunc(func(params offering.GetOfferingByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.GetOfferingByID has not yet been implemented")
+	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.GetAllMessagesForChat has not yet been implemented")
 	})
-	api.ProfileGetProfileByIDHandler = profile.GetProfileByIDHandlerFunc(func(params profile.GetProfileByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.GetProfileByID has not yet been implemented")
+	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.GetFeed has not yet been implemented")
+	})
+	api.MessagesGetMessageByIDHandler = messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.GetMessageByID has not yet been implemented")
+	})
+	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.GetOfferingByID has not yet been implemented")
+	})
+	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")
+	})
+	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation users.GetUserByID has not yet been implemented")
 	})
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
 		return health.NewHealthcheckGetOK()
 	})
-	api.MessageUpdateMessageByIDHandler = message.UpdateMessageByIDHandlerFunc(func(params message.UpdateMessageByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation message.UpdateMessageByID has not yet been implemented")
+	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation messages.UpdateMessageByID has not yet been implemented")
 	})
-	api.OfferingUpdateOfferingByIDHandler = offering.UpdateOfferingByIDHandlerFunc(func(params offering.UpdateOfferingByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation offering.UpdateOfferingByID has not yet been implemented")
+	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.UpdateOfferingByID has not yet been implemented")
 	})
-	api.ProfileUpdateProfileByIDHandler = profile.UpdateProfileByIDHandlerFunc(func(params profile.UpdateProfileByIDParams) middleware.Responder {
-		return middleware.NotImplemented("operation profile.UpdateProfileByID has not yet been implemented")
+	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(func(params users.UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation users.UpdateUserByID has not yet been implemented")
 	})
 
 	api.ServerShutdown = func() {}

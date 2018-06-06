@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // CreateNewMessageHandlerFunc turns a function with the right signature into a create new message handler
-type CreateNewMessageHandlerFunc func(CreateNewMessageParams, interface{}) middleware.Responder
+type CreateNewMessageHandlerFunc func(CreateNewMessageParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn CreateNewMessageHandlerFunc) Handle(params CreateNewMessageParams, principal interface{}) middleware.Responder {
+func (fn CreateNewMessageHandlerFunc) Handle(params CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // CreateNewMessageHandler interface for that can handle valid create new message params
 type CreateNewMessageHandler interface {
-	Handle(CreateNewMessageParams, interface{}) middleware.Responder
+	Handle(CreateNewMessageParams, *models.Principal) middleware.Responder
 }
 
 // NewCreateNewMessage creates a new http.Handler for the create new message operation
@@ -54,9 +56,9 @@ func (o *CreateNewMessage) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

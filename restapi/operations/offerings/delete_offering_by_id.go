@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // DeleteOfferingByIDHandlerFunc turns a function with the right signature into a delete offering by Id handler
-type DeleteOfferingByIDHandlerFunc func(DeleteOfferingByIDParams, interface{}) middleware.Responder
+type DeleteOfferingByIDHandlerFunc func(DeleteOfferingByIDParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn DeleteOfferingByIDHandlerFunc) Handle(params DeleteOfferingByIDParams, principal interface{}) middleware.Responder {
+func (fn DeleteOfferingByIDHandlerFunc) Handle(params DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // DeleteOfferingByIDHandler interface for that can handle valid delete offering by Id params
 type DeleteOfferingByIDHandler interface {
-	Handle(DeleteOfferingByIDParams, interface{}) middleware.Responder
+	Handle(DeleteOfferingByIDParams, *models.Principal) middleware.Responder
 }
 
 // NewDeleteOfferingByID creates a new http.Handler for the delete offering by Id operation
@@ -54,9 +56,9 @@ func (o *DeleteOfferingByID) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // DeleteUserByIDHandlerFunc turns a function with the right signature into a delete user by Id handler
-type DeleteUserByIDHandlerFunc func(DeleteUserByIDParams, interface{}) middleware.Responder
+type DeleteUserByIDHandlerFunc func(DeleteUserByIDParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn DeleteUserByIDHandlerFunc) Handle(params DeleteUserByIDParams, principal interface{}) middleware.Responder {
+func (fn DeleteUserByIDHandlerFunc) Handle(params DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // DeleteUserByIDHandler interface for that can handle valid delete user by Id params
 type DeleteUserByIDHandler interface {
-	Handle(DeleteUserByIDParams, interface{}) middleware.Responder
+	Handle(DeleteUserByIDParams, *models.Principal) middleware.Responder
 }
 
 // NewDeleteUserByID creates a new http.Handler for the delete user by Id operation
@@ -54,9 +56,9 @@ func (o *DeleteUserByID) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

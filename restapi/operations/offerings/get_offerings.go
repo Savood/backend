@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // GetOfferingsHandlerFunc turns a function with the right signature into a get offerings handler
-type GetOfferingsHandlerFunc func(GetOfferingsParams, interface{}) middleware.Responder
+type GetOfferingsHandlerFunc func(GetOfferingsParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetOfferingsHandlerFunc) Handle(params GetOfferingsParams, principal interface{}) middleware.Responder {
+func (fn GetOfferingsHandlerFunc) Handle(params GetOfferingsParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // GetOfferingsHandler interface for that can handle valid get offerings params
 type GetOfferingsHandler interface {
-	Handle(GetOfferingsParams, interface{}) middleware.Responder
+	Handle(GetOfferingsParams, *models.Principal) middleware.Responder
 }
 
 // NewGetOfferings creates a new http.Handler for the get offerings operation
@@ -54,9 +56,9 @@ func (o *GetOfferings) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // GetMessageByIDHandlerFunc turns a function with the right signature into a get message by Id handler
-type GetMessageByIDHandlerFunc func(GetMessageByIDParams, interface{}) middleware.Responder
+type GetMessageByIDHandlerFunc func(GetMessageByIDParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetMessageByIDHandlerFunc) Handle(params GetMessageByIDParams, principal interface{}) middleware.Responder {
+func (fn GetMessageByIDHandlerFunc) Handle(params GetMessageByIDParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // GetMessageByIDHandler interface for that can handle valid get message by Id params
 type GetMessageByIDHandler interface {
-	Handle(GetMessageByIDParams, interface{}) middleware.Responder
+	Handle(GetMessageByIDParams, *models.Principal) middleware.Responder
 }
 
 // NewGetMessageByID creates a new http.Handler for the get message by Id operation
@@ -54,9 +56,9 @@ func (o *GetMessageByID) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

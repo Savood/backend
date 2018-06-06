@@ -23,6 +23,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/messages"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // NewSavoodAPI creates a new Savood instance
@@ -42,63 +44,63 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		MessagesCreateNewMessageHandler: messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal interface{}) middleware.Responder {
+		MessagesCreateNewMessageHandler: messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesCreateNewMessage has not yet been implemented")
 		}),
-		OfferingsCreateNewOfferingHandler: offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal interface{}) middleware.Responder {
+		OfferingsCreateNewOfferingHandler: offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsCreateNewOffering has not yet been implemented")
 		}),
-		UsersCreateNewUserHandler: users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal interface{}) middleware.Responder {
+		UsersCreateNewUserHandler: users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation UsersCreateNewUser has not yet been implemented")
 		}),
-		MessagesDeleteMessageByIDHandler: messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal interface{}) middleware.Responder {
+		MessagesDeleteMessageByIDHandler: messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesDeleteMessageByID has not yet been implemented")
 		}),
-		OfferingsDeleteOfferingByIDHandler: offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal interface{}) middleware.Responder {
+		OfferingsDeleteOfferingByIDHandler: offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsDeleteOfferingByID has not yet been implemented")
 		}),
-		UsersDeleteUserByIDHandler: users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal interface{}) middleware.Responder {
+		UsersDeleteUserByIDHandler: users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation UsersDeleteUserByID has not yet been implemented")
 		}),
-		MessagesGetAllChatsHandler: messages.GetAllChatsHandlerFunc(func(params messages.GetAllChatsParams, principal interface{}) middleware.Responder {
+		MessagesGetAllChatsHandler: messages.GetAllChatsHandlerFunc(func(params messages.GetAllChatsParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesGetAllChats has not yet been implemented")
 		}),
-		GetAllChatsForOfferingHandler: GetAllChatsForOfferingHandlerFunc(func(params GetAllChatsForOfferingParams, principal interface{}) middleware.Responder {
+		GetAllChatsForOfferingHandler: GetAllChatsForOfferingHandlerFunc(func(params GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation GetAllChatsForOffering has not yet been implemented")
 		}),
-		MessagesGetAllMessagesForChatHandler: messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal interface{}) middleware.Responder {
+		MessagesGetAllMessagesForChatHandler: messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesGetAllMessagesForChat has not yet been implemented")
 		}),
-		OfferingsGetFeedHandler: offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal interface{}) middleware.Responder {
+		OfferingsGetFeedHandler: offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsGetFeed has not yet been implemented")
 		}),
-		MessagesGetMessageByIDHandler: messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal interface{}) middleware.Responder {
+		MessagesGetMessageByIDHandler: messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesGetMessageByID has not yet been implemented")
 		}),
-		OfferingsGetOfferingByIDHandler: offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal interface{}) middleware.Responder {
+		OfferingsGetOfferingByIDHandler: offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsGetOfferingByID has not yet been implemented")
 		}),
-		OfferingsGetOfferingsHandler: offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal interface{}) middleware.Responder {
+		OfferingsGetOfferingsHandler: offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsGetOfferings has not yet been implemented")
 		}),
-		UsersGetUserByIDHandler: users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal interface{}) middleware.Responder {
+		UsersGetUserByIDHandler: users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation UsersGetUserByID has not yet been implemented")
 		}),
-		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams, principal interface{}) middleware.Responder {
+		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation HealthHealthcheckGet has not yet been implemented")
 		}),
-		MessagesUpdateMessageByIDHandler: messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal interface{}) middleware.Responder {
+		MessagesUpdateMessageByIDHandler: messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesUpdateMessageByID has not yet been implemented")
 		}),
-		OfferingsUpdateOfferingByIDHandler: offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal interface{}) middleware.Responder {
+		OfferingsUpdateOfferingByIDHandler: offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation OfferingsUpdateOfferingByID has not yet been implemented")
 		}),
-		UsersUpdateUserByIDHandler: users.UpdateUserByIDHandlerFunc(func(params users.UpdateUserByIDParams, principal interface{}) middleware.Responder {
+		UsersUpdateUserByIDHandler: users.UpdateUserByIDHandlerFunc(func(params users.UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation UsersUpdateUserByID has not yet been implemented")
 		}),
 
 		// Applies when the "Authorization" header is set
-		BearerAuth: func(token string) (interface{}, error) {
+		BearerAuth: func(token string) (*models.Principal, error) {
 			return nil, errors.NotImplemented("api key auth (bearer) Authorization from header param [Authorization] has not yet been implemented")
 		},
 
@@ -137,7 +139,7 @@ type SavoodAPI struct {
 
 	// BearerAuth registers a function that takes a token and returns a principal
 	// it performs authentication based on an api key Authorization provided in the header
-	BearerAuth func(string) (interface{}, error)
+	BearerAuth func(string) (*models.Principal, error)
 
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
@@ -338,7 +340,9 @@ func (o *SavoodAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) ma
 
 		case "bearer":
 
-			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, o.BearerAuth)
+			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, func(token string) (interface{}, error) {
+				return o.BearerAuth(token)
+			})
 
 		}
 	}

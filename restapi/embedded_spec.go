@@ -258,6 +258,7 @@ func init() {
     },
     "/healthcheck": {
       "get": {
+        "security": [],
         "produces": [
           "application/json"
         ],
@@ -747,6 +748,20 @@ func init() {
         "name": "Feed"
       }
     },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
     "User": {
       "type": "object",
       "properties": {
@@ -1146,6 +1161,7 @@ func init() {
     },
     "/healthcheck": {
       "get": {
+        "security": [],
         "produces": [
           "application/json"
         ],
@@ -1635,6 +1651,20 @@ func init() {
       },
       "xml": {
         "name": "Feed"
+      }
+    },
+    "Principal": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
       }
     },
     "User": {

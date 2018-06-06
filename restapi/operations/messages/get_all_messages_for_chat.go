@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // GetAllMessagesForChatHandlerFunc turns a function with the right signature into a get all messages for chat handler
-type GetAllMessagesForChatHandlerFunc func(GetAllMessagesForChatParams, interface{}) middleware.Responder
+type GetAllMessagesForChatHandlerFunc func(GetAllMessagesForChatParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetAllMessagesForChatHandlerFunc) Handle(params GetAllMessagesForChatParams, principal interface{}) middleware.Responder {
+func (fn GetAllMessagesForChatHandlerFunc) Handle(params GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // GetAllMessagesForChatHandler interface for that can handle valid get all messages for chat params
 type GetAllMessagesForChatHandler interface {
-	Handle(GetAllMessagesForChatParams, interface{}) middleware.Responder
+	Handle(GetAllMessagesForChatParams, *models.Principal) middleware.Responder
 }
 
 // NewGetAllMessagesForChat creates a new http.Handler for the get all messages for chat operation
@@ -54,9 +56,9 @@ func (o *GetAllMessagesForChat) ServeHTTP(rw http.ResponseWriter, r *http.Reques
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

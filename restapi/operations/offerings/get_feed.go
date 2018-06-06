@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // GetFeedHandlerFunc turns a function with the right signature into a get feed handler
-type GetFeedHandlerFunc func(GetFeedParams, interface{}) middleware.Responder
+type GetFeedHandlerFunc func(GetFeedParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetFeedHandlerFunc) Handle(params GetFeedParams, principal interface{}) middleware.Responder {
+func (fn GetFeedHandlerFunc) Handle(params GetFeedParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // GetFeedHandler interface for that can handle valid get feed params
 type GetFeedHandler interface {
-	Handle(GetFeedParams, interface{}) middleware.Responder
+	Handle(GetFeedParams, *models.Principal) middleware.Responder
 }
 
 // NewGetFeed creates a new http.Handler for the get feed operation
@@ -54,9 +56,9 @@ func (o *GetFeed) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

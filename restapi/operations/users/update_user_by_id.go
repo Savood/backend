@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // UpdateUserByIDHandlerFunc turns a function with the right signature into a update user by Id handler
-type UpdateUserByIDHandlerFunc func(UpdateUserByIDParams, interface{}) middleware.Responder
+type UpdateUserByIDHandlerFunc func(UpdateUserByIDParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn UpdateUserByIDHandlerFunc) Handle(params UpdateUserByIDParams, principal interface{}) middleware.Responder {
+func (fn UpdateUserByIDHandlerFunc) Handle(params UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // UpdateUserByIDHandler interface for that can handle valid update user by Id params
 type UpdateUserByIDHandler interface {
-	Handle(UpdateUserByIDParams, interface{}) middleware.Responder
+	Handle(UpdateUserByIDParams, *models.Principal) middleware.Responder
 }
 
 // NewUpdateUserByID creates a new http.Handler for the update user by Id operation
@@ -54,9 +56,9 @@ func (o *UpdateUserByID) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params

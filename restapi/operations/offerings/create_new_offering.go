@@ -9,19 +9,21 @@ import (
 	"net/http"
 
 	middleware "github.com/go-openapi/runtime/middleware"
+
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // CreateNewOfferingHandlerFunc turns a function with the right signature into a create new offering handler
-type CreateNewOfferingHandlerFunc func(CreateNewOfferingParams, interface{}) middleware.Responder
+type CreateNewOfferingHandlerFunc func(CreateNewOfferingParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn CreateNewOfferingHandlerFunc) Handle(params CreateNewOfferingParams, principal interface{}) middleware.Responder {
+func (fn CreateNewOfferingHandlerFunc) Handle(params CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
 // CreateNewOfferingHandler interface for that can handle valid create new offering params
 type CreateNewOfferingHandler interface {
-	Handle(CreateNewOfferingParams, interface{}) middleware.Responder
+	Handle(CreateNewOfferingParams, *models.Principal) middleware.Responder
 }
 
 // NewCreateNewOffering creates a new http.Handler for the create new offering operation
@@ -54,9 +56,9 @@ func (o *CreateNewOffering) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	if aCtx != nil {
 		r = aCtx
 	}
-	var principal interface{}
+	var principal *models.Principal
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(*models.Principal) // this is really a models.Principal, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
