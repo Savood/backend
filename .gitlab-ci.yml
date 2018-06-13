@@ -69,6 +69,7 @@ buildStaging:
 test:
   image: docker:latest
   services:
+   - docker:dind
    - mongo
   variables:
       MONGODB_URL: mongodb://mongo
