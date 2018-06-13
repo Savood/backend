@@ -3,6 +3,7 @@ variables:
 
 stages:
 - pre_build
+- analysis
 - build
 - test
 
@@ -30,6 +31,34 @@ unittest:
     - go vet $(go list ./... | grep -v /vendor/)
     # Run all tests included with our application
     - go test $(go list ./... | grep -v /vendor/)
+
+sonarqube:
+  stage: analysis
+  image: ciricihq/gitlab-sonar-scanner
+  variables:
+    SONAR_URL: "https://sonar.chd.cx/"
+    SONAR_PROJECT_VERSION: "$CI_BUILD_ID"
+    SONAR_GITLAB_PROJECT_ID: $CI_PROJECT_ID
+    SONAR_PROJECT_KEY: $CI_PROJECT_NAME
+    SONAR_ANALYSIS_MODE: "issues"
+    SONAR_SOURCES: '.'
+  script:
+   - /usr/bin/sonar-scanner-run.sh
+
+sonarqube-reports:
+  stage: analysis
+  image: ciricihq/gitlab-sonar-scanner
+  variables:
+    SONAR_URL: "https://sonar.chd.cx/"
+    SONAR_PROJECT_VERSION: "$CI_BUILD_ID"
+    SONAR_GITLAB_PROJECT_ID: $CI_PROJECT_ID
+    SONAR_PROJECT_KEY: $CI_PROJECT_NAME
+    SONAR_ANALYSIS_MODE: "publish"
+    SONAR_SOURCES: '.'
+  script:
+   - unset CI_BUILD_REF && /usr/bin/sonar-scanner-run.sh
+  only:
+   - master
 
 build:
   image: docker:latest
