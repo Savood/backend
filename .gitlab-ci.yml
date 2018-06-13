@@ -67,7 +67,7 @@ buildStaging:
 
 
 test:
-  image: docker:compose
+  image: docker/compose
   services:
    - docker:dind
   stage: test
