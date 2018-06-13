@@ -70,12 +70,11 @@ test:
   image: docker:latest
   services:
    - mongo
-   - name: $CONTAINER_IMAGE:$CI_BUILD_REF
-     alias: test_container
   variables:
       MONGODB_URL: mongodb://mongo
       MONGODB_DB: savood
   stage: test
   script:
+    - docker run -d -p 8080:8080 $CONTAINER_IMAGE:$CI_BUILD_REF
     - sleep 10
-    - wget --server-response test_container:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
+    - wget --server-response localhost:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
