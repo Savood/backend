@@ -76,6 +76,7 @@ test:
       MONGODB_DB: savood
   stage: test
   script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
     - docker run -d -p 8080:8080 $CONTAINER_IMAGE:$CI_BUILD_REF
     - sleep 10
     - wget --server-response localhost:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
