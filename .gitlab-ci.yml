@@ -77,8 +77,9 @@ test:
   stage: test
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+    - echo $MONGODB_URL
     - docker run -d -p 8080:8080 -e MONGODB_URL=$MONGODB_URL -e MONGODB_DB=$MONGODB_DB --name test_container $CONTAINER_IMAGE:$CI_BUILD_REF
-    - sleep 100
+    - sleep 50
     - docker ps -a
     - docker logs test_container
     - wget --server-response localhost:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
