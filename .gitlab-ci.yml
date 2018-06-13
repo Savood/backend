@@ -9,6 +9,11 @@ stages:
 unittest:
   image: golang:1.10
   stage: pre_build
+  services:
+    - mongo
+  variables:
+    MONGODB_URL: mongodb://mongo
+    MONGODB_DB: savood
   script:
     #- env
     - ls -al

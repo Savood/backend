@@ -39,6 +39,18 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/globalsign/mgo"
+  packages = [
+    ".",
+    "bson",
+    "internal/json",
+    "internal/sasl",
+    "internal/scram"
+  ]
+  revision = "efe0945164a7e582241f37ae8983c075f8f2e870"
+
+[[projects]]
+  branch = "master"
   name = "github.com/go-openapi/analysis"
   packages = ["."]
   revision = "5957818e100395077187fb7ef3b8a28227af06c6"
@@ -135,6 +147,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/streadway/amqp"
+  packages = ["."]
+  revision = "e5adc2ada8b8efff032bf61173a233d143e9318e"
+
+[[projects]]
   name = "github.com/stretchr/testify"
   packages = ["assert"]
   revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
@@ -195,6 +213,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ca2165c50930bbca390f6283664904d2d46405e9c4d8eafc252f25c1c634bbb1"
+  inputs-digest = "452f0a98aa6de67b1940201245d7fc4797e6e83ba01e8f310609eda72b96d91d"
   solver-name = "gps-cdcl"
   solver-version = 1
