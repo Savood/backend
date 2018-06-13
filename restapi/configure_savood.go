@@ -19,6 +19,8 @@ import (
 
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
+	"git.dhbw.chd.cx/savood/backend/database"
+	"log"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -125,6 +127,10 @@ func configureTLS(tlsConfig *tls.Config) {
 // This function can be called multiple times, depending on the number of serving schemes.
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *graceful.Server, scheme, addr string) {
+	err := database.ConnectDatabase(nil,nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // The middleware configuration is for the handler executors. These do not apply to the swagger.json document.

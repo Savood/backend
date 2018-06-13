@@ -10,6 +10,11 @@ stages:
 unittest:
   image: golang:1.10
   stage: pre_build
+  services:
+    - mongo
+  variables:
+    MONGODB_URL: mongodb://mongo
+    MONGODB_DB: savood
   script:
     #- env
     - ls -al
@@ -94,9 +99,9 @@ test:
   image: docker:latest
   services:
    - docker:dind
-   - name: $CONTAINER_IMAGE:$CI_BUILD_REF
-     alias: test_container
   stage: test
   script:
-    - sleep 10
-    - wget --server-response test_container:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
+    - apk add --no-cache py-pip
+    - pip install docker-compose
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+    - docker-compose -f test-docker-compose.yml up -d
