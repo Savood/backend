@@ -25,7 +25,7 @@ unittest:
     - pwd
     - ls -al
     # Install Linting
-    - go get -u github.com/golang/lint/golint
+    - go get -u golang.org/x/lint/golint
     # Install dep
     - go get -u github.com/golang/dep/cmd/dep
     # Linting
