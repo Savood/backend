@@ -8,18 +8,18 @@ import (
 var db *mgo.Database
 
 // ConnectDatabase establishes connection to database
-func ConnectDatabase(connectionUrl, databaseName *string) error {
+func ConnectDatabase(connectionURL, databaseName *string) error {
 
-	if connectionUrl == nil {
+	if connectionURL == nil {
 		s := os.Getenv("MONGODB_URL")
-		connectionUrl = &s
+		connectionURL = &s
 	}
 	if databaseName == nil {
 		s := os.Getenv("MONGODB_DB")
 		databaseName = &s
 	}
 
-	session, err := mgo.Dial(*connectionUrl)
+	session, err := mgo.Dial(*connectionURL)
 	if err != nil {
 		return err
 	}
