@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+// GetAuthorizer produces Authorizer function
 func GetAuthorizer(secret *string) (func(string) (*models.Principal, error)) {
 
 	if secret == nil {
