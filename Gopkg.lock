@@ -20,6 +20,18 @@
   version = "v9"
 
 [[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
+
+[[projects]]
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
+
+[[projects]]
   name = "github.com/docker/go-units"
   packages = ["."]
   revision = "47565b4f722fb6ceae66b95f853feed578a4a51c"
@@ -117,6 +129,18 @@
   revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
 
 [[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
   name = "github.com/tylerb/graceful"
   packages = ["."]
   revision = "4654dfbb6ad53cb5e27f37d99b02e16c1872fbbb"
@@ -171,6 +195,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ca4394feb80a5db162405569df88f18596fe247fbe3817a854ecb54038e8550d"
+  inputs-digest = "ca2165c50930bbca390f6283664904d2d46405e9c4d8eafc252f25c1c634bbb1"
   solver-name = "gps-cdcl"
   solver-version = 1

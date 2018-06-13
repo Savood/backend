@@ -6,10 +6,10 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
-	graceful "github.com/tylerb/graceful"
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
+	"github.com/tylerb/graceful"
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
@@ -17,7 +17,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	"git.dhbw.chd.cx/savood/backend/models"
+	"git.dhbw.chd.cx/savood/backend/auth"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -42,7 +43,10 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	// Applies when the "Authorization" header is set
 	api.BearerAuth = func(token string) (*models.Principal, error) {
-		return nil, errors.NotImplemented("api key auth (bearer) Authorization from header param [Authorization] has not yet been implemented")
+
+		authFunc := auth.GetAuthorizer(nil)
+
+		return authFunc(token)
 	}
 
 	// Set your custom authorizer if needed. Default one is security.Authorized()
