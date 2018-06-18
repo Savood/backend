@@ -37,14 +37,14 @@ func (o *UpdateUserByIDNoContent) WriteResponse(rw http.ResponseWriter, producer
 	rw.WriteHeader(204)
 }
 
-// UpdateUserByIDNotFoundCode is the HTTP code returned for type UpdateUserByIDNotFound
-const UpdateUserByIDNotFoundCode int = 404
+// UpdateUserByIDBadRequestCode is the HTTP code returned for type UpdateUserByIDBadRequest
+const UpdateUserByIDBadRequestCode int = 400
 
-/*UpdateUserByIDNotFound Invalid parameter input was passed
+/*UpdateUserByIDBadRequest Invalid parameter input was passed
 
-swagger:response updateUserByIdNotFound
+swagger:response updateUserByIdBadRequest
 */
-type UpdateUserByIDNotFound struct {
+type UpdateUserByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -52,27 +52,27 @@ type UpdateUserByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewUpdateUserByIDNotFound creates UpdateUserByIDNotFound with default headers values
-func NewUpdateUserByIDNotFound() *UpdateUserByIDNotFound {
+// NewUpdateUserByIDBadRequest creates UpdateUserByIDBadRequest with default headers values
+func NewUpdateUserByIDBadRequest() *UpdateUserByIDBadRequest {
 
-	return &UpdateUserByIDNotFound{}
+	return &UpdateUserByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the update user by Id not found response
-func (o *UpdateUserByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *UpdateUserByIDNotFound {
+// WithPayload adds the payload to the update user by Id bad request response
+func (o *UpdateUserByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *UpdateUserByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the update user by Id not found response
-func (o *UpdateUserByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the update user by Id bad request response
+func (o *UpdateUserByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *UpdateUserByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *UpdateUserByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

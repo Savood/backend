@@ -53,7 +53,7 @@ func init() {
               "$ref": "#/definitions/Chats"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -76,7 +76,7 @@ func init() {
               "$ref": "#/definitions/Messages"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -111,7 +111,7 @@ func init() {
               "$ref": "#/definitions/Message"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -145,7 +145,7 @@ func init() {
               "$ref": "#/definitions/Message"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -166,7 +166,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -198,7 +198,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -250,7 +250,7 @@ func init() {
               "$ref": "#/definitions/Offerings"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -271,11 +271,8 @@ func init() {
           "200": {
             "description": "Server is healthy"
           },
-          "501": {
-            "description": "Server is unhealthy",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
+          "503": {
+            "$ref": "#/responses/Unhealthy"
           }
         }
       }
@@ -309,7 +306,7 @@ func init() {
               "$ref": "#/definitions/Offerings"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -344,7 +341,7 @@ func init() {
               "$ref": "#/definitions/Offering"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -367,7 +364,7 @@ func init() {
               "$ref": "#/definitions/Offering"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -385,7 +382,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -417,7 +414,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -449,7 +446,7 @@ func init() {
               "$ref": "#/definitions/Chats"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -494,7 +491,7 @@ func init() {
               "$ref": "#/definitions/User"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -520,7 +517,7 @@ func init() {
               "$ref": "#/definitions/User"
             }
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -541,7 +538,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -573,7 +570,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "$ref": "#/responses/InvalidParameterInput"
           }
         }
@@ -849,6 +846,12 @@ func init() {
     }
   },
   "responses": {
+    "ErrorResponse": {
+      "description": "Generic Error",
+      "schema": {
+        "$ref": "#/definitions/ErrorModel"
+      }
+    },
     "InvalidParameterInput": {
       "description": "Invalid parameter input was passed",
       "schema": {
@@ -863,6 +866,12 @@ func init() {
     },
     "Unauthorized": {
       "description": "Unauthorized",
+      "schema": {
+        "$ref": "#/definitions/ErrorModel"
+      }
+    },
+    "Unhealthy": {
+      "description": "Server is unhealthy",
       "schema": {
         "$ref": "#/definitions/ErrorModel"
       }
@@ -935,7 +944,7 @@ func init() {
               "$ref": "#/definitions/Chats"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -961,7 +970,7 @@ func init() {
               "$ref": "#/definitions/Messages"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -999,7 +1008,7 @@ func init() {
               "$ref": "#/definitions/Message"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1036,7 +1045,7 @@ func init() {
               "$ref": "#/definitions/Message"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1060,7 +1069,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1095,7 +1104,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1150,7 +1159,7 @@ func init() {
               "$ref": "#/definitions/Offerings"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1174,7 +1183,7 @@ func init() {
           "200": {
             "description": "Server is healthy"
           },
-          "501": {
+          "503": {
             "description": "Server is unhealthy",
             "schema": {
               "$ref": "#/definitions/ErrorModel"
@@ -1212,7 +1221,7 @@ func init() {
               "$ref": "#/definitions/Offerings"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1250,7 +1259,7 @@ func init() {
               "$ref": "#/definitions/Offering"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1276,7 +1285,7 @@ func init() {
               "$ref": "#/definitions/Offering"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1297,7 +1306,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1332,7 +1341,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1367,7 +1376,7 @@ func init() {
               "$ref": "#/definitions/Chats"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1415,7 +1424,7 @@ func init() {
               "$ref": "#/definitions/User"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1444,7 +1453,7 @@ func init() {
               "$ref": "#/definitions/User"
             }
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1468,7 +1477,7 @@ func init() {
           "204": {
             "description": "Removed; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1503,7 +1512,7 @@ func init() {
           "204": {
             "description": "Accepted; No response."
           },
-          "404": {
+          "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
@@ -1794,6 +1803,12 @@ func init() {
     }
   },
   "responses": {
+    "ErrorResponse": {
+      "description": "Generic Error",
+      "schema": {
+        "$ref": "#/definitions/ErrorModel"
+      }
+    },
     "InvalidParameterInput": {
       "description": "Invalid parameter input was passed",
       "schema": {
@@ -1808,6 +1823,12 @@ func init() {
     },
     "Unauthorized": {
       "description": "Unauthorized",
+      "schema": {
+        "$ref": "#/definitions/ErrorModel"
+      }
+    },
+    "Unhealthy": {
+      "description": "Server is unhealthy",
       "schema": {
         "$ref": "#/definitions/ErrorModel"
       }

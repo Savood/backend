@@ -100,6 +100,11 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 		return middleware.NotImplemented("operation users.GetUserByID has not yet been implemented")
 	})
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+		if database.GetDatabase().Session.Ping() != nil {
+			code := int32(503)
+			message := "database unhealthy"
+			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
+		}
 		return health.NewHealthcheckGetOK()
 	})
 	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
@@ -127,7 +132,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // This function can be called multiple times, depending on the number of serving schemes.
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *graceful.Server, scheme, addr string) {
-	err := database.ConnectDatabase(nil,nil)
+	err := database.ConnectDatabase(nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

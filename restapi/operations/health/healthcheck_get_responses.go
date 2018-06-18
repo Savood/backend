@@ -37,14 +37,14 @@ func (o *HealthcheckGetOK) WriteResponse(rw http.ResponseWriter, producer runtim
 	rw.WriteHeader(200)
 }
 
-// HealthcheckGetNotImplementedCode is the HTTP code returned for type HealthcheckGetNotImplemented
-const HealthcheckGetNotImplementedCode int = 501
+// HealthcheckGetServiceUnavailableCode is the HTTP code returned for type HealthcheckGetServiceUnavailable
+const HealthcheckGetServiceUnavailableCode int = 503
 
-/*HealthcheckGetNotImplemented Server is unhealthy
+/*HealthcheckGetServiceUnavailable Server is unhealthy
 
-swagger:response healthcheckGetNotImplemented
+swagger:response healthcheckGetServiceUnavailable
 */
-type HealthcheckGetNotImplemented struct {
+type HealthcheckGetServiceUnavailable struct {
 
 	/*
 	  In: Body
@@ -52,27 +52,27 @@ type HealthcheckGetNotImplemented struct {
 	Payload *models.ErrorModel `json:"body,omitempty"`
 }
 
-// NewHealthcheckGetNotImplemented creates HealthcheckGetNotImplemented with default headers values
-func NewHealthcheckGetNotImplemented() *HealthcheckGetNotImplemented {
+// NewHealthcheckGetServiceUnavailable creates HealthcheckGetServiceUnavailable with default headers values
+func NewHealthcheckGetServiceUnavailable() *HealthcheckGetServiceUnavailable {
 
-	return &HealthcheckGetNotImplemented{}
+	return &HealthcheckGetServiceUnavailable{}
 }
 
-// WithPayload adds the payload to the healthcheck get not implemented response
-func (o *HealthcheckGetNotImplemented) WithPayload(payload *models.ErrorModel) *HealthcheckGetNotImplemented {
+// WithPayload adds the payload to the healthcheck get service unavailable response
+func (o *HealthcheckGetServiceUnavailable) WithPayload(payload *models.ErrorModel) *HealthcheckGetServiceUnavailable {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the healthcheck get not implemented response
-func (o *HealthcheckGetNotImplemented) SetPayload(payload *models.ErrorModel) {
+// SetPayload sets the payload to the healthcheck get service unavailable response
+func (o *HealthcheckGetServiceUnavailable) SetPayload(payload *models.ErrorModel) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *HealthcheckGetNotImplemented) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *HealthcheckGetServiceUnavailable) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(501)
+	rw.WriteHeader(503)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

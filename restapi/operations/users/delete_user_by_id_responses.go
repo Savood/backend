@@ -37,14 +37,14 @@ func (o *DeleteUserByIDNoContent) WriteResponse(rw http.ResponseWriter, producer
 	rw.WriteHeader(204)
 }
 
-// DeleteUserByIDNotFoundCode is the HTTP code returned for type DeleteUserByIDNotFound
-const DeleteUserByIDNotFoundCode int = 404
+// DeleteUserByIDBadRequestCode is the HTTP code returned for type DeleteUserByIDBadRequest
+const DeleteUserByIDBadRequestCode int = 400
 
-/*DeleteUserByIDNotFound Invalid parameter input was passed
+/*DeleteUserByIDBadRequest Invalid parameter input was passed
 
-swagger:response deleteUserByIdNotFound
+swagger:response deleteUserByIdBadRequest
 */
-type DeleteUserByIDNotFound struct {
+type DeleteUserByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -52,27 +52,27 @@ type DeleteUserByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewDeleteUserByIDNotFound creates DeleteUserByIDNotFound with default headers values
-func NewDeleteUserByIDNotFound() *DeleteUserByIDNotFound {
+// NewDeleteUserByIDBadRequest creates DeleteUserByIDBadRequest with default headers values
+func NewDeleteUserByIDBadRequest() *DeleteUserByIDBadRequest {
 
-	return &DeleteUserByIDNotFound{}
+	return &DeleteUserByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the delete user by Id not found response
-func (o *DeleteUserByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *DeleteUserByIDNotFound {
+// WithPayload adds the payload to the delete user by Id bad request response
+func (o *DeleteUserByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *DeleteUserByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the delete user by Id not found response
-func (o *DeleteUserByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the delete user by Id bad request response
+func (o *DeleteUserByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *DeleteUserByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *DeleteUserByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

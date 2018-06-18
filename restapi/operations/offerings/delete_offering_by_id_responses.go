@@ -37,14 +37,14 @@ func (o *DeleteOfferingByIDNoContent) WriteResponse(rw http.ResponseWriter, prod
 	rw.WriteHeader(204)
 }
 
-// DeleteOfferingByIDNotFoundCode is the HTTP code returned for type DeleteOfferingByIDNotFound
-const DeleteOfferingByIDNotFoundCode int = 404
+// DeleteOfferingByIDBadRequestCode is the HTTP code returned for type DeleteOfferingByIDBadRequest
+const DeleteOfferingByIDBadRequestCode int = 400
 
-/*DeleteOfferingByIDNotFound Invalid parameter input was passed
+/*DeleteOfferingByIDBadRequest Invalid parameter input was passed
 
-swagger:response deleteOfferingByIdNotFound
+swagger:response deleteOfferingByIdBadRequest
 */
-type DeleteOfferingByIDNotFound struct {
+type DeleteOfferingByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -52,27 +52,27 @@ type DeleteOfferingByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewDeleteOfferingByIDNotFound creates DeleteOfferingByIDNotFound with default headers values
-func NewDeleteOfferingByIDNotFound() *DeleteOfferingByIDNotFound {
+// NewDeleteOfferingByIDBadRequest creates DeleteOfferingByIDBadRequest with default headers values
+func NewDeleteOfferingByIDBadRequest() *DeleteOfferingByIDBadRequest {
 
-	return &DeleteOfferingByIDNotFound{}
+	return &DeleteOfferingByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the delete offering by Id not found response
-func (o *DeleteOfferingByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *DeleteOfferingByIDNotFound {
+// WithPayload adds the payload to the delete offering by Id bad request response
+func (o *DeleteOfferingByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *DeleteOfferingByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the delete offering by Id not found response
-func (o *DeleteOfferingByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the delete offering by Id bad request response
+func (o *DeleteOfferingByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *DeleteOfferingByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *DeleteOfferingByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

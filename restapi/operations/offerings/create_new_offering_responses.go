@@ -57,14 +57,14 @@ func (o *CreateNewOfferingOK) WriteResponse(rw http.ResponseWriter, producer run
 	}
 }
 
-// CreateNewOfferingNotFoundCode is the HTTP code returned for type CreateNewOfferingNotFound
-const CreateNewOfferingNotFoundCode int = 404
+// CreateNewOfferingBadRequestCode is the HTTP code returned for type CreateNewOfferingBadRequest
+const CreateNewOfferingBadRequestCode int = 400
 
-/*CreateNewOfferingNotFound Invalid parameter input was passed
+/*CreateNewOfferingBadRequest Invalid parameter input was passed
 
-swagger:response createNewOfferingNotFound
+swagger:response createNewOfferingBadRequest
 */
-type CreateNewOfferingNotFound struct {
+type CreateNewOfferingBadRequest struct {
 
 	/*
 	  In: Body
@@ -72,27 +72,27 @@ type CreateNewOfferingNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewCreateNewOfferingNotFound creates CreateNewOfferingNotFound with default headers values
-func NewCreateNewOfferingNotFound() *CreateNewOfferingNotFound {
+// NewCreateNewOfferingBadRequest creates CreateNewOfferingBadRequest with default headers values
+func NewCreateNewOfferingBadRequest() *CreateNewOfferingBadRequest {
 
-	return &CreateNewOfferingNotFound{}
+	return &CreateNewOfferingBadRequest{}
 }
 
-// WithPayload adds the payload to the create new offering not found response
-func (o *CreateNewOfferingNotFound) WithPayload(payload *models.InvalidParameterInput) *CreateNewOfferingNotFound {
+// WithPayload adds the payload to the create new offering bad request response
+func (o *CreateNewOfferingBadRequest) WithPayload(payload *models.InvalidParameterInput) *CreateNewOfferingBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the create new offering not found response
-func (o *CreateNewOfferingNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the create new offering bad request response
+func (o *CreateNewOfferingBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *CreateNewOfferingNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *CreateNewOfferingBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

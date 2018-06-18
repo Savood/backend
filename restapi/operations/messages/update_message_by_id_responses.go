@@ -37,14 +37,14 @@ func (o *UpdateMessageByIDNoContent) WriteResponse(rw http.ResponseWriter, produ
 	rw.WriteHeader(204)
 }
 
-// UpdateMessageByIDNotFoundCode is the HTTP code returned for type UpdateMessageByIDNotFound
-const UpdateMessageByIDNotFoundCode int = 404
+// UpdateMessageByIDBadRequestCode is the HTTP code returned for type UpdateMessageByIDBadRequest
+const UpdateMessageByIDBadRequestCode int = 400
 
-/*UpdateMessageByIDNotFound Invalid parameter input was passed
+/*UpdateMessageByIDBadRequest Invalid parameter input was passed
 
-swagger:response updateMessageByIdNotFound
+swagger:response updateMessageByIdBadRequest
 */
-type UpdateMessageByIDNotFound struct {
+type UpdateMessageByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -52,27 +52,27 @@ type UpdateMessageByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewUpdateMessageByIDNotFound creates UpdateMessageByIDNotFound with default headers values
-func NewUpdateMessageByIDNotFound() *UpdateMessageByIDNotFound {
+// NewUpdateMessageByIDBadRequest creates UpdateMessageByIDBadRequest with default headers values
+func NewUpdateMessageByIDBadRequest() *UpdateMessageByIDBadRequest {
 
-	return &UpdateMessageByIDNotFound{}
+	return &UpdateMessageByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the update message by Id not found response
-func (o *UpdateMessageByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *UpdateMessageByIDNotFound {
+// WithPayload adds the payload to the update message by Id bad request response
+func (o *UpdateMessageByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *UpdateMessageByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the update message by Id not found response
-func (o *UpdateMessageByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the update message by Id bad request response
+func (o *UpdateMessageByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *UpdateMessageByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *UpdateMessageByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

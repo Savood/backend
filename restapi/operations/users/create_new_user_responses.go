@@ -57,14 +57,14 @@ func (o *CreateNewUserOK) WriteResponse(rw http.ResponseWriter, producer runtime
 	}
 }
 
-// CreateNewUserNotFoundCode is the HTTP code returned for type CreateNewUserNotFound
-const CreateNewUserNotFoundCode int = 404
+// CreateNewUserBadRequestCode is the HTTP code returned for type CreateNewUserBadRequest
+const CreateNewUserBadRequestCode int = 400
 
-/*CreateNewUserNotFound Invalid parameter input was passed
+/*CreateNewUserBadRequest Invalid parameter input was passed
 
-swagger:response createNewUserNotFound
+swagger:response createNewUserBadRequest
 */
-type CreateNewUserNotFound struct {
+type CreateNewUserBadRequest struct {
 
 	/*
 	  In: Body
@@ -72,27 +72,27 @@ type CreateNewUserNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewCreateNewUserNotFound creates CreateNewUserNotFound with default headers values
-func NewCreateNewUserNotFound() *CreateNewUserNotFound {
+// NewCreateNewUserBadRequest creates CreateNewUserBadRequest with default headers values
+func NewCreateNewUserBadRequest() *CreateNewUserBadRequest {
 
-	return &CreateNewUserNotFound{}
+	return &CreateNewUserBadRequest{}
 }
 
-// WithPayload adds the payload to the create new user not found response
-func (o *CreateNewUserNotFound) WithPayload(payload *models.InvalidParameterInput) *CreateNewUserNotFound {
+// WithPayload adds the payload to the create new user bad request response
+func (o *CreateNewUserBadRequest) WithPayload(payload *models.InvalidParameterInput) *CreateNewUserBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the create new user not found response
-func (o *CreateNewUserNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the create new user bad request response
+func (o *CreateNewUserBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *CreateNewUserNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *CreateNewUserBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {
