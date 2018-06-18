@@ -25,11 +25,11 @@ unittest:
     - pwd
     - ls -al
     # Install Linting
-    #- go get -u golang.org/x/lint/golint
+    - go get -u golang.org/x/lint/golint
     # Install dep
     - go get -u github.com/golang/dep/cmd/dep
     # Linting
-    #- golint -set_exit_status $(go list ./... | grep -v /vendor/)
+    - golint -set_exit_status $(go list ./... | grep -v /vendor/)
     # dependencies
     - dep ensure
     # Check the Go code for common problems with 'go vet'
