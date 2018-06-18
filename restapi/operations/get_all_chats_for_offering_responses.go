@@ -60,14 +60,14 @@ func (o *GetAllChatsForOfferingOK) WriteResponse(rw http.ResponseWriter, produce
 
 }
 
-// GetAllChatsForOfferingNotFoundCode is the HTTP code returned for type GetAllChatsForOfferingNotFound
-const GetAllChatsForOfferingNotFoundCode int = 404
+// GetAllChatsForOfferingBadRequestCode is the HTTP code returned for type GetAllChatsForOfferingBadRequest
+const GetAllChatsForOfferingBadRequestCode int = 400
 
-/*GetAllChatsForOfferingNotFound Invalid parameter input was passed
+/*GetAllChatsForOfferingBadRequest Invalid parameter input was passed
 
-swagger:response getAllChatsForOfferingNotFound
+swagger:response getAllChatsForOfferingBadRequest
 */
-type GetAllChatsForOfferingNotFound struct {
+type GetAllChatsForOfferingBadRequest struct {
 
 	/*
 	  In: Body
@@ -75,27 +75,27 @@ type GetAllChatsForOfferingNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetAllChatsForOfferingNotFound creates GetAllChatsForOfferingNotFound with default headers values
-func NewGetAllChatsForOfferingNotFound() *GetAllChatsForOfferingNotFound {
+// NewGetAllChatsForOfferingBadRequest creates GetAllChatsForOfferingBadRequest with default headers values
+func NewGetAllChatsForOfferingBadRequest() *GetAllChatsForOfferingBadRequest {
 
-	return &GetAllChatsForOfferingNotFound{}
+	return &GetAllChatsForOfferingBadRequest{}
 }
 
-// WithPayload adds the payload to the get all chats for offering not found response
-func (o *GetAllChatsForOfferingNotFound) WithPayload(payload *models.InvalidParameterInput) *GetAllChatsForOfferingNotFound {
+// WithPayload adds the payload to the get all chats for offering bad request response
+func (o *GetAllChatsForOfferingBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetAllChatsForOfferingBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get all chats for offering not found response
-func (o *GetAllChatsForOfferingNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get all chats for offering bad request response
+func (o *GetAllChatsForOfferingBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetAllChatsForOfferingNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetAllChatsForOfferingBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

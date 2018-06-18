@@ -57,14 +57,14 @@ func (o *GetOfferingByIDOK) WriteResponse(rw http.ResponseWriter, producer runti
 	}
 }
 
-// GetOfferingByIDNotFoundCode is the HTTP code returned for type GetOfferingByIDNotFound
-const GetOfferingByIDNotFoundCode int = 404
+// GetOfferingByIDBadRequestCode is the HTTP code returned for type GetOfferingByIDBadRequest
+const GetOfferingByIDBadRequestCode int = 400
 
-/*GetOfferingByIDNotFound Invalid parameter input was passed
+/*GetOfferingByIDBadRequest Invalid parameter input was passed
 
-swagger:response getOfferingByIdNotFound
+swagger:response getOfferingByIdBadRequest
 */
-type GetOfferingByIDNotFound struct {
+type GetOfferingByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -72,27 +72,27 @@ type GetOfferingByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetOfferingByIDNotFound creates GetOfferingByIDNotFound with default headers values
-func NewGetOfferingByIDNotFound() *GetOfferingByIDNotFound {
+// NewGetOfferingByIDBadRequest creates GetOfferingByIDBadRequest with default headers values
+func NewGetOfferingByIDBadRequest() *GetOfferingByIDBadRequest {
 
-	return &GetOfferingByIDNotFound{}
+	return &GetOfferingByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the get offering by Id not found response
-func (o *GetOfferingByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *GetOfferingByIDNotFound {
+// WithPayload adds the payload to the get offering by Id bad request response
+func (o *GetOfferingByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetOfferingByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get offering by Id not found response
-func (o *GetOfferingByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get offering by Id bad request response
+func (o *GetOfferingByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetOfferingByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetOfferingByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

@@ -57,14 +57,14 @@ func (o *GetMessageByIDOK) WriteResponse(rw http.ResponseWriter, producer runtim
 	}
 }
 
-// GetMessageByIDNotFoundCode is the HTTP code returned for type GetMessageByIDNotFound
-const GetMessageByIDNotFoundCode int = 404
+// GetMessageByIDBadRequestCode is the HTTP code returned for type GetMessageByIDBadRequest
+const GetMessageByIDBadRequestCode int = 400
 
-/*GetMessageByIDNotFound Invalid parameter input was passed
+/*GetMessageByIDBadRequest Invalid parameter input was passed
 
-swagger:response getMessageByIdNotFound
+swagger:response getMessageByIdBadRequest
 */
-type GetMessageByIDNotFound struct {
+type GetMessageByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -72,27 +72,27 @@ type GetMessageByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetMessageByIDNotFound creates GetMessageByIDNotFound with default headers values
-func NewGetMessageByIDNotFound() *GetMessageByIDNotFound {
+// NewGetMessageByIDBadRequest creates GetMessageByIDBadRequest with default headers values
+func NewGetMessageByIDBadRequest() *GetMessageByIDBadRequest {
 
-	return &GetMessageByIDNotFound{}
+	return &GetMessageByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the get message by Id not found response
-func (o *GetMessageByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *GetMessageByIDNotFound {
+// WithPayload adds the payload to the get message by Id bad request response
+func (o *GetMessageByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetMessageByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get message by Id not found response
-func (o *GetMessageByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get message by Id bad request response
+func (o *GetMessageByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetMessageByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetMessageByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

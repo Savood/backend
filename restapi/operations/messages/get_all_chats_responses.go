@@ -60,14 +60,14 @@ func (o *GetAllChatsOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 
 }
 
-// GetAllChatsNotFoundCode is the HTTP code returned for type GetAllChatsNotFound
-const GetAllChatsNotFoundCode int = 404
+// GetAllChatsBadRequestCode is the HTTP code returned for type GetAllChatsBadRequest
+const GetAllChatsBadRequestCode int = 400
 
-/*GetAllChatsNotFound Invalid parameter input was passed
+/*GetAllChatsBadRequest Invalid parameter input was passed
 
-swagger:response getAllChatsNotFound
+swagger:response getAllChatsBadRequest
 */
-type GetAllChatsNotFound struct {
+type GetAllChatsBadRequest struct {
 
 	/*
 	  In: Body
@@ -75,27 +75,27 @@ type GetAllChatsNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetAllChatsNotFound creates GetAllChatsNotFound with default headers values
-func NewGetAllChatsNotFound() *GetAllChatsNotFound {
+// NewGetAllChatsBadRequest creates GetAllChatsBadRequest with default headers values
+func NewGetAllChatsBadRequest() *GetAllChatsBadRequest {
 
-	return &GetAllChatsNotFound{}
+	return &GetAllChatsBadRequest{}
 }
 
-// WithPayload adds the payload to the get all chats not found response
-func (o *GetAllChatsNotFound) WithPayload(payload *models.InvalidParameterInput) *GetAllChatsNotFound {
+// WithPayload adds the payload to the get all chats bad request response
+func (o *GetAllChatsBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetAllChatsBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get all chats not found response
-func (o *GetAllChatsNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get all chats bad request response
+func (o *GetAllChatsBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetAllChatsNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetAllChatsBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

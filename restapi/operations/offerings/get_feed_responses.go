@@ -60,14 +60,14 @@ func (o *GetFeedOK) WriteResponse(rw http.ResponseWriter, producer runtime.Produ
 
 }
 
-// GetFeedNotFoundCode is the HTTP code returned for type GetFeedNotFound
-const GetFeedNotFoundCode int = 404
+// GetFeedBadRequestCode is the HTTP code returned for type GetFeedBadRequest
+const GetFeedBadRequestCode int = 400
 
-/*GetFeedNotFound Invalid parameter input was passed
+/*GetFeedBadRequest Invalid parameter input was passed
 
-swagger:response getFeedNotFound
+swagger:response getFeedBadRequest
 */
-type GetFeedNotFound struct {
+type GetFeedBadRequest struct {
 
 	/*
 	  In: Body
@@ -75,27 +75,27 @@ type GetFeedNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetFeedNotFound creates GetFeedNotFound with default headers values
-func NewGetFeedNotFound() *GetFeedNotFound {
+// NewGetFeedBadRequest creates GetFeedBadRequest with default headers values
+func NewGetFeedBadRequest() *GetFeedBadRequest {
 
-	return &GetFeedNotFound{}
+	return &GetFeedBadRequest{}
 }
 
-// WithPayload adds the payload to the get feed not found response
-func (o *GetFeedNotFound) WithPayload(payload *models.InvalidParameterInput) *GetFeedNotFound {
+// WithPayload adds the payload to the get feed bad request response
+func (o *GetFeedBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetFeedBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get feed not found response
-func (o *GetFeedNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get feed bad request response
+func (o *GetFeedBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetFeedNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetFeedBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {

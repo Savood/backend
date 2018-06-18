@@ -57,14 +57,14 @@ func (o *GetUserByIDOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 	}
 }
 
-// GetUserByIDNotFoundCode is the HTTP code returned for type GetUserByIDNotFound
-const GetUserByIDNotFoundCode int = 404
+// GetUserByIDBadRequestCode is the HTTP code returned for type GetUserByIDBadRequest
+const GetUserByIDBadRequestCode int = 400
 
-/*GetUserByIDNotFound Invalid parameter input was passed
+/*GetUserByIDBadRequest Invalid parameter input was passed
 
-swagger:response getUserByIdNotFound
+swagger:response getUserByIdBadRequest
 */
-type GetUserByIDNotFound struct {
+type GetUserByIDBadRequest struct {
 
 	/*
 	  In: Body
@@ -72,27 +72,27 @@ type GetUserByIDNotFound struct {
 	Payload *models.InvalidParameterInput `json:"body,omitempty"`
 }
 
-// NewGetUserByIDNotFound creates GetUserByIDNotFound with default headers values
-func NewGetUserByIDNotFound() *GetUserByIDNotFound {
+// NewGetUserByIDBadRequest creates GetUserByIDBadRequest with default headers values
+func NewGetUserByIDBadRequest() *GetUserByIDBadRequest {
 
-	return &GetUserByIDNotFound{}
+	return &GetUserByIDBadRequest{}
 }
 
-// WithPayload adds the payload to the get user by Id not found response
-func (o *GetUserByIDNotFound) WithPayload(payload *models.InvalidParameterInput) *GetUserByIDNotFound {
+// WithPayload adds the payload to the get user by Id bad request response
+func (o *GetUserByIDBadRequest) WithPayload(payload *models.InvalidParameterInput) *GetUserByIDBadRequest {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get user by Id not found response
-func (o *GetUserByIDNotFound) SetPayload(payload *models.InvalidParameterInput) {
+// SetPayload sets the payload to the get user by Id bad request response
+func (o *GetUserByIDBadRequest) SetPayload(payload *models.InvalidParameterInput) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetUserByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetUserByIDBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(404)
+	rw.WriteHeader(400)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {
