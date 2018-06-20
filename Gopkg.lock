@@ -153,12 +153,6 @@
   version = "v1.2.1"
 
 [[projects]]
-  name = "github.com/tylerb/graceful"
-  packages = ["."]
-  revision = "4654dfbb6ad53cb5e27f37d99b02e16c1872fbbb"
-  version = "v1.2.15"
-
-[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = [
@@ -208,6 +202,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6b2ea20021f0143406aef4458ab961d0843813cfc05805ce2c332b52b3f9c422"
+  inputs-digest = "cd578cd6aaa7648a9e66097c04e70dd3ebbb6ac006c9c39bc45dbff695611d25"
   solver-name = "gps-cdcl"
   solver-version = 1
