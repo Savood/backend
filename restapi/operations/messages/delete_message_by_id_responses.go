@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/backend/models"
 )
 
 // DeleteMessageByIDNoContentCode is the HTTP code returned for type DeleteMessageByIDNoContent

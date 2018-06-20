@@ -19,6 +19,7 @@ var (
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
+    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -31,7 +32,8 @@ func init() {
     },
     "version": "1.0"
   },
-  "basePath": "/v2/",
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/TimMaa/Savood/1.0",
   "paths": {
     "/chats/": {
       "get": {
@@ -50,7 +52,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Chats"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
             }
           },
           "400": {
@@ -73,7 +78,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Messages"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
             }
           },
           "400": {
@@ -247,7 +255,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Offerings"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offering"
+              }
             }
           },
           "400": {
@@ -303,7 +314,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Offerings"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offering"
+              }
             }
           },
           "400": {
@@ -443,7 +457,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Chats"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
             }
           },
           "400": {
@@ -599,28 +616,8 @@ func init() {
           }
         },
         "partner": {
-          "type": "object",
-          "properties": {
-            "avatar-id": {
-              "type": "string"
-            },
-            "firstname": {
-              "type": "string"
-            },
-            "lastname": {
-              "type": "string"
-            },
-            "user-id": {
-              "type": "string"
-            }
-          }
+          "$ref": "#/definitions/UserShort"
         }
-      }
-    },
-    "Chats": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Chat"
       }
     },
     "ErrorModel": {
@@ -660,21 +657,7 @@ func init() {
           "type": "string"
         },
         "from": {
-          "type": "object",
-          "properties": {
-            "avatar-id": {
-              "type": "string"
-            },
-            "firstname": {
-              "type": "string"
-            },
-            "lastname": {
-              "type": "string"
-            },
-            "user-id": {
-              "type": "string"
-            }
-          }
+          "$ref": "#/definitions/UserShort"
         },
         "time": {
           "type": "string",
@@ -683,12 +666,6 @@ func init() {
       },
       "xml": {
         "name": "Message"
-      }
-    },
-    "Messages": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Message"
       }
     },
     "Offering": {
@@ -702,8 +679,7 @@ func init() {
           "format": "date"
         },
         "creator-id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "header": {
           "type": "string"
@@ -721,12 +697,6 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "savooders": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -734,15 +704,6 @@ func init() {
       },
       "xml": {
         "name": "Offering"
-      }
-    },
-    "Offerings": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Offering"
-      },
-      "xml": {
-        "name": "Feed"
       }
     },
     "Principal": {
@@ -843,6 +804,32 @@ func init() {
         "lastname": "McFlfy",
         "phone": "202-555-0191"
       }
+    },
+    "UserShort": {
+      "type": "object",
+      "properties": {
+        "avatar-id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "user"
+      },
+      "example": {
+        "avatar-id": "",
+        "firstname": "Marty",
+        "id": "5",
+        "lastname": "McFlfy"
+      }
     }
   },
   "responses": {
@@ -910,6 +897,7 @@ func init() {
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
+    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -922,7 +910,8 @@ func init() {
     },
     "version": "1.0"
   },
-  "basePath": "/v2/",
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/TimMaa/Savood/1.0",
   "paths": {
     "/chats/": {
       "get": {
@@ -941,7 +930,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Chats"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
             }
           },
           "400": {
@@ -967,7 +959,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Messages"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
             }
           },
           "400": {
@@ -1156,7 +1151,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Offerings"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offering"
+              }
             }
           },
           "400": {
@@ -1218,7 +1216,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Offerings"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Offering"
+              }
             }
           },
           "400": {
@@ -1373,7 +1374,10 @@ func init() {
           "200": {
             "description": "Object found and returned",
             "schema": {
-              "$ref": "#/definitions/Chats"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
             }
           },
           "400": {
@@ -1544,14 +1548,8 @@ func init() {
           }
         },
         "partner": {
-          "$ref": "#/definitions/chatPartner"
+          "$ref": "#/definitions/UserShort"
         }
-      }
-    },
-    "Chats": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Chat"
       }
     },
     "ErrorModel": {
@@ -1591,7 +1589,7 @@ func init() {
           "type": "string"
         },
         "from": {
-          "$ref": "#/definitions/messageFrom"
+          "$ref": "#/definitions/UserShort"
         },
         "time": {
           "type": "string",
@@ -1600,12 +1598,6 @@ func init() {
       },
       "xml": {
         "name": "Message"
-      }
-    },
-    "Messages": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Message"
       }
     },
     "Offering": {
@@ -1619,8 +1611,7 @@ func init() {
           "format": "date"
         },
         "creator-id": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "header": {
           "type": "string"
@@ -1638,12 +1629,6 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "savooders": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -1651,15 +1636,6 @@ func init() {
       },
       "xml": {
         "name": "Offering"
-      }
-    },
-    "Offerings": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Offering"
-      },
-      "xml": {
-        "name": "Feed"
       }
     },
     "Principal": {
@@ -1746,7 +1722,7 @@ func init() {
         "phone": "202-555-0191"
       }
     },
-    "chatPartner": {
+    "UserShort": {
       "type": "object",
       "properties": {
         "avatar-id": {
@@ -1755,32 +1731,22 @@ func init() {
         "firstname": {
           "type": "string"
         },
-        "lastname": {
-          "type": "string"
-        },
-        "user-id": {
-          "type": "string"
-        }
-      },
-      "x-go-gen-location": "models"
-    },
-    "messageFrom": {
-      "type": "object",
-      "properties": {
-        "avatar-id": {
-          "type": "string"
-        },
-        "firstname": {
+        "id": {
           "type": "string"
         },
         "lastname": {
           "type": "string"
-        },
-        "user-id": {
-          "type": "string"
         }
       },
-      "x-go-gen-location": "models"
+      "xml": {
+        "name": "user"
+      },
+      "example": {
+        "avatar-id": "",
+        "firstname": "Marty",
+        "id": "5",
+        "lastname": "McFlfy"
+      }
     },
     "userAddress": {
       "type": "object",

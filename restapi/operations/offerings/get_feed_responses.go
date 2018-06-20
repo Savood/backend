@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/backend/models"
 )
 
 // GetFeedOKCode is the HTTP code returned for type GetFeedOK
@@ -25,7 +25,7 @@ type GetFeedOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.Offerings `json:"body,omitempty"`
+	Payload []*models.Offering `json:"body,omitempty"`
 }
 
 // NewGetFeedOK creates GetFeedOK with default headers values
@@ -35,13 +35,13 @@ func NewGetFeedOK() *GetFeedOK {
 }
 
 // WithPayload adds the payload to the get feed o k response
-func (o *GetFeedOK) WithPayload(payload models.Offerings) *GetFeedOK {
+func (o *GetFeedOK) WithPayload(payload []*models.Offering) *GetFeedOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get feed o k response
-func (o *GetFeedOK) SetPayload(payload models.Offerings) {
+func (o *GetFeedOK) SetPayload(payload []*models.Offering) {
 	o.Payload = payload
 }
 
@@ -51,7 +51,7 @@ func (o *GetFeedOK) WriteResponse(rw http.ResponseWriter, producer runtime.Produ
 	rw.WriteHeader(200)
 	payload := o.Payload
 	if payload == nil {
-		payload = make(models.Offerings, 0, 50)
+		payload = make([]*models.Offering, 0, 50)
 	}
 
 	if err := producer.Produce(rw, payload); err != nil {

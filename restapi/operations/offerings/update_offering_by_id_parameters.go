@@ -15,7 +15,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/backend/models"
 )
 
 // NewUpdateOfferingByIDParams creates a new UpdateOfferingByIDParams object
@@ -65,7 +65,6 @@ func (o *UpdateOfferingByIDParams) BindRequest(r *http.Request, route *middlewar
 				res = append(res, errors.NewParseError("body", "body", "", err))
 			}
 		} else {
-
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
@@ -89,6 +88,7 @@ func (o *UpdateOfferingByIDParams) BindRequest(r *http.Request, route *middlewar
 	return nil
 }
 
+// bindID binds and validates parameter ID from path.
 func (o *UpdateOfferingByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

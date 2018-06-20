@@ -10,7 +10,7 @@ import (
 
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/backend/models"
 )
 
 // DeleteMessageByIDHandlerFunc turns a function with the right signature into a delete message by Id handler

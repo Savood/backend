@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/backend/models"
 )
 
 // GetAllChatsOKCode is the HTTP code returned for type GetAllChatsOK
@@ -25,7 +25,7 @@ type GetAllChatsOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.Chats `json:"body,omitempty"`
+	Payload []*models.Chat `json:"body,omitempty"`
 }
 
 // NewGetAllChatsOK creates GetAllChatsOK with default headers values
@@ -35,13 +35,13 @@ func NewGetAllChatsOK() *GetAllChatsOK {
 }
 
 // WithPayload adds the payload to the get all chats o k response
-func (o *GetAllChatsOK) WithPayload(payload models.Chats) *GetAllChatsOK {
+func (o *GetAllChatsOK) WithPayload(payload []*models.Chat) *GetAllChatsOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get all chats o k response
-func (o *GetAllChatsOK) SetPayload(payload models.Chats) {
+func (o *GetAllChatsOK) SetPayload(payload []*models.Chat) {
 	o.Payload = payload
 }
 
@@ -51,7 +51,7 @@ func (o *GetAllChatsOK) WriteResponse(rw http.ResponseWriter, producer runtime.P
 	rw.WriteHeader(200)
 	payload := o.Payload
 	if payload == nil {
-		payload = make(models.Chats, 0, 50)
+		payload = make([]*models.Chat, 0, 50)
 	}
 
 	if err := producer.Produce(rw, payload); err != nil {

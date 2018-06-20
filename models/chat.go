@@ -23,7 +23,7 @@ type Chat struct {
 	OfferingID []string `json:"offering-id"`
 
 	// partner
-	Partner *ChatPartner `json:"partner,omitempty"`
+	Partner *UserShort `json:"partner,omitempty"`
 }
 
 // Validate validates this chat

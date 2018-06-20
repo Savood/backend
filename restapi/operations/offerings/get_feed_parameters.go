@@ -72,6 +72,7 @@ func (o *GetFeedParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 	return nil
 }
 
+// bindDistance binds and validates parameter Distance from query.
 func (o *GetFeedParams) bindDistance(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("distance", "query")
@@ -96,6 +97,7 @@ func (o *GetFeedParams) bindDistance(rawData []string, hasKey bool, formats strf
 	return nil
 }
 
+// bindLocation binds and validates parameter Location from query.
 func (o *GetFeedParams) bindLocation(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("location", "query")
