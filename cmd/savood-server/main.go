@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"git.dhbw.chd.cx/backend/restapi"
-	"git.dhbw.chd.cx/backend/restapi/operations"
+	"git.dhbw.chd.cx/savood/backend/restapi"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	loads "github.com/go-openapi/loads"
 	flags "github.com/jessevdk/go-flags"
 )

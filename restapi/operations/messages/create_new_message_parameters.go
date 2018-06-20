@@ -15,7 +15,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	models "git.dhbw.chd.cx/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // NewCreateNewMessageParams creates a new CreateNewMessageParams object

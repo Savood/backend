@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "git.dhbw.chd.cx/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // CreateNewUserOKCode is the HTTP code returned for type CreateNewUserOK

@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	models "git.dhbw.chd.cx/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // NewCreateNewUserParams creates a new CreateNewUserParams object

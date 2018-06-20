@@ -10,7 +10,7 @@ import (
 
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	models "git.dhbw.chd.cx/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // UpdateUserByIDHandlerFunc turns a function with the right signature into a update user by Id handler

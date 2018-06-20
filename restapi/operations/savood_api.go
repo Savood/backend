@@ -19,12 +19,12 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"git.dhbw.chd.cx/backend/restapi/operations/health"
-	"git.dhbw.chd.cx/backend/restapi/operations/messages"
-	"git.dhbw.chd.cx/backend/restapi/operations/offerings"
-	"git.dhbw.chd.cx/backend/restapi/operations/users"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/messages"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
+	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
 
-	models "git.dhbw.chd.cx/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
 // NewSavoodAPI creates a new Savood instance
