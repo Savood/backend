@@ -13,7 +13,7 @@ const OfferingsCollectionName = "offerings"
 type OfferingDAO struct {
 }
 
-//GetAllByUserId Get all Offerings filtered by userId
+//GetAllByUserID Get all Offerings filtered by userId
 func (dao OfferingDAO) GetAllByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
