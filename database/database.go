@@ -60,6 +60,7 @@ func HealthCheck() bool {
 		log.Print(err)
 		return false
 	}
+	return true
 }
 
 // GetDatabase returns database connection object
