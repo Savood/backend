@@ -57,13 +57,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
-		if database.GetDatabase() == nil {
-			code := int32(503)
-			message := "database unhealthy"
-			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
-		}
-
-		if database.GetDatabase().Session.Ping() != nil {
+		if !database.HealthCheck(){
 			code := int32(503)
 			message := "database unhealthy"
 			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})

@@ -3,9 +3,10 @@ package database
 import (
 	"github.com/globalsign/mgo"
 	"os"
+	"log"
 )
 
-var db *mgo.Database
+var db *mgo.Database = nil
 
 // ConnectDatabase establishes connection to database
 func ConnectDatabase(connectionURL, databaseName *string) error {
@@ -40,6 +41,24 @@ func ConnectDatabase(connectionURL, databaseName *string) error {
 
 	return err
 
+}
+
+func HealthCheck() bool {
+	if db == nil {
+		log.Print("db is nil")
+		return false
+	}
+
+	if db.Session == nil {
+		log.Print("db.Session is nil")
+		return false
+	}
+
+	err := db.Session.Ping()
+	if err != nil {
+		log.Print(err)
+		return false
+	}
 }
 
 // GetDatabase returns database connection object
