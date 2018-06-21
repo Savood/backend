@@ -13,10 +13,10 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetUserByID(t *testing.T) {
-	userId := bson.NewObjectId()
+	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: string(userId),
+		ID: string(userID),
 		Address: &models.UserAddress{
 			City:   "City",
 			Number: "Number",
@@ -35,7 +35,7 @@ func TestGetUserByID(t *testing.T) {
 
 	assert.NoError(t, SaveUser(user))
 
-	id, e := GetUserByID(string(userId))
+	id, e := GetUserByID(string(userID))
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }

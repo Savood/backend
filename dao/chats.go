@@ -17,7 +17,7 @@ type ChatTO struct {
 
 	Partner string `json:"partner"`
 
-	OfferingCreatorId string `json:"offering-creator-id"`
+	OfferingCreatorID string `json:"offering-creator-id"`
 }
 
 //GetAllChatsByUserID Get All chats by user id (by offerings and partner)
@@ -89,7 +89,7 @@ func SaveChat(principal models.Principal, chat models.Chat) error {
 		Partner:           chat.Partner.ID,
 		OfferingID:        chat.OfferingID,
 		ID:                chat.ID,
-		OfferingCreatorId: principal.Userid,
+		OfferingCreatorID: principal.Userid,
 	}
 
 	if len(chatTO.ID) == 0 {
