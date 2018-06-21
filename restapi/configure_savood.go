@@ -9,6 +9,7 @@ import (
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
+	graceful "github.com/tylerb/graceful"
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
@@ -19,7 +20,6 @@ import (
 	models "git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
-	"github.com/tylerb/graceful"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -57,6 +57,12 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+		if database.GetDatabase() == nil {
+			code := int32(503)
+			message := "database unhealthy"
+			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
+		}
+
 		if database.GetDatabase().Session.Ping() != nil {
 			code := int32(503)
 			message := "database unhealthy"
@@ -64,6 +70,12 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 		}
 		return health.NewHealthcheckGetOK()
 	})
+
+	// Set your custom authorizer if needed. Default one is security.Authorized()
+	// Expected interface runtime.Authorizer
+	//
+	// Example:
+	// api.APIAuthorizer = security.Authorized()
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
