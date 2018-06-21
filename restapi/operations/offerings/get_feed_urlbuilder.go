@@ -16,7 +16,8 @@ import (
 // GetFeedURL generates an URL for the get feed operation
 type GetFeedURL struct {
 	Distance float64
-	Location string
+	Lat      float64
+	Lon      float64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -57,9 +58,14 @@ func (o *GetFeedURL) Build() (*url.URL, error) {
 		qs.Set("distance", distance)
 	}
 
-	location := o.Location
-	if location != "" {
-		qs.Set("location", location)
+	lat := swag.FormatFloat64(o.Lat)
+	if lat != "" {
+		qs.Set("lat", lat)
+	}
+
+	lon := swag.FormatFloat64(o.Lon)
+	if lon != "" {
+		qs.Set("lon", lon)
 	}
 
 	result.RawQuery = qs.Encode()

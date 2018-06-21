@@ -236,8 +236,16 @@ func init() {
         "operationId": "getFeed",
         "parameters": [
           {
-            "type": "string",
-            "name": "location",
+            "type": "number",
+            "description": "Latitude",
+            "name": "lat",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "number",
+            "description": "Longitude",
+            "name": "lon",
             "in": "query",
             "required": true
           },
@@ -682,11 +690,23 @@ func init() {
         "creator-id": {
           "type": "string"
         },
-        "header": {
+        "description": {
           "type": "string"
         },
         "location": {
-          "type": "string"
+          "type": "object",
+          "properties": {
+            "coordinates": {
+              "description": "longitude then latidue as floats",
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "type": {
+              "type": "string"
+            }
+          }
         },
         "name": {
           "type": "string"
@@ -1130,8 +1150,16 @@ func init() {
         "operationId": "getFeed",
         "parameters": [
           {
-            "type": "string",
-            "name": "location",
+            "type": "number",
+            "description": "Latitude",
+            "name": "lat",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "number",
+            "description": "Longitude",
+            "name": "lon",
             "in": "query",
             "required": true
           },
@@ -1612,11 +1640,11 @@ func init() {
         "creator-id": {
           "type": "string"
         },
-        "header": {
+        "description": {
           "type": "string"
         },
         "location": {
-          "type": "string"
+          "$ref": "#/definitions/offeringLocation"
         },
         "name": {
           "type": "string"
@@ -1743,6 +1771,22 @@ func init() {
         "id": "5",
         "lastname": "McFlfy"
       }
+    },
+    "offeringLocation": {
+      "type": "object",
+      "properties": {
+        "coordinates": {
+          "description": "longitude then latidue as floats",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "x-go-gen-location": "models"
     },
     "userAddress": {
       "type": "object",
