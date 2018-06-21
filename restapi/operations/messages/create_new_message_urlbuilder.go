@@ -51,7 +51,7 @@ func (o *CreateNewMessageURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/v2/"
+		_basePath = "/TimMaa/Savood/1.0"
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 

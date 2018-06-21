@@ -30,11 +30,11 @@ type Offering struct {
 	// creator id
 	CreatorID string `json:"creator-id,omitempty"`
 
-	// header
-	Header string `json:"header,omitempty"`
+	// description
+	Description string `json:"description,omitempty"`
 
 	// location
-	Location string `json:"location,omitempty"`
+	Location *OfferingLocation `json:"location,omitempty"`
 
 	// name
 	Name string `json:"name,omitempty"`
@@ -52,6 +52,10 @@ func (m *Offering) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateBestByDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLocation(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -73,6 +77,24 @@ func (m *Offering) validateBestByDate(formats strfmt.Registry) error {
 
 	if err := validate.FormatOf("best-by-date", "body", "date", m.BestByDate.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *Offering) validateLocation(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Location) { // not required
+		return nil
+	}
+
+	if m.Location != nil {
+		if err := m.Location.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("location")
+			}
+			return err
+		}
 	}
 
 	return nil

@@ -38,11 +38,16 @@ type GetFeedParams struct {
 	  In: query
 	*/
 	Distance float64
-	/*
+	/*Latitude
 	  Required: true
 	  In: query
 	*/
-	Location string
+	Lat float64
+	/*Longitude
+	  Required: true
+	  In: query
+	*/
+	Lon float64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -61,8 +66,13 @@ func (o *GetFeedParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 		res = append(res, err)
 	}
 
-	qLocation, qhkLocation, _ := qs.GetOK("location")
-	if err := o.bindLocation(qLocation, qhkLocation, route.Formats); err != nil {
+	qLat, qhkLat, _ := qs.GetOK("lat")
+	if err := o.bindLat(qLat, qhkLat, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qLon, qhkLon, _ := qs.GetOK("lon")
+	if err := o.bindLon(qLon, qhkLon, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -96,9 +106,9 @@ func (o *GetFeedParams) bindDistance(rawData []string, hasKey bool, formats strf
 	return nil
 }
 
-func (o *GetFeedParams) bindLocation(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetFeedParams) bindLat(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
-		return errors.Required("location", "query")
+		return errors.Required("lat", "query")
 	}
 	var raw string
 	if len(rawData) > 0 {
@@ -107,11 +117,39 @@ func (o *GetFeedParams) bindLocation(rawData []string, hasKey bool, formats strf
 
 	// Required: true
 	// AllowEmptyValue: false
-	if err := validate.RequiredString("location", "query", raw); err != nil {
+	if err := validate.RequiredString("lat", "query", raw); err != nil {
 		return err
 	}
 
-	o.Location = raw
+	value, err := swag.ConvertFloat64(raw)
+	if err != nil {
+		return errors.InvalidType("lat", "query", "float64", raw)
+	}
+	o.Lat = value
+
+	return nil
+}
+
+func (o *GetFeedParams) bindLon(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("lon", "query")
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// AllowEmptyValue: false
+	if err := validate.RequiredString("lon", "query", raw); err != nil {
+		return err
+	}
+
+	value, err := swag.ConvertFloat64(raw)
+	if err != nil {
+		return errors.InvalidType("lon", "query", "float64", raw)
+	}
+	o.Lon = value
 
 	return nil
 }
