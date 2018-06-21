@@ -17,6 +17,9 @@ import (
 // swagger:model User
 type User struct {
 
+	// id
+	ID string `json:"_id,omitempty"`
+
 	// address
 	Address *UserAddress `json:"address,omitempty"`
 
@@ -38,9 +41,6 @@ type User struct {
 
 	// firstname
 	Firstname string `json:"firstname,omitempty"`
-
-	// id
-	ID string `json:"id,omitempty"`
 
 	// lastname
 	Lastname string `json:"lastname,omitempty"`

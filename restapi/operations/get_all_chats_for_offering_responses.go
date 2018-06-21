@@ -25,7 +25,7 @@ type GetAllChatsForOfferingOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.Chats `json:"body,omitempty"`
+	Payload []*models.Chat `json:"body,omitempty"`
 }
 
 // NewGetAllChatsForOfferingOK creates GetAllChatsForOfferingOK with default headers values
@@ -35,13 +35,13 @@ func NewGetAllChatsForOfferingOK() *GetAllChatsForOfferingOK {
 }
 
 // WithPayload adds the payload to the get all chats for offering o k response
-func (o *GetAllChatsForOfferingOK) WithPayload(payload models.Chats) *GetAllChatsForOfferingOK {
+func (o *GetAllChatsForOfferingOK) WithPayload(payload []*models.Chat) *GetAllChatsForOfferingOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get all chats for offering o k response
-func (o *GetAllChatsForOfferingOK) SetPayload(payload models.Chats) {
+func (o *GetAllChatsForOfferingOK) SetPayload(payload []*models.Chat) {
 	o.Payload = payload
 }
 
@@ -51,7 +51,7 @@ func (o *GetAllChatsForOfferingOK) WriteResponse(rw http.ResponseWriter, produce
 	rw.WriteHeader(200)
 	payload := o.Payload
 	if payload == nil {
-		payload = make(models.Chats, 0, 50)
+		payload = make([]*models.Chat, 0, 50)
 	}
 
 	if err := producer.Produce(rw, payload); err != nil {

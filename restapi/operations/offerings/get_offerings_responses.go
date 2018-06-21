@@ -25,7 +25,7 @@ type GetOfferingsOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.Offerings `json:"body,omitempty"`
+	Payload []*models.Offering `json:"body,omitempty"`
 }
 
 // NewGetOfferingsOK creates GetOfferingsOK with default headers values
@@ -35,13 +35,13 @@ func NewGetOfferingsOK() *GetOfferingsOK {
 }
 
 // WithPayload adds the payload to the get offerings o k response
-func (o *GetOfferingsOK) WithPayload(payload models.Offerings) *GetOfferingsOK {
+func (o *GetOfferingsOK) WithPayload(payload []*models.Offering) *GetOfferingsOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get offerings o k response
-func (o *GetOfferingsOK) SetPayload(payload models.Offerings) {
+func (o *GetOfferingsOK) SetPayload(payload []*models.Offering) {
 	o.Payload = payload
 }
 
@@ -51,7 +51,7 @@ func (o *GetOfferingsOK) WriteResponse(rw http.ResponseWriter, producer runtime.
 	rw.WriteHeader(200)
 	payload := o.Payload
 	if payload == nil {
-		payload = make(models.Offerings, 0, 50)
+		payload = make([]*models.Offering, 0, 50)
 	}
 
 	if err := producer.Produce(rw, payload); err != nil {

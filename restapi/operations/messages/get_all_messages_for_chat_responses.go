@@ -25,7 +25,7 @@ type GetAllMessagesForChatOK struct {
 	/*
 	  In: Body
 	*/
-	Payload models.Messages `json:"body,omitempty"`
+	Payload []*models.Message `json:"body,omitempty"`
 }
 
 // NewGetAllMessagesForChatOK creates GetAllMessagesForChatOK with default headers values
@@ -35,13 +35,13 @@ func NewGetAllMessagesForChatOK() *GetAllMessagesForChatOK {
 }
 
 // WithPayload adds the payload to the get all messages for chat o k response
-func (o *GetAllMessagesForChatOK) WithPayload(payload models.Messages) *GetAllMessagesForChatOK {
+func (o *GetAllMessagesForChatOK) WithPayload(payload []*models.Message) *GetAllMessagesForChatOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get all messages for chat o k response
-func (o *GetAllMessagesForChatOK) SetPayload(payload models.Messages) {
+func (o *GetAllMessagesForChatOK) SetPayload(payload []*models.Message) {
 	o.Payload = payload
 }
 
@@ -51,7 +51,7 @@ func (o *GetAllMessagesForChatOK) WriteResponse(rw http.ResponseWriter, producer
 	rw.WriteHeader(200)
 	payload := o.Payload
 	if payload == nil {
-		payload = make(models.Messages, 0, 50)
+		payload = make([]*models.Message, 0, 50)
 	}
 
 	if err := producer.Produce(rw, payload); err != nil {

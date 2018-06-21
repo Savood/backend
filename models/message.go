@@ -21,7 +21,7 @@ type Message struct {
 	Content string `json:"content,omitempty"`
 
 	// from
-	From *MessageFrom `json:"from,omitempty"`
+	From *UserShort `json:"from,omitempty"`
 
 	// time
 	// Format: date-time

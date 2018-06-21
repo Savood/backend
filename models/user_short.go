@@ -11,9 +11,12 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// MessageFrom message from
-// swagger:model messageFrom
-type MessageFrom struct {
+// UserShort user short
+// swagger:model UserShort
+type UserShort struct {
+
+	// id
+	ID string `json:"_id,omitempty"`
 
 	// avatar id
 	AvatarID string `json:"avatar-id,omitempty"`
@@ -23,18 +26,15 @@ type MessageFrom struct {
 
 	// lastname
 	Lastname string `json:"lastname,omitempty"`
-
-	// user id
-	UserID string `json:"user-id,omitempty"`
 }
 
-// Validate validates this message from
-func (m *MessageFrom) Validate(formats strfmt.Registry) error {
+// Validate validates this user short
+func (m *UserShort) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *MessageFrom) MarshalBinary() ([]byte, error) {
+func (m *UserShort) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -42,8 +42,8 @@ func (m *MessageFrom) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *MessageFrom) UnmarshalBinary(b []byte) error {
-	var res MessageFrom
+func (m *UserShort) UnmarshalBinary(b []byte) error {
+	var res UserShort
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

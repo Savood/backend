@@ -17,6 +17,9 @@ import (
 // swagger:model Offering
 type Offering struct {
 
+	// id
+	ID string `json:"_id,omitempty"`
+
 	// avatar url
 	AvatarURL string `json:"avatar-url,omitempty"`
 
@@ -25,13 +28,10 @@ type Offering struct {
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
 	// creator id
-	CreatorID int64 `json:"creator-id,omitempty"`
+	CreatorID string `json:"creator-id,omitempty"`
 
 	// header
 	Header string `json:"header,omitempty"`
-
-	// id
-	ID string `json:"id,omitempty"`
 
 	// location
 	Location string `json:"location,omitempty"`
@@ -41,9 +41,6 @@ type Offering struct {
 
 	// requested by
 	RequestedBy int64 `json:"requested-by,omitempty"`
-
-	// savooders
-	Savooders []string `json:"savooders"`
 
 	// time
 	// Format: date-time

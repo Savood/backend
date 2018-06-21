@@ -6,10 +6,10 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
-	"github.com/go-openapi/runtime/middleware"
-	"github.com/tylerb/graceful"
+	errors "github.com/go-openapi/errors"
+	runtime "github.com/go-openapi/runtime"
+	middleware "github.com/go-openapi/runtime/middleware"
+	graceful "github.com/tylerb/graceful"
 
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
@@ -17,10 +17,9 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
 
-	"git.dhbw.chd.cx/savood/backend/models"
+	models "git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
-	"log"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -50,6 +49,21 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 		return authFunc(token)
 	}
+
+	// Set your custom authorizer if needed. Default one is security.Authorized()
+	// Expected interface runtime.Authorizer
+	//
+	// Example:
+	// api.APIAuthorizer = security.Authorized()
+
+	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
+		if !database.HealthCheck(){
+			code := int32(503)
+			message := "database unhealthy"
+			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
+		}
+		return health.NewHealthcheckGetOK()
+	})
 
 	// Set your custom authorizer if needed. Default one is security.Authorized()
 	// Expected interface runtime.Authorizer
@@ -99,14 +113,6 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation users.GetUserByID has not yet been implemented")
 	})
-	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
-		if database.GetDatabase().Session.Ping() != nil {
-			code := int32(503)
-			message := "database unhealthy"
-			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
-		}
-		return health.NewHealthcheckGetOK()
-	})
 	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.UpdateMessageByID has not yet been implemented")
 	})
@@ -132,10 +138,9 @@ func configureTLS(tlsConfig *tls.Config) {
 // This function can be called multiple times, depending on the number of serving schemes.
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *graceful.Server, scheme, addr string) {
-	err := database.ConnectDatabase(nil, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	database.ConnectDatabase(nil,nil)
+
 }
 
 // The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
