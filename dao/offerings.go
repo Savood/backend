@@ -9,18 +9,26 @@ import (
 //OfferingsCollectionName collection of offerings in mongodb
 const OfferingsCollectionName = "offerings"
 
-//OfferingDAO DAO for Offering
-type OfferingDAO struct {
-}
-
 //GetAllByUserID Get all Offerings filtered by userId
-func (dao OfferingDAO) GetAllByUserID(userID string) ([]*models.Offering, error) {
+func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": userID}).All(offerings)
+	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": bson.ObjectIdHex(userID)}).All(offerings)
 	if err != nil {
 		return nil, err
 	}
 
 	return offerings, nil
+}
+
+//GetOfferingById get offering by id
+func GetOfferingById(offeringID string) (*models.Offering, error) {
+	var offering *models.Offering
+
+	err := database.GetDatabase().C(OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(offering)
+	if err != nil {
+		return nil, err
+	}
+
+	return offering, nil
 }

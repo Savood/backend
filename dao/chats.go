@@ -9,10 +9,6 @@ import (
 //ChatsCollectionName collection of chats in mongodb
 const ChatsCollectionName = "chats"
 
-//ChatDAO DAO for Chat
-type ChatDAO struct {
-}
-
 //ChatTO Transfer Object for Chat
 type ChatTO struct {
 	ID string `json:"_id"`
@@ -20,23 +16,27 @@ type ChatTO struct {
 	OfferingID []string `json:"offering-id"`
 
 	Partner string `json:"partner"`
+
+	OfferingCreatorId string `json:"offering-creator-id"`
 }
 
 //GetAllByUserID Get All chats by user id (by offerings and partner)
-func (dao ChatDAO) GetAllByUserID(userID string) ([]*models.Chat, error) {
-	offerings, err := OfferingDAO{}.GetAllByUserID(userID)
+func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
+	offerings, err := GetAllOfferingsByUserID(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	var offeringIds []string
+	var offeringIds []bson.ObjectId
 
 	for _, result := range offerings {
-		offeringIds = append(offeringIds, result.ID)
+		offeringIds = append(offeringIds, bson.ObjectIdHex(result.ID))
 	}
 
+	userObjectID := bson.ObjectIdHex(userID)
+
 	var results []ChatTO
-	err = database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userID}, bson.M{"offering-id": bson.M{"in": offeringIds}}}}).All(&results)
+	err = database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -44,9 +44,7 @@ func (dao ChatDAO) GetAllByUserID(userID string) ([]*models.Chat, error) {
 	var chatObjects []*models.Chat
 
 	for _, result := range results {
-		var chatPartner *models.UserShort
-
-		err := database.GetDatabase().C(UsersCollectionName).FindId(result.Partner).One(chatPartner)
+		chatPartner, err := GetUserShortByID(result.Partner)
 		if err != nil {
 			return nil, err
 		}
@@ -63,12 +61,35 @@ func (dao ChatDAO) GetAllByUserID(userID string) ([]*models.Chat, error) {
 	return chatObjects, nil
 }
 
+//GetChatByID getting chat by id
+func GetChatByID(chatID string) (*models.Chat, error) {
+	var result ChatTO
+	err := database.GetDatabase().C(ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(result)
+	if err != nil {
+		return nil, err
+	}
+
+	chatPartner, err := GetUserShortByID(result.Partner)
+	if err != nil {
+		return nil, err
+	}
+
+	chatModel := &models.Chat{
+		ID:         result.ID,
+		Partner:    chatPartner,
+		OfferingID: result.OfferingID,
+	}
+
+	return chatModel, nil
+}
+
 //SaveChat save a Chat model
-func (dao ChatDAO) SaveChat(chat models.Chat) error {
+func SaveChat(principal models.Principal, chat models.Chat) error {
 	chatTO := ChatTO{
-		Partner: chat.Partner.ID,
-		OfferingID: chat.OfferingID,
-		ID: chat.ID,
+		Partner:           chat.Partner.ID,
+		OfferingID:        chat.OfferingID,
+		ID:                chat.ID,
+		OfferingCreatorId: principal.Userid,
 	}
 
 	if len(chatTO.ID) == 0 {
