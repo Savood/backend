@@ -1,7 +1,9 @@
 package dao
 
-const USERS_COLLECTION_NAME = "users"
+//UsersCollectionName collection of users in mongodb
+const UsersCollectionName = "users"
 
+//UserDAO DAO for User
 type UserDAO struct {
 }
 

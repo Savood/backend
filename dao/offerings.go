@@ -6,15 +6,18 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-const OFFERINGS_COLLECTION_NAME = "offerings"
+//OfferingsCollectionName collection of offerings in mongodb
+const OfferingsCollectionName = "offerings"
 
+//OfferingDAO DAO for Offering
 type OfferingDAO struct {
 }
 
-func (dao OfferingDAO) GetAllByUserId(userId string) ([]*models.Offering, error) {
+//GetAllByUserId Get all Offerings filtered by userId
+func (dao OfferingDAO) GetAllByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
-	err := database.GetDatabase().C(OFFERINGS_COLLECTION_NAME).Find(bson.M{"creator-id": userId}).All(offerings)
+	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": userID}).All(offerings)
 	if err != nil {
 		return nil, err
 	}
