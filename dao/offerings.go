@@ -9,7 +9,7 @@ import (
 //OfferingsCollectionName collection of offerings in mongodb
 const OfferingsCollectionName = "offerings"
 
-//GetAllByUserID Get all Offerings filtered by userId
+//GetAllOfferingsByUserID Get all Offerings filtered by userId
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
@@ -21,8 +21,8 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	return offerings, nil
 }
 
-//GetOfferingById get offering by id
-func GetOfferingById(offeringID string) (*models.Offering, error) {
+//GetOfferingByID get offering by id
+func GetOfferingByID(offeringID string) (*models.Offering, error) {
 	var offering *models.Offering
 
 	err := database.GetDatabase().C(OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(offering)
@@ -31,4 +31,15 @@ func GetOfferingById(offeringID string) (*models.Offering, error) {
 	}
 
 	return offering, nil
+}
+
+//SaveOffering save an offering
+func SaveOffering(offering *models.Offering) error {
+	if len(offering.ID) == 0 {
+		offering.ID = string(bson.NewObjectId())
+	}
+
+	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(offering.ID, offering)
+
+	return error
 }

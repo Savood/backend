@@ -32,3 +32,14 @@ func GetUserShortByID(userID string) (*models.UserShort, error) {
 
 	return user, nil
 }
+
+//SaveUser saving a user
+func SaveUser(user *models.User) error {
+	if len(user.ID) == 0 {
+		user.ID = string(bson.NewObjectId())
+	}
+
+	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(user.ID, user)
+
+	return error
+}

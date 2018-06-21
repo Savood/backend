@@ -20,7 +20,7 @@ type ChatTO struct {
 	OfferingCreatorId string `json:"offering-creator-id"`
 }
 
-//GetAllByUserID Get All chats by user id (by offerings and partner)
+//GetAllChatsByUserID Get All chats by user id (by offerings and partner)
 func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	offerings, err := GetAllOfferingsByUserID(userID)
 	if err != nil {

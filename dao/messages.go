@@ -52,6 +52,7 @@ func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 	return messageObjects, nil
 }
 
+//SaveMessage save a message
 func SaveMessage(chatID models.Chat, message models.Message) error {
 	messageTO := MessageTO{
 		From:    message.From.ID,
