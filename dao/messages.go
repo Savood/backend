@@ -53,13 +53,13 @@ func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 }
 
 //SaveMessage save a message
-func SaveMessage(chatID models.Chat, message models.Message) error {
+func SaveMessage(chat models.Chat, message models.Message) error {
 	messageTO := MessageTO{
 		From:    message.From.ID,
 		ID:      string(bson.NewObjectId()),
 		Time:    message.Time,
 		Content: message.Content,
-		ChatID:  chatID.ID,
+		ChatID:  chat.ID,
 	}
 
 	error := database.GetDatabase().C(MessagesCollectionName).Insert(messageTO)
