@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-var db *mgo.Database = nil
+var db *mgo.Database
 
 // ConnectDatabase establishes connection to database
 func ConnectDatabase(connectionURL, databaseName *string) error {
@@ -43,6 +43,7 @@ func ConnectDatabase(connectionURL, databaseName *string) error {
 
 }
 
+// HealthCheck returns true, if db.Session.Ping is going well
 func HealthCheck() bool {
 	if db == nil {
 		log.Print("db is nil")
