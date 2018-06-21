@@ -6,11 +6,14 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-const CHATS_COLLECTION_NAME = "chats"
+//ChatsCollectionName collection of chats in mongodb
+const ChatsCollectionName = "chats"
 
+//ChatDAO DAO for Chat
 type ChatDAO struct {
 }
 
+//ChatTO Transfer Object for Chat
 type ChatTO struct {
 	ID string `json:"_id"`
 
@@ -19,8 +22,9 @@ type ChatTO struct {
 	Partner string `json:"partner"`
 }
 
-func (dao ChatDAO) GetAllByUserId(userId string) ([]*models.Chat, error) {
-	offerings, err := OfferingDAO{}.GetAllByUserId(userId)
+//GetAllByUserId Get All chats by user id (by offerings and partner)
+func (dao ChatDAO) GetAllByUserID(userID string) ([]*models.Chat, error) {
+	offerings, err := OfferingDAO{}.GetAllByUserID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +36,7 @@ func (dao ChatDAO) GetAllByUserId(userId string) ([]*models.Chat, error) {
 	}
 
 	var results []ChatTO
-	err = database.GetDatabase().C(CHATS_COLLECTION_NAME).Find(bson.M{"$or": []bson.M{bson.M{"partner": userId}, bson.M{"offering-id": bson.M{"in": offeringIds}}}}).All(&results)
+	err = database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userID}, bson.M{"offering-id": bson.M{"in": offeringIds}}}}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +46,7 @@ func (dao ChatDAO) GetAllByUserId(userId string) ([]*models.Chat, error) {
 	for _, result := range results {
 		var chatPartner *models.UserShort
 
-		err := database.GetDatabase().C(USERS_COLLECTION_NAME).FindId(result.Partner).One(chatPartner)
+		err := database.GetDatabase().C(UsersCollectionName).FindId(result.Partner).One(chatPartner)
 		if err != nil {
 			return nil, err
 		}
@@ -59,6 +63,7 @@ func (dao ChatDAO) GetAllByUserId(userId string) ([]*models.Chat, error) {
 	return chatObjects, nil
 }
 
+//SaveChat save a Chat model
 func (dao ChatDAO) SaveChat(chat models.Chat) error {
 	chatTO := ChatTO{
 		Partner: chat.Partner.ID,
@@ -70,7 +75,7 @@ func (dao ChatDAO) SaveChat(chat models.Chat) error {
 		chatTO.ID = string(bson.NewObjectId())
 	}
 
-	_, error := database.GetDatabase().C(CHATS_COLLECTION_NAME).UpsertId(chatTO.ID, chatTO)
+	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(chatTO.ID, chatTO)
 
 	return error
 }
