@@ -41,6 +41,31 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 	return userID, user
 }
 
+func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
+	userID, _ := CreateFakeUser()
+
+	offeringID := bson.NewObjectId()
+
+	offering := &models.Offering{
+		Time:        strfmt.DateTime(time.Now().UTC()),
+		CreatorID:   string(userID),
+		ID:          string(offeringID),
+		Description: "description",
+		Name:        "name",
+		AvatarURL:   "avatar-url",
+		BestByDate:  strfmt.Date(time.Now().UTC()),
+		Location: &models.OfferingLocation{
+			Coordinates: []float64{0.0, 0.0},
+			Type:        "type",
+		},
+		RequestedBy: 0,
+	}
+
+	SaveOffering(offering)
+
+	return offeringID, offering
+}
+
 func TestGetUserByID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
@@ -152,11 +177,41 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 
 	messages, err := GetAllMessagesByChatID(string(chatID))
 	assert.NoError(t, err)
-	assert.Len(t, messages, 1)
+	assert.True(t, len(messages) > 1)
 
 	assert.Equal(t, "hello", messages[0].Content)
 }
 
 func TestSaveMessage(t *testing.T) {
 	TestGetAllMessagesByChatID(t)
+}
+
+func TestGetAllOfferingsByUserID(t *testing.T) {
+	_, offering := CreateFakeOffering()
+
+	offerings, err := GetAllOfferingsByUserID(offering.CreatorID)
+	assert.NoError(t, err)
+	assert.True(t, len(offerings) > 1)
+
+	assert.Equal(t, "description", offerings[0].Description)
+}
+
+func TestGetOfferingByID(t *testing.T) {
+	offeringID, _ := CreateFakeOffering()
+
+	offering, err := GetOfferingByID(string(offeringID))
+	assert.NoError(t, err)
+	assert.NotNil(t, offering)
+
+	assert.Equal(t, "description", offering.Description)
+}
+
+func TestSaveOffering(t *testing.T) {
+	offeringID, _ := CreateFakeOffering()
+
+	offering, err := GetOfferingByID(string(offeringID))
+	assert.NoError(t, err)
+	assert.NotNil(t, offering)
+
+	assert.Equal(t, "description", offering.Description)
 }
