@@ -57,7 +57,6 @@ func (o *GetOfferingByIDParams) BindRequest(r *http.Request, route *middleware.M
 	return nil
 }
 
-// bindID binds and validates parameter ID from path.
 func (o *GetOfferingByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

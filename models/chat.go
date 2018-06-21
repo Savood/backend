@@ -17,7 +17,7 @@ import (
 type Chat struct {
 
 	// id
-	ID string `json:"id,omitempty"`
+	ID string `json:"_id,omitempty"`
 
 	// offering id
 	OfferingID []string `json:"offering-id"`

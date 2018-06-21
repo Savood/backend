@@ -57,7 +57,6 @@ func (o *DeleteUserByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
-// bindID binds and validates parameter ID from path.
 func (o *DeleteUserByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

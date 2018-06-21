@@ -15,14 +15,14 @@ import (
 // swagger:model UserShort
 type UserShort struct {
 
+	// id
+	ID string `json:"_id,omitempty"`
+
 	// avatar id
 	AvatarID string `json:"avatar-id,omitempty"`
 
 	// firstname
 	Firstname string `json:"firstname,omitempty"`
-
-	// id
-	ID string `json:"id,omitempty"`
 
 	// lastname
 	Lastname string `json:"lastname,omitempty"`

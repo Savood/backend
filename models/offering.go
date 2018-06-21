@@ -17,6 +17,9 @@ import (
 // swagger:model Offering
 type Offering struct {
 
+	// id
+	ID string `json:"_id,omitempty"`
+
 	// avatar url
 	AvatarURL string `json:"avatar-url,omitempty"`
 
@@ -29,9 +32,6 @@ type Offering struct {
 
 	// header
 	Header string `json:"header,omitempty"`
-
-	// id
-	ID string `json:"id,omitempty"`
 
 	// location
 	Location string `json:"location,omitempty"`

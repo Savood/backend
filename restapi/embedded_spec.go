@@ -19,7 +19,6 @@ var (
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
-    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -32,8 +31,7 @@ func init() {
     },
     "version": "1.0"
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/TimMaa/Savood/1.0",
+  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -606,7 +604,7 @@ func init() {
     "Chat": {
       "type": "object",
       "properties": {
-        "id": {
+        "_id": {
           "type": "string"
         },
         "offering-id": {
@@ -671,6 +669,9 @@ func init() {
     "Offering": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "avatar-url": {
           "type": "string"
         },
@@ -682,9 +683,6 @@ func init() {
           "type": "string"
         },
         "header": {
-          "type": "string"
-        },
-        "id": {
           "type": "string"
         },
         "location": {
@@ -723,6 +721,9 @@ func init() {
     "User": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "address": {
           "type": "object",
           "properties": {
@@ -763,9 +764,6 @@ func init() {
         "firstname": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
-        },
         "lastname": {
           "type": "string"
         },
@@ -778,6 +776,7 @@ func init() {
         "name": "user"
       },
       "example": {
+        "_id": "5",
         "address": {
           "city": "Musterstadt",
           "number": 1337,
@@ -800,7 +799,6 @@ func init() {
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
         "firstname": "Marty",
-        "id": "5",
         "lastname": "McFlfy",
         "phone": "202-555-0191"
       }
@@ -808,13 +806,13 @@ func init() {
     "UserShort": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "avatar-id": {
           "type": "string"
         },
         "firstname": {
-          "type": "string"
-        },
-        "id": {
           "type": "string"
         },
         "lastname": {
@@ -897,7 +895,6 @@ func init() {
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "schemes": [
-    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -910,8 +907,7 @@ func init() {
     },
     "version": "1.0"
   },
-  "host": "virtserver.swaggerhub.com",
-  "basePath": "/TimMaa/Savood/1.0",
+  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -1538,7 +1534,7 @@ func init() {
     "Chat": {
       "type": "object",
       "properties": {
-        "id": {
+        "_id": {
           "type": "string"
         },
         "offering-id": {
@@ -1603,6 +1599,9 @@ func init() {
     "Offering": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "avatar-url": {
           "type": "string"
         },
@@ -1614,9 +1613,6 @@ func init() {
           "type": "string"
         },
         "header": {
-          "type": "string"
-        },
-        "id": {
           "type": "string"
         },
         "location": {
@@ -1655,6 +1651,9 @@ func init() {
     "User": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "address": {
           "$ref": "#/definitions/userAddress"
         },
@@ -1680,9 +1679,6 @@ func init() {
         "firstname": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
-        },
         "lastname": {
           "type": "string"
         },
@@ -1695,6 +1691,7 @@ func init() {
         "name": "user"
       },
       "example": {
+        "_id": "5",
         "address": {
           "city": "Musterstadt",
           "number": 1337,
@@ -1717,7 +1714,6 @@ func init() {
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
         "firstname": "Marty",
-        "id": "5",
         "lastname": "McFlfy",
         "phone": "202-555-0191"
       }
@@ -1725,13 +1721,13 @@ func init() {
     "UserShort": {
       "type": "object",
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "avatar-id": {
           "type": "string"
         },
         "firstname": {
-          "type": "string"
-        },
-        "id": {
           "type": "string"
         },
         "lastname": {

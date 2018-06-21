@@ -65,6 +65,7 @@ func (o *UpdateUserByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 				res = append(res, errors.NewParseError("body", "body", "", err))
 			}
 		} else {
+
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
@@ -88,7 +89,6 @@ func (o *UpdateUserByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
-// bindID binds and validates parameter ID from path.
 func (o *UpdateUserByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

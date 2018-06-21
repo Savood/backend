@@ -70,6 +70,7 @@ func (o *UpdateMessageByIDParams) BindRequest(r *http.Request, route *middleware
 				res = append(res, errors.NewParseError("body", "body", "", err))
 			}
 		} else {
+
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
@@ -98,7 +99,6 @@ func (o *UpdateMessageByIDParams) BindRequest(r *http.Request, route *middleware
 	return nil
 }
 
-// bindChatID binds and validates parameter ChatID from path.
 func (o *UpdateMessageByIDParams) bindChatID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -113,7 +113,6 @@ func (o *UpdateMessageByIDParams) bindChatID(rawData []string, hasKey bool, form
 	return nil
 }
 
-// bindID binds and validates parameter ID from path.
 func (o *UpdateMessageByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
