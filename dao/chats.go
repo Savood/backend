@@ -22,7 +22,7 @@ type ChatTO struct {
 	Partner string `json:"partner"`
 }
 
-//GetAllByUserId Get All chats by user id (by offerings and partner)
+//GetAllByUserID Get All chats by user id (by offerings and partner)
 func (dao ChatDAO) GetAllByUserID(userID string) ([]*models.Chat, error) {
 	offerings, err := OfferingDAO{}.GetAllByUserID(userID)
 	if err != nil {
