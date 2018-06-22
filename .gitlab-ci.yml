@@ -54,7 +54,7 @@ sonarqube:
   script:
    - /usr/bin/sonar-scanner-run.sh
   dependencies:
-   - pre_build
+   - unittest
 
 sonarqube-reports:
   stage: analysis
@@ -69,7 +69,7 @@ sonarqube-reports:
   script:
    - unset CI_BUILD_REF && /usr/bin/sonar-scanner-run.sh
   dependencies:
-   - pre_build
+   - unittest
   only:
    - master
 
