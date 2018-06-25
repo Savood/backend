@@ -7,8 +7,7 @@ import (
 )
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtsYXVzQGNoZC5jeCIsImV4cCI6MTUyOTkxNjI1MywidXNlcmlkIjoiNWIxZmM4NmVmMDM1OTUwMDAxZDRhYThiIn0.aZY84deyYN_-JsSlPdk0GyArlwonwLPBQTQMhkKMJSI"
-
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtsYXVzQGNoZC5jeCIsImV4cCI6MjUyNDYwODAwMCwidXNlcmlkIjoiNWIxZmM4NmVmMDM1OTUwMDAxZDRhYThiIn0.NOE5QCjOvAJjCVio7_9wN62T7ywE6-ri3Mf7BMu-wvY"
 const secret = "secret"
 
 
