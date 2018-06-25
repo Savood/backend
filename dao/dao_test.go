@@ -20,7 +20,7 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 
 	user := &models.User{
 		ID: string(userID),
-		Address: &models.UserAddress{
+		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
 			Street: "Street",
@@ -52,11 +52,11 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 		ID:          string(offeringID),
 		Description: "description",
 		Name:        "name",
-		AvatarURL:   "avatar-url",
+		AvatarID:   "avatar-id",
 		BestByDate:  strfmt.Date(time.Now().UTC()),
 		Location: &models.OfferingLocation{
 			Coordinates: []float64{0.0, 0.0},
-			Type:        "type",
+			Type:        "Point",
 		},
 		RequestedBy: 0,
 	}
@@ -87,7 +87,7 @@ func TestSaveUser(t *testing.T) {
 
 	user := &models.User{
 		ID: string(userID),
-		Address: &models.UserAddress{
+		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
 			Street: "Street",
@@ -126,7 +126,6 @@ func TestSaveChat(t *testing.T) {
 	principal := models.Principal{
 		Email:    string(user.Email),
 		Userid:   string(userID),
-		Username: "",
 	}
 
 	chatID := bson.NewObjectId()
@@ -156,7 +155,6 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 	principal := models.Principal{
 		Email:    string(user.Email),
 		Userid:   string(userID),
-		Username: "",
 	}
 
 	chatID := bson.NewObjectId()
