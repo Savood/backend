@@ -7,6 +7,7 @@ package models
 
 import (
 	strfmt "github.com/go-openapi/strfmt"
+	"github.com/globalsign/mgo/bson"
 
 	"github.com/go-openapi/swag"
 )
@@ -16,7 +17,7 @@ import (
 type UserShort struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// avatar Id
 	AvatarID string `json:"avatarId,omitempty"`

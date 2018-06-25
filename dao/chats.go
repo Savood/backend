@@ -11,13 +11,13 @@ const ChatsCollectionName = "chats"
 
 //ChatTO Transfer Object for Chat
 type ChatTO struct {
-	ID string `json:"_id"`
+	ID bson.ObjectId `json:"_id"`
 
-	OfferingID []string `json:"offering-id"`
+	OfferingID []bson.ObjectId `json:"offering-id"`
 
-	Partner string `json:"partner"`
+	Partner bson.ObjectId `json:"partner"`
 
-	OfferingCreatorID string `json:"offering-creator-id"`
+	OfferingCreatorID bson.ObjectId `json:"offering-creator-id"`
 }
 
 //GetAllChatsByUserID Get All chats by user id (by offerings and partner)
@@ -30,7 +30,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	var offeringIds []bson.ObjectId
 
 	for _, result := range offerings {
-		offeringIds = append(offeringIds, bson.ObjectIdHex(result.ID))
+		offeringIds = append(offeringIds, result.ID)
 	}
 
 	userObjectID := bson.ObjectIdHex(userID)
@@ -44,7 +44,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	var chatObjects []*models.Chat
 
 	for _, result := range results {
-		chatPartner, err := GetUserShortByID(result.Partner)
+		chatPartner, err := GetUserShortByID(result.Partner.Hex())
 		if err != nil {
 			return nil, err
 		}
@@ -69,7 +69,7 @@ func GetChatByID(chatID string) (*models.Chat, error) {
 		return nil, err
 	}
 
-	chatPartner, err := GetUserShortByID(result.Partner)
+	chatPartner, err := GetUserShortByID(result.Partner.Hex())
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func SaveChat(principal models.Principal, chat models.Chat) error {
 	}
 
 	if len(chatTO.ID) == 0 {
-		chatTO.ID = string(bson.NewObjectId())
+		chatTO.ID = bson.NewObjectId()
 	}
 
 	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(chatTO.ID, chatTO)

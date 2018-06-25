@@ -10,12 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"time"
 	"fmt"
+	"log"
 )
 
 func TestMain(m *testing.M) {
 	err := database.ConnectDatabase(nil, nil)
 	if err != nil {
-		fmt.Println("Failed DB connection")
+		log.Fatal("Failed DB connection")
 		return
 	}
 	m.Run()
@@ -25,7 +26,7 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: userID.Hex(),
+		ID: userID,
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -57,8 +58,8 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 
 	offering := &models.Offering{
 		Time:        strfmt.DateTime(time.Now().UTC()),
-		CreatorID:   userID.Hex(),
-		ID:          offeringID.Hex(),
+		CreatorID:   userID,
+		ID:          offeringID,
 		Description: "description",
 		Name:        "name",
 		AvatarID:   "avatar-id",
@@ -95,7 +96,7 @@ func TestSaveUser(t *testing.T) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: userID.Hex(),
+		ID: userID,
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -120,7 +121,24 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestGetAllChatsByUserID(t *testing.T) {
-	userID, _ := CreateFakeUser()
+	userID, user := CreateFakeUser()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	principal := models.Principal{
+		Email:    string(user.Email),
+		Userid:   userID,
+	}
+
+	chatID := bson.NewObjectId()
+
+	chat := models.Chat{
+		ID:         chatID,
+		Partner:    userShort,
+		OfferingID: []bson.ObjectId{},
+	}
+
+	assert.NoError(t, SaveChat(principal, chat))
 
 	chats, err := GetAllChatsByUserID(userID.Hex())
 	assert.NoError(t, err)
@@ -134,15 +152,15 @@ func TestSaveChat(t *testing.T) {
 
 	principal := models.Principal{
 		Email:    string(user.Email),
-		Userid:   userID.Hex(),
+		Userid:   userID,
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         chatID.Hex(),
+		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []string{},
+		OfferingID: []bson.ObjectId{},
 	}
 
 	assert.NoError(t, SaveChat(principal, chat))
@@ -163,15 +181,15 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 
 	principal := models.Principal{
 		Email:    string(user.Email),
-		Userid:   userID.Hex(),
+		Userid:   userID,
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         chatID.Hex(),
+		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []string{},
+		OfferingID: []bson.ObjectId{},
 	}
 
 	assert.NoError(t, SaveChat(principal, chat))
@@ -184,9 +202,11 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 
 	messages, err := GetAllMessagesByChatID(chatID.Hex())
 	assert.NoError(t, err)
-	assert.True(t, len(messages) > 1)
+	assert.True(t, len(messages) > 0)
 
-	assert.Equal(t, "hello", messages[0].Content)
+	if len(messages) > 0 {
+		assert.Equal(t, "hello", messages[0].Content)
+	}
 }
 
 func TestSaveMessage(t *testing.T) {
@@ -196,11 +216,13 @@ func TestSaveMessage(t *testing.T) {
 func TestGetAllOfferingsByUserID(t *testing.T) {
 	_, offering := CreateFakeOffering()
 
-	offerings, err := GetAllOfferingsByUserID(offering.CreatorID)
+	offerings, err := GetAllOfferingsByUserID(offering.CreatorID.Hex())
 	assert.NoError(t, err)
-	assert.True(t, len(offerings) > 1)
+	assert.True(t, len(offerings) > 0)
 
-	assert.Equal(t, "description", offerings[0].Description)
+	if len(offerings) > 0 {
+		assert.Equal(t, "description", offerings[0].Description)
+	}
 }
 
 func TestGetOfferingByID(t *testing.T) {

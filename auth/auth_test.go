@@ -4,6 +4,7 @@ import "testing"
 import (
 	"github.com/stretchr/testify/assert"
 	"git.dhbw.chd.cx/savood/backend/models"
+	"github.com/globalsign/mgo/bson"
 )
 
 
@@ -27,7 +28,7 @@ func TestGetAuthorizer(t *testing.T) {
 
 		assert.Equal(t, models.Principal{
 			Email:    "klaus@chd.cx",
-			Userid:   "5b1fc86ef035950001d4aa8b",
+			Userid:   bson.ObjectIdHex("5b1fc86ef035950001d4aa8b"),
 		}, *principal)
 	}
 

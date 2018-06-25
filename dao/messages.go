@@ -12,13 +12,13 @@ const MessagesCollectionName = "messages"
 
 //MessageTO Transfer Object for Chat
 type MessageTO struct {
-	ID string `json:"_id"`
+	ID bson.ObjectId `json:"_id"`
 
-	ChatID string `json:"chat-id"`
+	ChatID bson.ObjectId `json:"chat-id"`
 
 	Content string `json:"content"`
 
-	From string `json:"partner"`
+	From bson.ObjectId `json:"partner"`
 
 	Time strfmt.DateTime `json:"time"`
 }
@@ -27,7 +27,7 @@ type MessageTO struct {
 func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 	var results []MessageTO
 
-	err := database.GetDatabase().C(MessagesCollectionName).Find(bson.M{"chat-id": bson.ObjectIdHex(chatID)}).All(&results)
+	err := database.GetDatabase().C(MessagesCollectionName).Find(bson.M{"chatid": bson.ObjectIdHex(chatID)}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 	var messageObjects []*models.Message
 
 	for _, result := range results {
-		userFrom, err := GetUserShortByID(result.From)
+		userFrom, err := GetUserShortByID(result.From.Hex())
 		if err != nil {
 			return nil, err
 		}
@@ -56,7 +56,7 @@ func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 func SaveMessage(chat models.Chat, message models.Message) error {
 	messageTO := MessageTO{
 		From:    message.From.ID,
-		ID:      string(bson.NewObjectId()),
+		ID:      bson.NewObjectId(),
 		Time:    message.Time,
 		Content: message.Content,
 		ChatID:  chat.ID,

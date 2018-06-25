@@ -6,6 +6,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"fmt"
 	"log"
+	"github.com/globalsign/mgo/bson"
 )
 
 // GetAuthorizer produces Authorizer function
@@ -46,8 +47,8 @@ func GetAuthorizer(secret *string) (func(string) (*models.Principal, error)) {
 			}
 
 			principal = models.Principal{
-				Userid:   claims["userid"].(string),
-				Email:    claims["email"].(string),
+				Userid: bson.ObjectIdHex(claims["userid"].(string)),
+				Email:  claims["email"].(string),
 			}
 
 		} else {
