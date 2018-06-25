@@ -9,10 +9,16 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"github.com/stretchr/testify/assert"
 	"time"
+	"fmt"
 )
 
 func TestMain(m *testing.M) {
-	database.ConnectDatabase(nil, nil)
+	err := database.ConnectDatabase(nil, nil)
+	if err != nil {
+		fmt.Println("Failed DB connection")
+		return
+	}
+	m.Run()
 }
 
 func CreateFakeUser() (bson.ObjectId, *models.User) {
