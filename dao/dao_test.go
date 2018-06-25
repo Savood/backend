@@ -2,15 +2,14 @@ package dao
 
 import (
 	"github.com/go-openapi/strfmt"
-
 	"testing"
 	"github.com/globalsign/mgo/bson"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"github.com/stretchr/testify/assert"
 	"time"
-	"fmt"
 	"log"
+	"fmt"
 )
 
 func TestMain(m *testing.M) {
@@ -62,7 +61,7 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 		ID:          offeringID,
 		Description: "description",
 		Name:        "name",
-		AvatarID:   "avatar-id",
+		AvatarID:    "avatar-id",
 		BestByDate:  strfmt.Date(time.Now().UTC()),
 		Location: &models.OfferingLocation{
 			Coordinates: []float64{0.0, 0.0},
@@ -126,8 +125,8 @@ func TestGetAllChatsByUserID(t *testing.T) {
 	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
-		Email:    string(user.Email),
-		Userid:   userID,
+		Email:  string(user.Email),
+		Userid: userID,
 	}
 
 	chatID := bson.NewObjectId()
@@ -151,8 +150,8 @@ func TestSaveChat(t *testing.T) {
 	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
-		Email:    string(user.Email),
-		Userid:   userID,
+		Email:  string(user.Email),
+		Userid: userID,
 	}
 
 	chatID := bson.NewObjectId()
@@ -180,8 +179,8 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
-		Email:    string(user.Email),
-		Userid:   userID,
+		Email:  string(user.Email),
+		Userid: userID,
 	}
 
 	chatID := bson.NewObjectId()
