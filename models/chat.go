@@ -7,6 +7,7 @@ package models
 
 import (
 	strfmt "github.com/go-openapi/strfmt"
+	"github.com/globalsign/mgo/bson"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
@@ -17,10 +18,10 @@ import (
 type Chat struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// offering Id
-	OfferingID []string `json:"offeringId"`
+	OfferingID []bson.ObjectId `json:"offeringId"`
 
 	// partner
 	Partner *UserShort `json:"partner,omitempty"`

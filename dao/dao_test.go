@@ -2,24 +2,30 @@ package dao
 
 import (
 	"github.com/go-openapi/strfmt"
-
 	"testing"
 	"github.com/globalsign/mgo/bson"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"github.com/stretchr/testify/assert"
 	"time"
+	"log"
+	"fmt"
 )
 
 func TestMain(m *testing.M) {
-	database.ConnectDatabase(nil, nil)
+	err := database.ConnectDatabase(nil, nil)
+	if err != nil {
+		log.Fatal("Failed DB connection")
+		return
+	}
+	m.Run()
 }
 
 func CreateFakeUser() (bson.ObjectId, *models.User) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: string(userID),
+		ID: userID,
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -36,7 +42,10 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 		Phone:        "+49000000000",
 	}
 
-	SaveUser(user)
+	err := SaveUser(user)
+	if err != nil {
+		fmt.Println("Failed fake user", err)
+	}
 
 	return userID, user
 }
@@ -48,11 +57,11 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 
 	offering := &models.Offering{
 		Time:        strfmt.DateTime(time.Now().UTC()),
-		CreatorID:   string(userID),
-		ID:          string(offeringID),
+		CreatorID:   userID,
+		ID:          offeringID,
 		Description: "description",
 		Name:        "name",
-		AvatarID:   "avatar-id",
+		AvatarID:    "avatar-id",
 		BestByDate:  strfmt.Date(time.Now().UTC()),
 		Location: &models.OfferingLocation{
 			Coordinates: []float64{0.0, 0.0},
@@ -69,7 +78,7 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 func TestGetUserByID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
-	id, e := GetUserByID(string(userID))
+	id, e := GetUserByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
@@ -77,7 +86,7 @@ func TestGetUserByID(t *testing.T) {
 func TestGetUserShortByID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
-	id, e := GetUserShortByID(string(userID))
+	id, e := GetUserShortByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
@@ -86,7 +95,7 @@ func TestSaveUser(t *testing.T) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: string(userID),
+		ID: userID,
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -105,15 +114,32 @@ func TestSaveUser(t *testing.T) {
 
 	assert.NoError(t, SaveUser(user))
 
-	id, e := GetUserByID(string(userID))
+	id, e := GetUserByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
 
 func TestGetAllChatsByUserID(t *testing.T) {
-	userID, _ := CreateFakeUser()
+	userID, user := CreateFakeUser()
 
-	chats, err := GetAllChatsByUserID(string(userID))
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	principal := models.Principal{
+		Email:  string(user.Email),
+		Userid: userID,
+	}
+
+	chatID := bson.NewObjectId()
+
+	chat := models.Chat{
+		ID:         chatID,
+		Partner:    userShort,
+		OfferingID: []bson.ObjectId{},
+	}
+
+	assert.NoError(t, SaveChat(principal, chat))
+
+	chats, err := GetAllChatsByUserID(userID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, chats)
 }
@@ -121,24 +147,24 @@ func TestGetAllChatsByUserID(t *testing.T) {
 func TestSaveChat(t *testing.T) {
 	userID, user := CreateFakeUser()
 
-	userShort, _ := GetUserShortByID(string(userID))
+	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
-		Email:    string(user.Email),
-		Userid:   string(userID),
+		Email:  string(user.Email),
+		Userid: userID,
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         string(chatID),
+		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []string{},
+		OfferingID: []bson.ObjectId{},
 	}
 
 	assert.NoError(t, SaveChat(principal, chat))
 
-	chatByID, err := GetChatByID(string(chatID))
+	chatByID, err := GetChatByID(chatID.Hex())
 	assert.NotNil(t, chatByID)
 	assert.NoError(t, err)
 }
@@ -150,19 +176,19 @@ func TestGetChatByID(t *testing.T) {
 func TestGetAllMessagesByChatID(t *testing.T) {
 	userID, user := CreateFakeUser()
 
-	userShort, _ := GetUserShortByID(string(userID))
+	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
-		Email:    string(user.Email),
-		Userid:   string(userID),
+		Email:  string(user.Email),
+		Userid: userID,
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         string(chatID),
+		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []string{},
+		OfferingID: []bson.ObjectId{},
 	}
 
 	assert.NoError(t, SaveChat(principal, chat))
@@ -173,11 +199,13 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 		Time:    strfmt.DateTime(time.Now().UTC()),
 	})
 
-	messages, err := GetAllMessagesByChatID(string(chatID))
+	messages, err := GetAllMessagesByChatID(chatID.Hex())
 	assert.NoError(t, err)
-	assert.True(t, len(messages) > 1)
+	assert.True(t, len(messages) > 0)
 
-	assert.Equal(t, "hello", messages[0].Content)
+	if len(messages) > 0 {
+		assert.Equal(t, "hello", messages[0].Content)
+	}
 }
 
 func TestSaveMessage(t *testing.T) {
@@ -187,17 +215,19 @@ func TestSaveMessage(t *testing.T) {
 func TestGetAllOfferingsByUserID(t *testing.T) {
 	_, offering := CreateFakeOffering()
 
-	offerings, err := GetAllOfferingsByUserID(offering.CreatorID)
+	offerings, err := GetAllOfferingsByUserID(offering.CreatorID.Hex())
 	assert.NoError(t, err)
-	assert.True(t, len(offerings) > 1)
+	assert.True(t, len(offerings) > 0)
 
-	assert.Equal(t, "description", offerings[0].Description)
+	if len(offerings) > 0 {
+		assert.Equal(t, "description", offerings[0].Description)
+	}
 }
 
 func TestGetOfferingByID(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(string(offeringID))
+	offering, err := GetOfferingByID(offeringID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 
@@ -207,7 +237,7 @@ func TestGetOfferingByID(t *testing.T) {
 func TestSaveOffering(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(string(offeringID))
+	offering, err := GetOfferingByID(offeringID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 

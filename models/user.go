@@ -7,6 +7,7 @@ package models
 
 import (
 	strfmt "github.com/go-openapi/strfmt"
+	"github.com/globalsign/mgo/bson"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
@@ -18,7 +19,7 @@ import (
 type User struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// address
 	Address *Address `json:"address,omitempty"`

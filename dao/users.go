@@ -13,7 +13,7 @@ const UsersCollectionName = "users"
 func GetUserByID(userID string) (*models.User, error) {
 	var user *models.User
 
-	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(user)
+	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func GetUserByID(userID string) (*models.User, error) {
 func GetUserShortByID(userID string) (*models.UserShort, error) {
 	var user *models.UserShort
 
-	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(user)
+	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -36,10 +36,10 @@ func GetUserShortByID(userID string) (*models.UserShort, error) {
 //SaveUser saving a user
 func SaveUser(user *models.User) error {
 	if len(user.ID) == 0 {
-		user.ID = string(bson.NewObjectId())
+		user.ID = bson.NewObjectId()
 	}
 
-	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(user.ID, user)
+	_, error := database.GetDatabase().C(UsersCollectionName).UpsertId(user.ID, user)
 
 	return error
 }

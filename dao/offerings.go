@@ -13,7 +13,7 @@ const OfferingsCollectionName = "offerings"
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": bson.ObjectIdHex(userID)}).All(offerings)
+	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offerings)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 func GetOfferingByID(offeringID string) (*models.Offering, error) {
 	var offering *models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(offering)
+	err := database.GetDatabase().C(OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offering)
 	if err != nil {
 		return nil, err
 	}
@@ -36,10 +36,10 @@ func GetOfferingByID(offeringID string) (*models.Offering, error) {
 //SaveOffering save an offering
 func SaveOffering(offering *models.Offering) error {
 	if len(offering.ID) == 0 {
-		offering.ID = string(bson.NewObjectId())
+		offering.ID = bson.NewObjectId()
 	}
 
-	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(offering.ID, offering)
+	_, error := database.GetDatabase().C(OfferingsCollectionName).UpsertId(offering.ID, offering)
 
 	return error
 }
