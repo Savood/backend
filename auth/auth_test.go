@@ -7,8 +7,7 @@ import (
 )
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtsYXVzQGNoZC5jeCIsInVzZXJpZCI6IjViMWZjODZlZjAzNTk1MDAwMWQ0YWE4YiIsInVzZXJuYW1lIjoiY2hkXyJ9.xLGmxKQKpa78XsVz5Lotf1wQS8zCMvNO9qoRxCzZW-M"
-
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtsYXVzQGNoZC5jeCIsImV4cCI6MjUyNDYwODAwMCwidXNlcmlkIjoiNWIxZmM4NmVmMDM1OTUwMDAxZDRhYThiIn0.NOE5QCjOvAJjCVio7_9wN62T7ywE6-ri3Mf7BMu-wvY"
 const secret = "secret"
 
 
@@ -28,7 +27,6 @@ func TestGetAuthorizer(t *testing.T) {
 
 		assert.Equal(t, models.Principal{
 			Email:    "klaus@chd.cx",
-			Username: "chd_",
 			Userid:   "5b1fc86ef035950001d4aa8b",
 		}, *principal)
 	}

@@ -363,6 +363,9 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -609,13 +612,31 @@ func init() {
     }
   },
   "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "Chat": {
       "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "offering-id": {
+        "offeringId": {
           "type": "array",
           "items": {
             "type": "string"
@@ -623,6 +644,22 @@ func init() {
         },
         "partner": {
           "$ref": "#/definitions/UserShort"
+        }
+      },
+      "example": {
+        "_id": "17",
+        "offeringId": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "partner": {
+          "_id": "5",
+          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
         }
       }
     },
@@ -680,14 +717,17 @@ func init() {
         "_id": {
           "type": "string"
         },
-        "avatar-url": {
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "avatarId": {
           "type": "string"
         },
         "best-by-date": {
           "type": "string",
           "format": "date"
         },
-        "creator-id": {
+        "creatorId": {
           "type": "string"
         },
         "description": {
@@ -722,6 +762,17 @@ func init() {
       },
       "xml": {
         "name": "Offering"
+      },
+      "example": {
+        "_id": "string",
+        "avatarId": "/assets/img/speakers/bear.jpg",
+        "best-by-date": "2018-06-21T13:55:58.380Z",
+        "creatorId": "27",
+        "header": "Keine Ahnung",
+        "location": "Somewhere Over, The Rainbow",
+        "name": "Normale Kartoffeln",
+        "requested-by": 12,
+        "time": "2018-06-21T13:55:58.380Z"
       }
     },
     "Principal": {
@@ -731,9 +782,6 @@ func init() {
           "type": "string"
         },
         "userid": {
-          "type": "string"
-        },
-        "username": {
           "type": "string"
         }
       }
@@ -745,27 +793,12 @@ func init() {
           "type": "string"
         },
         "address": {
-          "type": "object",
-          "properties": {
-            "city": {
-              "type": "string"
-            },
-            "number": {
-              "type": "string"
-            },
-            "street": {
-              "type": "string"
-            },
-            "zip": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
+          "$ref": "#/definitions/Address"
         },
-        "avatar-id": {
+        "avatarId": {
           "type": "string"
         },
-        "background-id": {
+        "backgroundId": {
           "type": "string"
         },
         "badges": {
@@ -803,8 +836,8 @@ func init() {
           "street": "Musterstraße",
           "zip": 42069
         },
-        "avatar-id": "",
-        "background-id": "",
+        "avatarId": "",
+        "backgroundId": "",
         "badges": [
           true,
           false,
@@ -829,7 +862,7 @@ func init() {
         "_id": {
           "type": "string"
         },
-        "avatar-id": {
+        "avatarId": {
           "type": "string"
         },
         "firstname": {
@@ -843,9 +876,9 @@ func init() {
         "name": "user"
       },
       "example": {
-        "avatar-id": "",
+        "_id": "5",
+        "avatarId": "",
         "firstname": "Marty",
-        "id": "5",
         "lastname": "McFlfy"
       }
     }
@@ -1289,6 +1322,12 @@ func init() {
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
             }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
           }
         }
       }
@@ -1559,13 +1598,31 @@ func init() {
     }
   },
   "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "number": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "Chat": {
       "type": "object",
       "properties": {
         "_id": {
           "type": "string"
         },
-        "offering-id": {
+        "offeringId": {
           "type": "array",
           "items": {
             "type": "string"
@@ -1573,6 +1630,22 @@ func init() {
         },
         "partner": {
           "$ref": "#/definitions/UserShort"
+        }
+      },
+      "example": {
+        "_id": "17",
+        "offeringId": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "partner": {
+          "_id": "5",
+          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
         }
       }
     },
@@ -1630,14 +1703,17 @@ func init() {
         "_id": {
           "type": "string"
         },
-        "avatar-url": {
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "avatarId": {
           "type": "string"
         },
         "best-by-date": {
           "type": "string",
           "format": "date"
         },
-        "creator-id": {
+        "creatorId": {
           "type": "string"
         },
         "description": {
@@ -1660,6 +1736,17 @@ func init() {
       },
       "xml": {
         "name": "Offering"
+      },
+      "example": {
+        "_id": "string",
+        "avatarId": "/assets/img/speakers/bear.jpg",
+        "best-by-date": "2018-06-21T13:55:58.380Z",
+        "creatorId": "27",
+        "header": "Keine Ahnung",
+        "location": "Somewhere Over, The Rainbow",
+        "name": "Normale Kartoffeln",
+        "requested-by": 12,
+        "time": "2018-06-21T13:55:58.380Z"
       }
     },
     "Principal": {
@@ -1669,9 +1756,6 @@ func init() {
           "type": "string"
         },
         "userid": {
-          "type": "string"
-        },
-        "username": {
           "type": "string"
         }
       }
@@ -1683,12 +1767,12 @@ func init() {
           "type": "string"
         },
         "address": {
-          "$ref": "#/definitions/userAddress"
+          "$ref": "#/definitions/Address"
         },
-        "avatar-id": {
+        "avatarId": {
           "type": "string"
         },
-        "background-id": {
+        "backgroundId": {
           "type": "string"
         },
         "badges": {
@@ -1726,8 +1810,8 @@ func init() {
           "street": "Musterstraße",
           "zip": 42069
         },
-        "avatar-id": "",
-        "background-id": "",
+        "avatarId": "",
+        "backgroundId": "",
         "badges": [
           true,
           false,
@@ -1752,7 +1836,7 @@ func init() {
         "_id": {
           "type": "string"
         },
-        "avatar-id": {
+        "avatarId": {
           "type": "string"
         },
         "firstname": {
@@ -1766,9 +1850,9 @@ func init() {
         "name": "user"
       },
       "example": {
-        "avatar-id": "",
+        "_id": "5",
+        "avatarId": "",
         "firstname": "Marty",
-        "id": "5",
         "lastname": "McFlfy"
       }
     },
@@ -1784,25 +1868,6 @@ func init() {
         },
         "type": {
           "type": "string"
-        }
-      },
-      "x-go-gen-location": "models"
-    },
-    "userAddress": {
-      "type": "object",
-      "properties": {
-        "city": {
-          "type": "string"
-        },
-        "number": {
-          "type": "string"
-        },
-        "street": {
-          "type": "string"
-        },
-        "zip": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "x-go-gen-location": "models"

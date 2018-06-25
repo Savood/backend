@@ -38,8 +38,8 @@ func GetAuthorizer(secret *string) (func(string) (*models.Principal, error)) {
 
 			log.Printf("claims: %+v", claims)
 
-			if claims["userid"] == nil || claims["username"] == nil || claims["email"] == nil ||
-				claims["userid"].(string) == "" || claims["username"].(string) == "" || claims["email"].(string) == "" {
+			if claims["userid"] == nil || claims["email"] == nil ||
+				claims["userid"].(string) == "" || claims["email"].(string) == "" {
 
 				return nil, fmt.Errorf("claim parsing failed")
 
@@ -47,7 +47,6 @@ func GetAuthorizer(secret *string) (func(string) (*models.Principal, error)) {
 
 			principal = models.Principal{
 				Userid:   claims["userid"].(string),
-				Username: claims["username"].(string),
 				Email:    claims["email"].(string),
 			}
 
