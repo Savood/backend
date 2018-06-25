@@ -25,7 +25,7 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: string(userID),
+		ID: userID.Hex(),
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -54,8 +54,8 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 
 	offering := &models.Offering{
 		Time:        strfmt.DateTime(time.Now().UTC()),
-		CreatorID:   string(userID),
-		ID:          string(offeringID),
+		CreatorID:   userID.Hex(),
+		ID:          offeringID.Hex(),
 		Description: "description",
 		Name:        "name",
 		AvatarID:   "avatar-id",
@@ -75,7 +75,7 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 func TestGetUserByID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
-	id, e := GetUserByID(string(userID))
+	id, e := GetUserByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
@@ -83,7 +83,7 @@ func TestGetUserByID(t *testing.T) {
 func TestGetUserShortByID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
-	id, e := GetUserShortByID(string(userID))
+	id, e := GetUserShortByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
@@ -92,7 +92,7 @@ func TestSaveUser(t *testing.T) {
 	userID := bson.NewObjectId()
 
 	user := &models.User{
-		ID: string(userID),
+		ID: userID.Hex(),
 		Address: &models.Address{
 			City:   "City",
 			Number: "Number",
@@ -111,7 +111,7 @@ func TestSaveUser(t *testing.T) {
 
 	assert.NoError(t, SaveUser(user))
 
-	id, e := GetUserByID(string(userID))
+	id, e := GetUserByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
 }
@@ -119,7 +119,7 @@ func TestSaveUser(t *testing.T) {
 func TestGetAllChatsByUserID(t *testing.T) {
 	userID, _ := CreateFakeUser()
 
-	chats, err := GetAllChatsByUserID(string(userID))
+	chats, err := GetAllChatsByUserID(userID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, chats)
 }
@@ -127,24 +127,24 @@ func TestGetAllChatsByUserID(t *testing.T) {
 func TestSaveChat(t *testing.T) {
 	userID, user := CreateFakeUser()
 
-	userShort, _ := GetUserShortByID(string(userID))
+	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
 		Email:    string(user.Email),
-		Userid:   string(userID),
+		Userid:   userID.Hex(),
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         string(chatID),
+		ID:         chatID.Hex(),
 		Partner:    userShort,
 		OfferingID: []string{},
 	}
 
 	assert.NoError(t, SaveChat(principal, chat))
 
-	chatByID, err := GetChatByID(string(chatID))
+	chatByID, err := GetChatByID(chatID.Hex())
 	assert.NotNil(t, chatByID)
 	assert.NoError(t, err)
 }
@@ -156,17 +156,17 @@ func TestGetChatByID(t *testing.T) {
 func TestGetAllMessagesByChatID(t *testing.T) {
 	userID, user := CreateFakeUser()
 
-	userShort, _ := GetUserShortByID(string(userID))
+	userShort, _ := GetUserShortByID(userID.Hex())
 
 	principal := models.Principal{
 		Email:    string(user.Email),
-		Userid:   string(userID),
+		Userid:   userID.Hex(),
 	}
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
-		ID:         string(chatID),
+		ID:         chatID.Hex(),
 		Partner:    userShort,
 		OfferingID: []string{},
 	}
@@ -179,7 +179,7 @@ func TestGetAllMessagesByChatID(t *testing.T) {
 		Time:    strfmt.DateTime(time.Now().UTC()),
 	})
 
-	messages, err := GetAllMessagesByChatID(string(chatID))
+	messages, err := GetAllMessagesByChatID(chatID.Hex())
 	assert.NoError(t, err)
 	assert.True(t, len(messages) > 1)
 
@@ -203,7 +203,7 @@ func TestGetAllOfferingsByUserID(t *testing.T) {
 func TestGetOfferingByID(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(string(offeringID))
+	offering, err := GetOfferingByID(offeringID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 
@@ -213,7 +213,7 @@ func TestGetOfferingByID(t *testing.T) {
 func TestSaveOffering(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(string(offeringID))
+	offering, err := GetOfferingByID(offeringID.Hex())
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 
