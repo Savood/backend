@@ -153,12 +153,17 @@
   version = "v1.2.1"
 
 [[projects]]
+  name = "github.com/tylerb/graceful"
+  packages = ["."]
+  revision = "4654dfbb6ad53cb5e27f37d99b02e16c1872fbbb"
+  version = "v1.2.15"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = [
     "context",
-    "idna",
-    "netutil"
+    "idna"
   ]
   revision = "9ef9f5bb98a1fdc41f8cf6c250a4404b4085e389"
 
@@ -202,6 +207,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cd578cd6aaa7648a9e66097c04e70dd3ebbb6ac006c9c39bc45dbff695611d25"
+  inputs-digest = "25894539474aca8bc34cabc3037a79f1e3bb690af271557cd8ff48ebd8a62da6"
   solver-name = "gps-cdcl"
   solver-version = 1
