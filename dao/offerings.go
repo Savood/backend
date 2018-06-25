@@ -13,7 +13,7 @@ const OfferingsCollectionName = "offerings"
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": bson.ObjectIdHex(userID)}).All(offerings)
+	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creator-id": bson.ObjectIdHex(userID)}).All(&offerings)
 	if err != nil {
 		return nil, err
 	}

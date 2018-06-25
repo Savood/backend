@@ -27,7 +27,7 @@ type MessageTO struct {
 func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 	var results []MessageTO
 
-	err := database.GetDatabase().C(MessagesCollectionName).Find(bson.M{"chat-id": bson.ObjectIdHex(chatID)}).All(results)
+	err := database.GetDatabase().C(MessagesCollectionName).Find(bson.M{"chat-id": bson.ObjectIdHex(chatID)}).All(&results)
 	if err != nil {
 		return nil, err
 	}

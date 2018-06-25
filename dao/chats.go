@@ -64,7 +64,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 //GetChatByID getting chat by id
 func GetChatByID(chatID string) (*models.Chat, error) {
 	var result ChatTO
-	err := database.GetDatabase().C(ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(result)
+	err := database.GetDatabase().C(ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(&result)
 	if err != nil {
 		return nil, err
 	}
