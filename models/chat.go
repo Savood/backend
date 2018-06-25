@@ -19,8 +19,8 @@ type Chat struct {
 	// id
 	ID string `json:"_id,omitempty"`
 
-	// offering id
-	OfferingID []string `json:"offering-id"`
+	// offering Id
+	OfferingID []string `json:"offeringId"`
 
 	// partner
 	Partner *UserShort `json:"partner,omitempty"`

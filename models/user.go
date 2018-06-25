@@ -21,13 +21,13 @@ type User struct {
 	ID string `json:"_id,omitempty"`
 
 	// address
-	Address *UserAddress `json:"address,omitempty"`
+	Address *Address `json:"address,omitempty"`
 
-	// avatar id
-	AvatarID string `json:"avatar-id,omitempty"`
+	// avatar Id
+	AvatarID string `json:"avatarId,omitempty"`
 
-	// background id
-	BackgroundID string `json:"background-id,omitempty"`
+	// background Id
+	BackgroundID string `json:"backgroundId,omitempty"`
 
 	// badges
 	Badges []string `json:"badges"`

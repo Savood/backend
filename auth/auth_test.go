@@ -28,7 +28,6 @@ func TestGetAuthorizer(t *testing.T) {
 
 		assert.Equal(t, models.Principal{
 			Email:    "klaus@chd.cx",
-			Username: "chd_",
 			Userid:   "5b1fc86ef035950001d4aa8b",
 		}, *principal)
 	}

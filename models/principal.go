@@ -20,9 +20,6 @@ type Principal struct {
 
 	// userid
 	Userid string `json:"userid,omitempty"`
-
-	// username
-	Username string `json:"username,omitempty"`
 }
 
 // Validate validates this principal

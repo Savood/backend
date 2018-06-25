@@ -20,15 +20,18 @@ type Offering struct {
 	// id
 	ID string `json:"_id,omitempty"`
 
-	// avatar url
-	AvatarURL string `json:"avatar-url,omitempty"`
+	// address
+	Address *Address `json:"address,omitempty"`
+
+	// avatar Id
+	AvatarID string `json:"avatarId,omitempty"`
 
 	// best by date
 	// Format: date
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
-	// creator id
-	CreatorID string `json:"creator-id,omitempty"`
+	// creator Id
+	CreatorID string `json:"creatorId,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
@@ -51,6 +54,10 @@ type Offering struct {
 func (m *Offering) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateAddress(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateBestByDate(formats); err != nil {
 		res = append(res, err)
 	}
@@ -66,6 +73,24 @@ func (m *Offering) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Offering) validateAddress(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Address) { // not required
+		return nil
+	}
+
+	if m.Address != nil {
+		if err := m.Address.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("address")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
