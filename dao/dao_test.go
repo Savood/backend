@@ -42,7 +42,10 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 		Phone:        "+49000000000",
 	}
 
-	SaveUser(user)
+	err := SaveUser(user)
+	if err != nil {
+		fmt.Println("Failed fake user", err)
+	}
 
 	return userID, user
 }
