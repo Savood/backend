@@ -7,6 +7,7 @@ package operations
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 
@@ -45,6 +46,21 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		JSONConsumer:          runtime.JSONConsumer(),
 		MultipartformConsumer: runtime.DiscardConsumer,
 		JSONProducer:          runtime.JSONProducer(),
+		ImageGifProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
+			return errors.NotImplemented("imageGif producer has not yet been implemented")
+		}),
+		ImageJpegProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
+			return errors.NotImplemented("imageJpeg producer has not yet been implemented")
+		}),
+		ImagePngProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
+			return errors.NotImplemented("imagePng producer has not yet been implemented")
+		}),
+		GetOfferingIDImageHandler: GetOfferingIDImageHandlerFunc(func(params GetOfferingIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetOfferingIDImage has not yet been implemented")
+		}),
+		GetUsersIDImageHandler: GetUsersIDImageHandlerFunc(func(params GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetUsersIDImage has not yet been implemented")
+		}),
 		PostOfferingIDImageHandler: PostOfferingIDImageHandlerFunc(func(params PostOfferingIDImageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation PostOfferingIDImage has not yet been implemented")
 		}),
@@ -148,6 +164,12 @@ type SavoodAPI struct {
 
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
+	// ImageGifProducer registers a producer for a "image/gif" mime type
+	ImageGifProducer runtime.Producer
+	// ImageJpegProducer registers a producer for a "image/jpeg" mime type
+	ImageJpegProducer runtime.Producer
+	// ImagePngProducer registers a producer for a "image/png" mime type
+	ImagePngProducer runtime.Producer
 
 	// BearerAuth registers a function that takes a token and returns a principal
 	// it performs authentication based on an api key Authorization provided in the header
@@ -156,6 +178,10 @@ type SavoodAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
+	// GetOfferingIDImageHandler sets the operation handler for the get offering ID image operation
+	GetOfferingIDImageHandler GetOfferingIDImageHandler
+	// GetUsersIDImageHandler sets the operation handler for the get users ID image operation
+	GetUsersIDImageHandler GetUsersIDImageHandler
 	// PostOfferingIDImageHandler sets the operation handler for the post offering ID image operation
 	PostOfferingIDImageHandler PostOfferingIDImageHandler
 	// PostUsersIDImageHandler sets the operation handler for the post users ID image operation
@@ -265,8 +291,28 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
+	if o.ImageGifProducer == nil {
+		unregistered = append(unregistered, "ImageGifProducer")
+	}
+
+	if o.ImageJpegProducer == nil {
+		unregistered = append(unregistered, "ImageJpegProducer")
+	}
+
+	if o.ImagePngProducer == nil {
+		unregistered = append(unregistered, "ImagePngProducer")
+	}
+
 	if o.BearerAuth == nil {
 		unregistered = append(unregistered, "AuthorizationAuth")
+	}
+
+	if o.GetOfferingIDImageHandler == nil {
+		unregistered = append(unregistered, "GetOfferingIDImageHandler")
+	}
+
+	if o.GetUsersIDImageHandler == nil {
+		unregistered = append(unregistered, "GetUsersIDImageHandler")
 	}
 
 	if o.PostOfferingIDImageHandler == nil {
@@ -424,6 +470,15 @@ func (o *SavoodAPI) ProducersFor(mediaTypes []string) map[string]runtime.Produce
 		case "application/json":
 			result["application/json"] = o.JSONProducer
 
+		case "image/gif":
+			result["image/gif"] = o.ImageGifProducer
+
+		case "image/jpeg":
+			result["image/jpeg"] = o.ImageJpegProducer
+
+		case "image/png":
+			result["image/png"] = o.ImagePngProducer
+
 		}
 
 		if p, ok := o.customProducers[mt]; ok {
@@ -465,6 +520,16 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/offering/{id}/image"] = NewGetOfferingIDImage(o.context, o.GetOfferingIDImageHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/users/{id}/image"] = NewGetUsersIDImage(o.context, o.GetUsersIDImageHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

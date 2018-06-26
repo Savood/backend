@@ -295,18 +295,32 @@ func init() {
       }
     },
     "/offering/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -325,7 +339,15 @@ func init() {
             "$ref": "#/responses/ErrorResponse"
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
     "/offerings": {
       "get": {
@@ -679,18 +701,32 @@ func init() {
       ]
     },
     "/users/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -709,7 +745,15 @@ func init() {
             "$ref": "#/responses/ErrorResponse"
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {
@@ -1357,18 +1401,38 @@ func init() {
       }
     },
     "/offering/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -1393,7 +1457,15 @@ func init() {
             }
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
     "/offerings": {
       "get": {
@@ -1783,18 +1855,38 @@ func init() {
       ]
     },
     "/users/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -1819,7 +1911,15 @@ func init() {
             }
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {

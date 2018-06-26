@@ -18,6 +18,9 @@ denn nur lebendiges food tut gut
 
     Produces:
     - application/json
+    - image/gif
+    - image/jpeg
+    - image/png
 
 swagger:meta
 */
