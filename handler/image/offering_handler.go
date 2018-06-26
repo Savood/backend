@@ -6,7 +6,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 )
 
-func PostOfferingIDImageHandler(params operations.PostOfferingIDImageParams, principal *models.Principal) middleware.Responder {
+func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
 	//uploadImage("test", params.Upfile)
 

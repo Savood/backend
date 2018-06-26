@@ -13,40 +13,40 @@ import (
 	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
-// GetUsersIDImageHandlerFunc turns a function with the right signature into a get users ID image handler
-type GetUsersIDImageHandlerFunc func(GetUsersIDImageParams, *models.Principal) middleware.Responder
+// GetOfferingsIDImageHandlerFunc turns a function with the right signature into a get offerings ID image handler
+type GetOfferingsIDImageHandlerFunc func(GetOfferingsIDImageParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetUsersIDImageHandlerFunc) Handle(params GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
+func (fn GetOfferingsIDImageHandlerFunc) Handle(params GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
-// GetUsersIDImageHandler interface for that can handle valid get users ID image params
-type GetUsersIDImageHandler interface {
-	Handle(GetUsersIDImageParams, *models.Principal) middleware.Responder
+// GetOfferingsIDImageHandler interface for that can handle valid get offerings ID image params
+type GetOfferingsIDImageHandler interface {
+	Handle(GetOfferingsIDImageParams, *models.Principal) middleware.Responder
 }
 
-// NewGetUsersIDImage creates a new http.Handler for the get users ID image operation
-func NewGetUsersIDImage(ctx *middleware.Context, handler GetUsersIDImageHandler) *GetUsersIDImage {
-	return &GetUsersIDImage{Context: ctx, Handler: handler}
+// NewGetOfferingsIDImage creates a new http.Handler for the get offerings ID image operation
+func NewGetOfferingsIDImage(ctx *middleware.Context, handler GetOfferingsIDImageHandler) *GetOfferingsIDImage {
+	return &GetOfferingsIDImage{Context: ctx, Handler: handler}
 }
 
-/*GetUsersIDImage swagger:route GET /users/{id}/image users image getUsersIdImage
+/*GetOfferingsIDImage swagger:route GET /offerings/{id}/image offerings image getOfferingsIdImage
 
 Gets the avatar image.
 
 */
-type GetUsersIDImage struct {
+type GetOfferingsIDImage struct {
 	Context *middleware.Context
-	Handler GetUsersIDImageHandler
+	Handler GetOfferingsIDImageHandler
 }
 
-func (o *GetUsersIDImage) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+func (o *GetOfferingsIDImage) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
 		r = rCtx
 	}
-	var Params = NewGetUsersIDImageParams()
+	var Params = NewGetOfferingsIDImageParams()
 
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {

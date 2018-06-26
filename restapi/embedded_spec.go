@@ -294,61 +294,6 @@ func init() {
         }
       }
     },
-    "/offering/{id}/image": {
-      "get": {
-        "produces": [
-          "image/png",
-          "image/gif",
-          "image/jpeg",
-          "application/json"
-        ],
-        "summary": "Gets the avatar image.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "summary": "Uploads avatar image.",
-        "parameters": [
-          {
-            "type": "file",
-            "description": "The file to upload.",
-            "name": "upfile",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
-          },
-          "400": {
-            "$ref": "#/responses/InvalidParameterInput"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/offerings": {
       "get": {
         "produces": [
@@ -541,6 +486,69 @@ func init() {
         }
       ]
     },
+    "/offerings/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/placeSavood": {
       "post": {
         "consumes": [
@@ -551,7 +559,7 @@ func init() {
         ],
         "tags": [
           "rpc-calls",
-          "offering"
+          "offerings"
         ],
         "summary": "Places a savood on an offering",
         "operationId": "placeSavood",
@@ -708,6 +716,10 @@ func init() {
           "image/jpeg",
           "application/json"
         ],
+        "tags": [
+          "users",
+          "image"
+        ],
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
@@ -724,6 +736,10 @@ func init() {
       "post": {
         "consumes": [
           "multipart/form-data"
+        ],
+        "tags": [
+          "users",
+          "image"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [
@@ -1400,73 +1416,6 @@ func init() {
         }
       }
     },
-    "/offering/{id}/image": {
-      "get": {
-        "produces": [
-          "image/png",
-          "image/gif",
-          "image/jpeg",
-          "application/json"
-        ],
-        "summary": "Gets the avatar image.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "The specified resource was not found",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          },
-          "500": {
-            "description": "Generic Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "summary": "Uploads avatar image.",
-        "parameters": [
-          {
-            "type": "file",
-            "description": "The file to upload.",
-            "name": "upfile",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
-          },
-          "400": {
-            "description": "Invalid parameter input was passed",
-            "schema": {
-              "$ref": "#/definitions/InvalidParameterInput"
-            }
-          },
-          "500": {
-            "description": "Generic Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "type": "string",
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ]
-    },
     "/offerings": {
       "get": {
         "produces": [
@@ -1680,6 +1629,81 @@ func init() {
         }
       ]
     },
+    "/offerings/{id}/image": {
+      "get": {
+        "produces": [
+          "image/png",
+          "image/gif",
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/placeSavood": {
       "post": {
         "consumes": [
@@ -1690,7 +1714,7 @@ func init() {
         ],
         "tags": [
           "rpc-calls",
-          "offering"
+          "offerings"
         ],
         "summary": "Places a savood on an offering",
         "operationId": "placeSavood",
@@ -1862,6 +1886,10 @@ func init() {
           "image/jpeg",
           "application/json"
         ],
+        "tags": [
+          "users",
+          "image"
+        ],
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
@@ -1884,6 +1912,10 @@ func init() {
       "post": {
         "consumes": [
           "multipart/form-data"
+        ],
+        "tags": [
+          "users",
+          "image"
         ],
         "summary": "Uploads avatar image.",
         "parameters": [

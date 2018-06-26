@@ -31,7 +31,7 @@ func NewPlaceSavood(ctx *middleware.Context, handler PlaceSavoodHandler) *PlaceS
 	return &PlaceSavood{Context: ctx, Handler: handler}
 }
 
-/*PlaceSavood swagger:route POST /placeSavood rpc-calls offering placeSavood
+/*PlaceSavood swagger:route POST /placeSavood rpc-calls offerings placeSavood
 
 Places a savood on an offering
 

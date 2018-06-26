@@ -31,7 +31,7 @@ func NewPostUsersIDImage(ctx *middleware.Context, handler PostUsersIDImageHandle
 	return &PostUsersIDImage{Context: ctx, Handler: handler}
 }
 
-/*PostUsersIDImage swagger:route POST /users/{id}/image postUsersIdImage
+/*PostUsersIDImage swagger:route POST /users/{id}/image users image postUsersIdImage
 
 Uploads avatar image.
 

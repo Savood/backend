@@ -55,14 +55,14 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		ImagePngProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
 			return errors.NotImplemented("imagePng producer has not yet been implemented")
 		}),
-		GetOfferingIDImageHandler: GetOfferingIDImageHandlerFunc(func(params GetOfferingIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation GetOfferingIDImage has not yet been implemented")
+		GetOfferingsIDImageHandler: GetOfferingsIDImageHandlerFunc(func(params GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetOfferingsIDImage has not yet been implemented")
 		}),
 		GetUsersIDImageHandler: GetUsersIDImageHandlerFunc(func(params GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation GetUsersIDImage has not yet been implemented")
 		}),
-		PostOfferingIDImageHandler: PostOfferingIDImageHandlerFunc(func(params PostOfferingIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation PostOfferingIDImage has not yet been implemented")
+		PostOfferingsIDImageHandler: PostOfferingsIDImageHandlerFunc(func(params PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostOfferingsIDImage has not yet been implemented")
 		}),
 		PostUsersIDImageHandler: PostUsersIDImageHandlerFunc(func(params PostUsersIDImageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation PostUsersIDImage has not yet been implemented")
@@ -178,12 +178,12 @@ type SavoodAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
-	// GetOfferingIDImageHandler sets the operation handler for the get offering ID image operation
-	GetOfferingIDImageHandler GetOfferingIDImageHandler
+	// GetOfferingsIDImageHandler sets the operation handler for the get offerings ID image operation
+	GetOfferingsIDImageHandler GetOfferingsIDImageHandler
 	// GetUsersIDImageHandler sets the operation handler for the get users ID image operation
 	GetUsersIDImageHandler GetUsersIDImageHandler
-	// PostOfferingIDImageHandler sets the operation handler for the post offering ID image operation
-	PostOfferingIDImageHandler PostOfferingIDImageHandler
+	// PostOfferingsIDImageHandler sets the operation handler for the post offerings ID image operation
+	PostOfferingsIDImageHandler PostOfferingsIDImageHandler
 	// PostUsersIDImageHandler sets the operation handler for the post users ID image operation
 	PostUsersIDImageHandler PostUsersIDImageHandler
 	// MessagesCreateNewMessageHandler sets the operation handler for the create new message operation
@@ -307,16 +307,16 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
-	if o.GetOfferingIDImageHandler == nil {
-		unregistered = append(unregistered, "GetOfferingIDImageHandler")
+	if o.GetOfferingsIDImageHandler == nil {
+		unregistered = append(unregistered, "GetOfferingsIDImageHandler")
 	}
 
 	if o.GetUsersIDImageHandler == nil {
 		unregistered = append(unregistered, "GetUsersIDImageHandler")
 	}
 
-	if o.PostOfferingIDImageHandler == nil {
-		unregistered = append(unregistered, "PostOfferingIDImageHandler")
+	if o.PostOfferingsIDImageHandler == nil {
+		unregistered = append(unregistered, "PostOfferingsIDImageHandler")
 	}
 
 	if o.PostUsersIDImageHandler == nil {
@@ -524,7 +524,7 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/offering/{id}/image"] = NewGetOfferingIDImage(o.context, o.GetOfferingIDImageHandler)
+	o.handlers["GET"]["/offerings/{id}/image"] = NewGetOfferingsIDImage(o.context, o.GetOfferingsIDImageHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -534,7 +534,7 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/offering/{id}/image"] = NewPostOfferingIDImage(o.context, o.PostOfferingIDImageHandler)
+	o.handlers["POST"]["/offerings/{id}/image"] = NewPostOfferingsIDImage(o.context, o.PostOfferingsIDImageHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

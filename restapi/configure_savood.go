@@ -70,7 +70,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
 
-	api.PostOfferingIDImageHandler = operations.PostOfferingIDImageHandlerFunc(image.PostOfferingIDImageHandler)
+	api.PostOfferingsIDImageHandler = operations.PostOfferingsIDImageHandlerFunc(image.PostOfferingsIDImageHandler)
 
 	api.PostUsersIDImageHandler = operations.PostUsersIDImageHandlerFunc(image.PostUsersIDImageHandler)
 
