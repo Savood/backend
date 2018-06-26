@@ -10,6 +10,7 @@ import (
 	"time"
 	"log"
 	"fmt"
+	"os"
 )
 
 func TestMain(m *testing.M) {
@@ -18,7 +19,7 @@ func TestMain(m *testing.M) {
 		log.Fatal("Failed DB connection")
 		return
 	}
-	m.Run()
+	os.Exit(m.Run())
 }
 
 func CreateFakeUser() (bson.ObjectId, *models.User) {
