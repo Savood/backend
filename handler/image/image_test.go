@@ -4,6 +4,7 @@ import (
 	"testing"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"log"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMain(m *testing.M) {
@@ -15,3 +16,7 @@ func TestMain(m *testing.M) {
 	m.Run()
 }
 
+func TestGetImage(t *testing.T) {
+	// TODO
+	assert.False(t,true)
+}
