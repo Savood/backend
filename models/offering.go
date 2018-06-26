@@ -11,6 +11,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
+	"github.com/globalsign/mgo/bson"
+
 )
 
 // Offering offering
@@ -18,7 +20,7 @@ import (
 type Offering struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// address
 	Address *Address `json:"address,omitempty"`
@@ -31,7 +33,7 @@ type Offering struct {
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
 	// creator Id
-	CreatorID string `json:"creatorId,omitempty"`
+	CreatorID bson.ObjectId `json:"creatorId,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`

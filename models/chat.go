@@ -6,10 +6,11 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
+	"github.com/globalsign/mgo/bson"
 )
 
 // Chat chat
@@ -17,10 +18,10 @@ import (
 type Chat struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// offering Id
-	OfferingID []string `json:"offeringId"`
+	OfferingID []bson.ObjectId `json:"offeringId"`
 
 	// partner
 	Partner *UserShort `json:"partner,omitempty"`

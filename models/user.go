@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
+	"github.com/globalsign/mgo/bson"
 )
 
 // User user
@@ -18,7 +19,7 @@ import (
 type User struct {
 
 	// id
-	ID string `json:"_id,omitempty"`
+	ID bson.ObjectId `json:"_id,omitempty"`
 
 	// address
 	Address *Address `json:"address,omitempty"`
