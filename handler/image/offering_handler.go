@@ -6,6 +6,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 )
 
+// PostOfferingsIDImageHandler uploads given image and adds a link to the offering with the given ID
 func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
 	//uploadImage("test", params.Upfile)
@@ -13,6 +14,7 @@ func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, p
 	return middleware.NotImplemented("")
 }
 
+// GetOfferingsIDImageHandler provides the Image for a Offering with a given ID
 func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
 	/*file_ext := filepath.Ext(filename)

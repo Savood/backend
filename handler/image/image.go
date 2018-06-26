@@ -10,6 +10,7 @@ import (
 	"image/jpeg"
 )
 
+// uploadImage creates a GridFS file and writes to it
 func uploadImage(filename string, inputFile io.ReadCloser) error {
 
 	db := database.GetDatabase()
@@ -46,25 +47,26 @@ func (cb *closingBuffer) Close() (err error) {
 	return
 }
 
+// resizeImage resizes the image
 func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, error) {
 	var (
-		original_image image.Image
-		new_image      image.Image
-		err            error
+		originalImage image.Image
+		newImage      image.Image
+		err           error
 	)
 
 	defer origImg.Close()
 
-	if original_image, _, err = image.Decode(origImg); nil != err {
+	if originalImage, _, err = image.Decode(origImg); nil != err {
 		log.Printf("image decode error! %v", err)
 
 		return nil, err
 
 	}
 
-	new_image = resize.Resize(width, height, original_image, resize.Lanczos3)
+	newImage = resize.Resize(width, height, originalImage, resize.Lanczos3)
 	buf := new(bytes.Buffer)
-	if err := jpeg.Encode(buf, new_image, nil); nil != err {
+	if err := jpeg.Encode(buf, newImage, nil); nil != err {
 		log.Printf("image encode error! %v", err)
 		return nil, err
 	}
@@ -72,6 +74,8 @@ func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, erro
 	return &closingBuffer{buf}, nil
 }
 
+
+// getImage gets Image from gridFS
 func getImage(filename string) (io.ReadCloser, error) {
 
 	db := database.GetDatabase()
