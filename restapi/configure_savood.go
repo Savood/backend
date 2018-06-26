@@ -18,6 +18,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
+	"git.dhbw.chd.cx/savood/backend/handler/image"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -68,6 +69,10 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	//
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
+
+	api.PostOfferingIDImageHandler = operations.PostOfferingIDImageHandlerFunc(image.PostOfferingIDImageHandler)
+
+	api.PostUsersIDImageHandler = operations.PostUsersIDImageHandlerFunc(image.PostUsersIDImageHandler)
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
