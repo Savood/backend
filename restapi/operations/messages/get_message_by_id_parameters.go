@@ -67,6 +67,7 @@ func (o *GetMessageByIDParams) BindRequest(r *http.Request, route *middleware.Ma
 	return nil
 }
 
+// bindChatID binds and validates parameter ChatID from path.
 func (o *GetMessageByIDParams) bindChatID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -81,6 +82,7 @@ func (o *GetMessageByIDParams) bindChatID(rawData []string, hasKey bool, formats
 	return nil
 }
 
+// bindID binds and validates parameter ID from path.
 func (o *GetMessageByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

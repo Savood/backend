@@ -67,6 +67,7 @@ func (o *DeleteMessageByIDParams) BindRequest(r *http.Request, route *middleware
 	return nil
 }
 
+// bindChatID binds and validates parameter ChatID from path.
 func (o *DeleteMessageByIDParams) bindChatID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -81,6 +82,7 @@ func (o *DeleteMessageByIDParams) bindChatID(rawData []string, hasKey bool, form
 	return nil
 }
 
+// bindID binds and validates parameter ID from path.
 func (o *DeleteMessageByIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

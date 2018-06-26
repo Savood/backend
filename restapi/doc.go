@@ -14,6 +14,7 @@ denn nur lebendiges food tut gut
 
     Consumes:
     - application/json
+    - multipart/form-data
 
     Produces:
     - application/json

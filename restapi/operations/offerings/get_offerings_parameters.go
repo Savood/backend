@@ -60,6 +60,7 @@ func (o *GetOfferingsParams) BindRequest(r *http.Request, route *middleware.Matc
 	return nil
 }
 
+// bindFilter binds and validates parameter Filter from query.
 func (o *GetOfferingsParams) bindFilter(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
@@ -81,6 +82,7 @@ func (o *GetOfferingsParams) bindFilter(rawData []string, hasKey bool, formats s
 	return nil
 }
 
+// validateFilter carries on validations for parameter Filter
 func (o *GetOfferingsParams) validateFilter(formats strfmt.Registry) error {
 
 	if err := validate.Enum("filter", "query", *o.Filter, []interface{}{"owned", "requested"}); err != nil {

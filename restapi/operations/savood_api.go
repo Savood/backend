@@ -30,20 +30,27 @@ import (
 // NewSavoodAPI creates a new Savood instance
 func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 	return &SavoodAPI{
-		handlers:            make(map[string]map[string]http.Handler),
-		formats:             strfmt.Default,
-		defaultConsumes:     "application/json",
-		defaultProduces:     "application/json",
-		customConsumers:     make(map[string]runtime.Consumer),
-		customProducers:     make(map[string]runtime.Producer),
-		ServerShutdown:      func() {},
-		spec:                spec,
-		ServeError:          errors.ServeError,
-		BasicAuthenticator:  security.BasicAuth,
-		APIKeyAuthenticator: security.APIKeyAuth,
-		BearerAuthenticator: security.BearerAuth,
-		JSONConsumer:        runtime.JSONConsumer(),
-		JSONProducer:        runtime.JSONProducer(),
+		handlers:              make(map[string]map[string]http.Handler),
+		formats:               strfmt.Default,
+		defaultConsumes:       "application/json",
+		defaultProduces:       "application/json",
+		customConsumers:       make(map[string]runtime.Consumer),
+		customProducers:       make(map[string]runtime.Producer),
+		ServerShutdown:        func() {},
+		spec:                  spec,
+		ServeError:            errors.ServeError,
+		BasicAuthenticator:    security.BasicAuth,
+		APIKeyAuthenticator:   security.APIKeyAuth,
+		BearerAuthenticator:   security.BearerAuth,
+		JSONConsumer:          runtime.JSONConsumer(),
+		MultipartformConsumer: runtime.DiscardConsumer,
+		JSONProducer:          runtime.JSONProducer(),
+		PostOfferingIDImageHandler: PostOfferingIDImageHandlerFunc(func(params PostOfferingIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostOfferingIDImage has not yet been implemented")
+		}),
+		PostUsersIDImageHandler: PostUsersIDImageHandlerFunc(func(params PostUsersIDImageParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostUsersIDImage has not yet been implemented")
+		}),
 		MessagesCreateNewMessageHandler: messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesCreateNewMessage has not yet been implemented")
 		}),
@@ -89,6 +96,9 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		HealthHealthcheckGetHandler: health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation HealthHealthcheckGet has not yet been implemented")
 		}),
+		PlaceSavoodHandler: PlaceSavoodHandlerFunc(func(params PlaceSavoodParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PlaceSavood has not yet been implemented")
+		}),
 		MessagesUpdateMessageByIDHandler: messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesUpdateMessageByID has not yet been implemented")
 		}),
@@ -133,6 +143,8 @@ type SavoodAPI struct {
 
 	// JSONConsumer registers a consumer for a "application/json" mime type
 	JSONConsumer runtime.Consumer
+	// MultipartformConsumer registers a consumer for a "multipart/form-data" mime type
+	MultipartformConsumer runtime.Consumer
 
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
@@ -144,6 +156,10 @@ type SavoodAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
+	// PostOfferingIDImageHandler sets the operation handler for the post offering ID image operation
+	PostOfferingIDImageHandler PostOfferingIDImageHandler
+	// PostUsersIDImageHandler sets the operation handler for the post users ID image operation
+	PostUsersIDImageHandler PostUsersIDImageHandler
 	// MessagesCreateNewMessageHandler sets the operation handler for the create new message operation
 	MessagesCreateNewMessageHandler messages.CreateNewMessageHandler
 	// OfferingsCreateNewOfferingHandler sets the operation handler for the create new offering operation
@@ -174,6 +190,8 @@ type SavoodAPI struct {
 	UsersGetUserByIDHandler users.GetUserByIDHandler
 	// HealthHealthcheckGetHandler sets the operation handler for the healthcheck get operation
 	HealthHealthcheckGetHandler health.HealthcheckGetHandler
+	// PlaceSavoodHandler sets the operation handler for the place savood operation
+	PlaceSavoodHandler PlaceSavoodHandler
 	// MessagesUpdateMessageByIDHandler sets the operation handler for the update message by Id operation
 	MessagesUpdateMessageByIDHandler messages.UpdateMessageByIDHandler
 	// OfferingsUpdateOfferingByIDHandler sets the operation handler for the update offering by Id operation
@@ -239,12 +257,24 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "JSONConsumer")
 	}
 
+	if o.MultipartformConsumer == nil {
+		unregistered = append(unregistered, "MultipartformConsumer")
+	}
+
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
 	if o.BearerAuth == nil {
 		unregistered = append(unregistered, "AuthorizationAuth")
+	}
+
+	if o.PostOfferingIDImageHandler == nil {
+		unregistered = append(unregistered, "PostOfferingIDImageHandler")
+	}
+
+	if o.PostUsersIDImageHandler == nil {
+		unregistered = append(unregistered, "PostUsersIDImageHandler")
 	}
 
 	if o.MessagesCreateNewMessageHandler == nil {
@@ -307,6 +337,10 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "health.HealthcheckGetHandler")
 	}
 
+	if o.PlaceSavoodHandler == nil {
+		unregistered = append(unregistered, "PlaceSavoodHandler")
+	}
+
 	if o.MessagesUpdateMessageByIDHandler == nil {
 		unregistered = append(unregistered, "messages.UpdateMessageByIDHandler")
 	}
@@ -366,6 +400,9 @@ func (o *SavoodAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Consume
 
 		case "application/json":
 			result["application/json"] = o.JSONConsumer
+
+		case "multipart/form-data":
+			result["multipart/form-data"] = o.MultipartformConsumer
 
 		}
 
@@ -428,6 +465,16 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/offering/{id}/image"] = NewPostOfferingIDImage(o.context, o.PostOfferingIDImageHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/users/{id}/image"] = NewPostUsersIDImage(o.context, o.PostUsersIDImageHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
@@ -503,6 +550,11 @@ func (o *SavoodAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/healthcheck"] = health.NewHealthcheckGet(o.context, o.HealthHealthcheckGetHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/placeSavood"] = NewPlaceSavood(o.context, o.PlaceSavoodHandler)
 
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)

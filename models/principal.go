@@ -7,7 +7,6 @@ package models
 
 import (
 	strfmt "github.com/go-openapi/strfmt"
-	"github.com/globalsign/mgo/bson"
 
 	"github.com/go-openapi/swag"
 )
@@ -20,7 +19,7 @@ type Principal struct {
 	Email string `json:"email,omitempty"`
 
 	// userid
-	Userid bson.ObjectId `json:"userid,omitempty"`
+	Userid string `json:"userid,omitempty"`
 }
 
 // Validate validates this principal

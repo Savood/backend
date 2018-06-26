@@ -57,6 +57,7 @@ func (o *GetAllChatsForOfferingParams) BindRequest(r *http.Request, route *middl
 	return nil
 }
 
+// bindID binds and validates parameter ID from path.
 func (o *GetAllChatsForOfferingParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

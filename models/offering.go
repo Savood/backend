@@ -6,8 +6,8 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"github.com/go-openapi/strfmt"
-	"github.com/globalsign/mgo/bson"
+	strfmt "github.com/go-openapi/strfmt"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
@@ -18,7 +18,7 @@ import (
 type Offering struct {
 
 	// id
-	ID bson.ObjectId `json:"_id,omitempty"`
+	ID string `json:"_id,omitempty"`
 
 	// address
 	Address *Address `json:"address,omitempty"`
@@ -31,7 +31,7 @@ type Offering struct {
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
 	// creator Id
-	CreatorID bson.ObjectId `json:"creatorId,omitempty"`
+	CreatorID string `json:"creatorId,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
