@@ -22,6 +22,7 @@ func TestMain(m *testing.M) {
 
 func TestNotGettingImage(t *testing.T) {
 
+	// try to get non existing file
 	_, err := getImage("thisDoesNotExist.no")
 
 	assert.Error(t, err)
@@ -30,29 +31,63 @@ func TestNotGettingImage(t *testing.T) {
 
 func TestGetImage(t *testing.T) {
 
+	// open local file
 	testFile, err := os.Open("testimage.jpg")
+	assert.NoError(t, err)
 
+	// save stats about file
 	stats, _ := testFile.Stat()
+
+	if err != nil {
+		return
+	}
+
+	// upload Image
+	err = uploadImage("testImage.jpg", testFile)
+	assert.NoError(t, err)
+
+	if err != nil {
+		return
+	}
+
+	// download Image
+	gridFile, err := getImage("testImage.jpg")
+
+	g := gridFile.(*mgo.GridFile)
 
 	assert.NoError(t, err)
 
-	if err == nil {
-		err = uploadImage("testImage.jpg", testFile)
+	// assert equal size
+	assert.Equal(t, stats.Size(), g.Size())
 
-		assert.NoError(t, err)
+	deleteImage("testImage.jpg")
 
-		if err == nil {
+}
 
-			gridFile, err := getImage("testImage.jpg")
+func TestDeleteImage(t *testing.T) {
+	// open Local file
+	testFile, err := os.Open("testimage.jpg")
+	assert.NoError(t, err)
 
-			g := gridFile.(*mgo.GridFile)
-
-			assert.NoError(t, err)
-
-			assert.Equal(t, stats.Size(), g.Size())
-		}
+	if err != nil {
+		return
 	}
 
+	// upload image
+	err = uploadImage("testImageDelete.jpg", testFile)
+	assert.NoError(t, err)
+
+	if err != nil {
+		return
+	}
+
+	// delete image
+	err = deleteImage("testImageDelete.jpg")
+	assert.NoError(t, err)
+
+	// assert no image is found
+	_, err = getImage("testImageDelete.jpg")
+	assert.Error(t, err)
 }
 
 func TestResizeImage(t *testing.T) {
@@ -96,5 +131,7 @@ func TestResizeImage(t *testing.T) {
 	io.Copy(buf2, resizeRemote)
 
 	assert.Equal(t, len(buf.Bytes()), len(buf2.Bytes()))
+
+	deleteImage("testImage2.jpg")
 
 }

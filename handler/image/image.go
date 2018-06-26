@@ -10,12 +10,14 @@ import (
 	"image/jpeg"
 )
 
+const fs = "fs"
+
 // uploadImage creates a GridFS file and writes to it
 func uploadImage(filename string, inputFile io.ReadCloser) error {
 
 	db := database.GetDatabase()
 
-	gridFSfile, err := db.GridFS("fs").Create(filename)
+	gridFSfile, err := db.GridFS(fs).Create(filename)
 
 	if err != nil {
 		return err
@@ -74,18 +76,28 @@ func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, erro
 	return &closingBuffer{buf}, nil
 }
 
-
 // getImage gets Image from gridFS
 func getImage(filename string) (io.ReadCloser, error) {
 
 	db := database.GetDatabase()
 
-	gridFSfile, err := db.GridFS("fs").Open(filename)
+	gridFSfile, err := db.GridFS(fs).Open(filename)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return gridFSfile, nil
+
+}
+
+// deleteImage deletes an Image from gridFS
+func deleteImage(filename string) error {
+
+	db := database.GetDatabase()
+
+	err := db.GridFS(fs).Remove(filename)
+
+	return err
 
 }
