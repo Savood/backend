@@ -42,9 +42,6 @@ func (o *PlaceSavoodURL) Build() (*url.URL, error) {
 	var _path = "/placeSavood"
 
 	_basePath := o._basePath
-	if _basePath == "" {
-		_basePath = "/v2/"
-	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
 	qs := make(url.Values)

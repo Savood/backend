@@ -21,6 +21,11 @@ const GetUsersIDImageOKCode int = 200
 swagger:response getUsersIdImageOK
 */
 type GetUsersIDImageOK struct {
+
+	/*
+	  In: Body
+	*/
+	Payload models.GetUsersIDImageOKBody `json:"body,omitempty"`
 }
 
 // NewGetUsersIDImageOK creates GetUsersIDImageOK with default headers values
@@ -29,12 +34,26 @@ func NewGetUsersIDImageOK() *GetUsersIDImageOK {
 	return &GetUsersIDImageOK{}
 }
 
+// WithPayload adds the payload to the get users Id image o k response
+func (o *GetUsersIDImageOK) WithPayload(payload models.GetUsersIDImageOKBody) *GetUsersIDImageOK {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get users Id image o k response
+func (o *GetUsersIDImageOK) SetPayload(payload models.GetUsersIDImageOKBody) {
+	o.Payload = payload
+}
+
 // WriteResponse to the client
 func (o *GetUsersIDImageOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
-
 	rw.WriteHeader(200)
+	payload := o.Payload
+	if err := producer.Produce(rw, payload); err != nil {
+		panic(err) // let the recovery middleware deal with this
+	}
+
 }
 
 // GetUsersIDImageNotFoundCode is the HTTP code returned for type GetUsersIDImageNotFound

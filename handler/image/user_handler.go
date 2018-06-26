@@ -11,3 +11,9 @@ func PostUsersIDImageHandler (params operations.PostUsersIDImageParams, principa
 
 	return middleware.NotImplemented("")
 }
+
+func GetUsersIDImageHandler (params operations.GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
+
+
+	return middleware.NotImplemented("")
+}

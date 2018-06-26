@@ -1,6 +1,14 @@
 package image
 
-/*
+import (
+	"io"
+	"git.dhbw.chd.cx/savood/backend/database"
+	"image"
+	"log"
+	"github.com/nfnt/resize"
+	"bytes"
+	"image/jpeg"
+)
 
 func uploadImage(filename string, inputFile io.ReadCloser) error {
 
@@ -28,7 +36,17 @@ func uploadImage(filename string, inputFile io.ReadCloser) error {
 	return nil
 }
 
-func resizeImage(origImg io.ReadCloser, width, height uint) error {
+type closingBuffer struct {
+	*bytes.Buffer
+}
+
+func (cb *closingBuffer) Close() (err error) {
+	//we don't actually have to do anything here, since the buffer is  just some data in memory
+	//and the error is initialized to no-error
+	return
+}
+
+func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, error) {
 	var (
 		original_image image.Image
 		new_image      image.Image
@@ -40,7 +58,7 @@ func resizeImage(origImg io.ReadCloser, width, height uint) error {
 	if original_image, _, err = image.Decode(origImg); nil != err {
 		log.Printf("image decode error! %v", err)
 
-		return err
+		return nil, err
 
 	}
 
@@ -48,55 +66,22 @@ func resizeImage(origImg io.ReadCloser, width, height uint) error {
 	buf := new(bytes.Buffer)
 	if err := jpeg.Encode(buf, new_image, nil); nil != err {
 		log.Printf("image encode error! %v", err)
-		return err
+		return nil, err
 	}
-	content = buf.Bytes()
 
-	r.Header.Set("Content-Type", "image/jpeg")
+	return &closingBuffer{buf}, nil
 }
 
-func getImage(filename string) error {
+func getImage(filename string) (io.ReadCloser, error) {
 
 	db := database.GetDatabase()
 
 	gridFSfile, err := db.GridFS("fs").Open(filename)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	if len(width_str) > 0 {
-
-		if width, err = strconv.ParseUint(width_str, 10, 32); nil != err {
-			status = http.StatusBadRequest
-			return
-		}
-
-		is_width_set = true
-	}
-
-	height_str := r.URL.Query().Get("h")
-
-	var (
-		height        uint64
-		is_height_set = false
-	)
-	if len(height_str) > 0 {
-
-		if height, err = strconv.ParseUint(height_str, 10, 32); nil != err {
-			status = http.StatusBadRequest
-			return
-		}
-
-		is_height_set = true
-	}
-
-	logger.Info("width and height is [%d, %d], status [%t, %t]", width, height, is_width_set, is_height_set)
-
-	if is_width_set || is_height_set {
-
-	}
+	return gridFSfile, nil
 
 }
-
-*/

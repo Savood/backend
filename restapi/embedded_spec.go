@@ -31,7 +31,6 @@ func init() {
     },
     "version": "1.0"
   },
-  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -501,7 +500,10 @@ func init() {
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -723,7 +725,10 @@ func init() {
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1129,7 +1134,6 @@ func init() {
     },
     "version": "1.0"
   },
-  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -1644,7 +1648,10 @@ func init() {
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getOfferingsIdImageOKBody"
+            }
           },
           "404": {
             "description": "The specified resource was not found",
@@ -1893,7 +1900,10 @@ func init() {
         "summary": "Gets the avatar image.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getUsersIdImageOKBody"
+            }
           },
           "404": {
             "description": "The specified resource was not found",
@@ -2220,6 +2230,14 @@ func init() {
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
+    },
+    "getOfferingsIdImageOKBody": {
+      "type": "file",
+      "x-go-gen-location": "operations"
+    },
+    "getUsersIdImageOKBody": {
+      "type": "file",
+      "x-go-gen-location": "operations"
     },
     "offeringLocation": {
       "type": "object",

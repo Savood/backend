@@ -13,11 +13,9 @@ func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, p
 	return middleware.NotImplemented("")
 }
 
-/*
+func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
-func GetOfferingIDImageHandler() middleware.Responder {
-
-	file_ext := filepath.Ext(filename)
+	/*file_ext := filepath.Ext(filename)
 
 	content_type := mime.TypeByExtension(file_ext)
 
@@ -25,8 +23,9 @@ func GetOfferingIDImageHandler() middleware.Responder {
 		r.Header.Set("Content-Type", content_type)
 	} else {
 		r.Header.Set("Content-Type", "image/*")
-	}
+	}*/
+
+
 
 	return middleware.NotImplemented("")
 }
-*/
