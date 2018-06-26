@@ -9,7 +9,9 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/swag"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -30,11 +32,19 @@ type GetUsersIDImageParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*If either width or height is set to 0, it will be set to an aspect ratio preserving value.
+	  In: query
+	*/
+	Height *float64
 	/*
 	  Required: true
 	  In: path
 	*/
 	ID string
+	/*If either width or height is set to 0, it will be set to an aspect ratio preserving value.
+	  In: query
+	*/
+	Width *float64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -46,14 +56,48 @@ func (o *GetUsersIDImageParams) BindRequest(r *http.Request, route *middleware.M
 
 	o.HTTPRequest = r
 
+	qs := runtime.Values(r.URL.Query())
+
+	qHeight, qhkHeight, _ := qs.GetOK("height")
+	if err := o.bindHeight(qHeight, qhkHeight, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
 	rID, rhkID, _ := route.Params.GetOK("id")
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qWidth, qhkWidth, _ := qs.GetOK("width")
+	if err := o.bindWidth(qWidth, qhkWidth, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// bindHeight binds and validates parameter Height from query.
+func (o *GetUsersIDImageParams) bindHeight(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	value, err := swag.ConvertFloat64(raw)
+	if err != nil {
+		return errors.InvalidType("height", "query", "float64", raw)
+	}
+	o.Height = &value
+
 	return nil
 }
 
@@ -68,6 +112,28 @@ func (o *GetUsersIDImageParams) bindID(rawData []string, hasKey bool, formats st
 	// Parameter is provided by construction from the route
 
 	o.ID = raw
+
+	return nil
+}
+
+// bindWidth binds and validates parameter Width from query.
+func (o *GetUsersIDImageParams) bindWidth(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	value, err := swag.ConvertFloat64(raw)
+	if err != nil {
+		return errors.InvalidType("width", "query", "float64", raw)
+	}
+	o.Width = &value
 
 	return nil
 }

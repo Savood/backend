@@ -10,11 +10,16 @@ import (
 	"net/url"
 	golangswaggerpaths "path"
 	"strings"
+
+	"github.com/go-openapi/swag"
 )
 
 // GetOfferingsIDImageURL generates an URL for the get offerings ID image operation
 type GetOfferingsIDImageURL struct {
 	ID string
+
+	Height *float64
+	Width  *float64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -50,7 +55,30 @@ func (o *GetOfferingsIDImageURL) Build() (*url.URL, error) {
 	}
 
 	_basePath := o._basePath
+	if _basePath == "" {
+		_basePath = "/v2/"
+	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
+
+	qs := make(url.Values)
+
+	var height string
+	if o.Height != nil {
+		height = swag.FormatFloat64(*o.Height)
+	}
+	if height != "" {
+		qs.Set("height", height)
+	}
+
+	var width string
+	if o.Width != nil {
+		width = swag.FormatFloat64(*o.Width)
+	}
+	if width != "" {
+		qs.Set("width", width)
+	}
+
+	result.RawQuery = qs.Encode()
 
 	return &result, nil
 }

@@ -31,6 +31,7 @@ func init() {
     },
     "version": "1.0"
   },
+  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -498,6 +499,20 @@ func init() {
           "image"
         ],
         "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -723,6 +738,20 @@ func init() {
           "image"
         ],
         "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1134,6 +1163,7 @@ func init() {
     },
     "version": "1.0"
   },
+  "basePath": "/v2/",
   "paths": {
     "/chats/": {
       "get": {
@@ -1646,6 +1676,20 @@ func init() {
           "image"
         ],
         "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1898,6 +1942,20 @@ func init() {
           "image"
         ],
         "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
