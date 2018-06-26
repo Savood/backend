@@ -5,6 +5,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 	"log"
 	"github.com/stretchr/testify/assert"
+	"os"
 )
 
 func TestMain(m *testing.M) {
@@ -13,7 +14,7 @@ func TestMain(m *testing.M) {
 		log.Fatal("Failed DB connection")
 		return
 	}
-	m.Run()
+	os.Exit(m.Run())
 }
 
 func TestGetImage(t *testing.T) {
