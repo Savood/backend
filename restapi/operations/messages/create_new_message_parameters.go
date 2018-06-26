@@ -65,7 +65,6 @@ func (o *CreateNewMessageParams) BindRequest(r *http.Request, route *middleware.
 				res = append(res, errors.NewParseError("body", "body", "", err))
 			}
 		} else {
-
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
 				res = append(res, err)
@@ -89,6 +88,7 @@ func (o *CreateNewMessageParams) BindRequest(r *http.Request, route *middleware.
 	return nil
 }
 
+// bindChatID binds and validates parameter ChatID from path.
 func (o *CreateNewMessageParams) bindChatID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {

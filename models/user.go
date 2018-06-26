@@ -7,11 +7,11 @@ package models
 
 import (
 	strfmt "github.com/go-openapi/strfmt"
-	"github.com/globalsign/mgo/bson"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
+	"github.com/globalsign/mgo/bson"
 )
 
 // User user

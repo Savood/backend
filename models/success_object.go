@@ -11,24 +11,21 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// OfferingLocation offering location
-// swagger:model offeringLocation
-type OfferingLocation struct {
+// SuccessObject success object
+// swagger:model SuccessObject
+type SuccessObject struct {
 
-	// longitude then latidue as floats
-	Coordinates []float64 `json:"coordinates"`
-
-	// type
-	Type string `json:"type,omitempty"`
+	// success
+	Success string `json:"success,omitempty"`
 }
 
-// Validate validates this offering location
-func (m *OfferingLocation) Validate(formats strfmt.Registry) error {
+// Validate validates this success object
+func (m *SuccessObject) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *OfferingLocation) MarshalBinary() ([]byte, error) {
+func (m *SuccessObject) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -36,8 +33,8 @@ func (m *OfferingLocation) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *OfferingLocation) UnmarshalBinary(b []byte) error {
-	var res OfferingLocation
+func (m *SuccessObject) UnmarshalBinary(b []byte) error {
+	var res SuccessObject
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

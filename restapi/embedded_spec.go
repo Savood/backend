@@ -294,6 +294,39 @@ func init() {
         }
       }
     },
+    "/offering/{id}/image": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
     "/offerings": {
       "get": {
         "produces": [
@@ -486,6 +519,41 @@ func init() {
         }
       ]
     },
+    "/placeSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offering"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "placeSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savood is placed",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "consumes": [
@@ -609,6 +677,39 @@ func init() {
           "required": true
         }
       ]
+    },
+    "/users/{id}/image": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -782,6 +883,14 @@ func init() {
           "type": "string"
         },
         "userid": {
+          "type": "string"
+        }
+      }
+    },
+    "SuccessObject": {
+      "type": "object",
+      "properties": {
+        "success": {
           "type": "string"
         }
       }
@@ -1247,6 +1356,45 @@ func init() {
         }
       }
     },
+    "/offering/{id}/image": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
     "/offerings": {
       "get": {
         "produces": [
@@ -1460,6 +1608,44 @@ func init() {
         }
       ]
     },
+    "/placeSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offering"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "placeSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savood is placed",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "consumes": [
@@ -1595,6 +1781,45 @@ func init() {
           "required": true
         }
       ]
+    },
+    "/users/{id}/image": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1756,6 +1981,14 @@ func init() {
           "type": "string"
         },
         "userid": {
+          "type": "string"
+        }
+      }
+    },
+    "SuccessObject": {
+      "type": "object",
+      "properties": {
+        "success": {
           "type": "string"
         }
       }
