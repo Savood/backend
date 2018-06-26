@@ -120,24 +120,21 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestGetAllChatsByUserID(t *testing.T) {
-	userID, user := CreateFakeUser()
+	userID, _ := CreateFakeUser()
 
 	userShort, _ := GetUserShortByID(userID.Hex())
 
-	principal := models.Principal{
-		Email:  string(user.Email),
-		Userid: userID,
-	}
+	offeringID, _ := CreateFakeOffering()
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
 		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []bson.ObjectId{},
+		OfferingID: []bson.ObjectId{offeringID},
 	}
 
-	assert.NoError(t, SaveChat(principal, chat))
+	assert.NoError(t, SaveChat(&chat))
 
 	chats, err := GetAllChatsByUserID(userID.Hex())
 	assert.NoError(t, err)
@@ -145,24 +142,21 @@ func TestGetAllChatsByUserID(t *testing.T) {
 }
 
 func TestSaveChat(t *testing.T) {
-	userID, user := CreateFakeUser()
+	userID, _ := CreateFakeUser()
 
 	userShort, _ := GetUserShortByID(userID.Hex())
 
-	principal := models.Principal{
-		Email:  string(user.Email),
-		Userid: userID,
-	}
+	offeringID, _ := CreateFakeOffering()
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
 		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []bson.ObjectId{},
+		OfferingID: []bson.ObjectId{offeringID},
 	}
 
-	assert.NoError(t, SaveChat(principal, chat))
+	assert.NoError(t, SaveChat(&chat))
 
 	chatByID, err := GetChatByID(chatID.Hex())
 	assert.NotNil(t, chatByID)
@@ -174,24 +168,21 @@ func TestGetChatByID(t *testing.T) {
 }
 
 func TestGetAllMessagesByChatID(t *testing.T) {
-	userID, user := CreateFakeUser()
+	userID, _ := CreateFakeUser()
 
 	userShort, _ := GetUserShortByID(userID.Hex())
 
-	principal := models.Principal{
-		Email:  string(user.Email),
-		Userid: userID,
-	}
+	offeringID, _ := CreateFakeOffering()
 
 	chatID := bson.NewObjectId()
 
 	chat := models.Chat{
 		ID:         chatID,
 		Partner:    userShort,
-		OfferingID: []bson.ObjectId{},
+		OfferingID: []bson.ObjectId{offeringID},
 	}
 
-	assert.NoError(t, SaveChat(principal, chat))
+	assert.NoError(t, SaveChat(&chat))
 
 	SaveMessage(chat, models.Message{
 		From:    userShort,
@@ -242,4 +233,51 @@ func TestSaveOffering(t *testing.T) {
 	assert.NotNil(t, offering)
 
 	assert.Equal(t, "description", offering.Description)
+}
+
+func TestGetAllChatsByOfferingAndUserID(t *testing.T) {
+	_, offeringTest := CreateFakeOffering()
+
+	userID, _ := CreateFakeUser()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	chat := models.Chat{
+		OfferingID: []bson.ObjectId{offeringTest.ID},
+		Partner:    userShort,
+	}
+
+	SaveChat(&chat)
+
+	chatsPartner, err := GetAllChatsByOfferingAndUserID(offeringTest.ID.Hex(), userID.Hex())
+	assert.NoError(t, err)
+	assert.True(t, len(chatsPartner) > 0)
+
+	chatsCreator, err := GetAllChatsByOfferingAndUserID(offeringTest.ID.Hex(), offeringTest.CreatorID.Hex())
+	assert.NoError(t, err)
+	assert.True(t, len(chatsCreator) > 0)
+}
+
+func TestGetChatByIDAndUserID(t *testing.T) {
+	userID, _ := CreateFakeUser()
+
+	offeringID, _ := CreateFakeOffering()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	chat := models.Chat{
+		OfferingID: []bson.ObjectId{offeringID},
+		Partner:    userShort,
+	}
+
+	SaveChat(&chat)
+
+	chatl, err := GetChatByIDAndUserID(chat.ID.Hex(), userID.Hex())
+	assert.NoError(t, err)
+	assert.NotNil(t, chatl)
+
+	chatl, err = GetChatByIDAndUserID(chat.ID.Hex(), bson.NewObjectId().Hex())
+	assert.Error(t, err)
+	assert.Equal(t, "not found", err.Error())
+	assert.Nil(t, chatl)
 }

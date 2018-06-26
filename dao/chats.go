@@ -13,30 +13,20 @@ const ChatsCollectionName = "chats"
 type ChatTO struct {
 	ID bson.ObjectId `json:"_id"`
 
-	OfferingID []bson.ObjectId `json:"offering-id"`
+	OfferingID []bson.ObjectId `json:"offeringid"`
 
 	Partner bson.ObjectId `json:"partner"`
 
-	OfferingCreatorID bson.ObjectId `json:"offering-creator-id"`
+	OfferingCreatorID bson.ObjectId `json:"offeringcreatorid"`
 }
 
-//GetAllChatsByUserID Get All chats by user id (by offerings and partner)
-func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
-	offerings, err := GetAllOfferingsByUserID(userID)
-	if err != nil {
-		return nil, err
-	}
-
-	var offeringIds []bson.ObjectId
-
-	for _, result := range offerings {
-		offeringIds = append(offeringIds, result.ID)
-	}
-
+//GetAllChatsByOfferingAndUserID Get All chats with this offering id and containing the right userid
+func GetAllChatsByOfferingAndUserID(offeringID string, userID string) ([]*models.Chat, error) {
 	userObjectID := bson.ObjectIdHex(userID)
+	offeringObjectID := bson.ObjectIdHex(offeringID)
 
 	var results []ChatTO
-	err = database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
+	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -59,6 +49,60 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	}
 
 	return chatObjects, nil
+}
+
+//GetAllChatsByUserID Get All chats by user id (by offerings and partner)
+func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
+	userObjectID := bson.ObjectIdHex(userID)
+
+	var results []ChatTO
+	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
+	if err != nil {
+		return nil, err
+	}
+
+	var chatObjects []*models.Chat
+
+	for _, result := range results {
+		chatPartner, err := GetUserShortByID(result.Partner.Hex())
+		if err != nil {
+			return nil, err
+		}
+
+		chatModel := &models.Chat{
+			ID:         result.ID,
+			Partner:    chatPartner,
+			OfferingID: result.OfferingID,
+		}
+
+		chatObjects = append(chatObjects, chatModel)
+	}
+
+	return chatObjects, nil
+}
+
+//GetChatByIDAndUserID getting chat by id
+func GetChatByIDAndUserID(chatID string, userID string) (*models.Chat, error) {
+	userObjectID := bson.ObjectIdHex(userID)
+
+	var result ChatTO
+	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"_id": bson.ObjectIdHex(chatID), "$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}}).One(&result)
+	if err != nil {
+		return nil, err
+	}
+
+	chatPartner, err := GetUserShortByID(result.Partner.Hex())
+	if err != nil {
+		return nil, err
+	}
+
+	chatModel := &models.Chat{
+		ID:         result.ID,
+		Partner:    chatPartner,
+		OfferingID: result.OfferingID,
+	}
+
+	return chatModel, nil
 }
 
 //GetChatByID getting chat by id
@@ -84,16 +128,23 @@ func GetChatByID(chatID string) (*models.Chat, error) {
 }
 
 //SaveChat save a Chat model
-func SaveChat(principal models.Principal, chat models.Chat) error {
+func SaveChat(chat *models.Chat) error {
+	offeringID := chat.OfferingID[0]
+
+	offering, err := GetOfferingByID(offeringID.Hex())
+	if err != nil {
+		return err
+	}
+
+	if len(chat.ID) == 0 {
+		chat.ID = bson.NewObjectId()
+	}
+
 	chatTO := ChatTO{
 		Partner:           chat.Partner.ID,
 		OfferingID:        chat.OfferingID,
 		ID:                chat.ID,
-		OfferingCreatorID: principal.Userid,
-	}
-
-	if len(chatTO.ID) == 0 {
-		chatTO.ID = bson.NewObjectId()
+		OfferingCreatorID: offering.CreatorID,
 	}
 
 	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(chatTO.ID, chatTO)
