@@ -96,7 +96,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
-	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.OfferingsCreateNewOfferingHandler)
+	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.CreateNewOfferingHandler)
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")

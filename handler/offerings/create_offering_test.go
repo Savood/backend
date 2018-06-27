@@ -101,13 +101,13 @@ func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
 
 	for _, iot := range inOut {
 
-		response := OfferingsCreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: iot.in}, testPrincipal)
+		response := CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: iot.in}, testPrincipal)
 
 		assert.IsType(t, iot.out, response)
 
 	}
 
-	response := OfferingsCreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, testPrincipal)
+	response := CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, testPrincipal)
 
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
 

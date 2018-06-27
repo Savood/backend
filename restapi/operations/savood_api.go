@@ -188,7 +188,7 @@ type SavoodAPI struct {
 	PostUsersIDImageJpegHandler PostUsersIDImageJpegHandler
 	// MessagesCreateNewMessageHandler sets the operation handler for the create new message operation
 	MessagesCreateNewMessageHandler messages.CreateNewMessageHandler
-	// OfferingsCreateNewOfferingHandler sets the operation handler for the create new offering operation
+	// CreateNewOfferingHandler sets the operation handler for the create new offering operation
 	OfferingsCreateNewOfferingHandler offerings.CreateNewOfferingHandler
 	// UsersCreateNewUserHandler sets the operation handler for the create new user operation
 	UsersCreateNewUserHandler users.CreateNewUserHandler

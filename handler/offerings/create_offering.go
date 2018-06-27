@@ -6,7 +6,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 )
 
-func OfferingsCreateNewOfferingHandler(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
+// CreateNewOfferingHandler creates an offering and ensures it is in order
+func CreateNewOfferingHandler(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
 
 
 
