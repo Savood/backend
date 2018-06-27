@@ -81,6 +81,50 @@ func (o *PostOfferingsIDImageBadRequest) WriteResponse(rw http.ResponseWriter, p
 	}
 }
 
+// PostOfferingsIDImageForbiddenCode is the HTTP code returned for type PostOfferingsIDImageForbidden
+const PostOfferingsIDImageForbiddenCode int = 403
+
+/*PostOfferingsIDImageForbidden Unauthorized
+
+swagger:response postOfferingsIdImageForbidden
+*/
+type PostOfferingsIDImageForbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewPostOfferingsIDImageForbidden creates PostOfferingsIDImageForbidden with default headers values
+func NewPostOfferingsIDImageForbidden() *PostOfferingsIDImageForbidden {
+
+	return &PostOfferingsIDImageForbidden{}
+}
+
+// WithPayload adds the payload to the post offerings Id image forbidden response
+func (o *PostOfferingsIDImageForbidden) WithPayload(payload *models.ErrorModel) *PostOfferingsIDImageForbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the post offerings Id image forbidden response
+func (o *PostOfferingsIDImageForbidden) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PostOfferingsIDImageForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 // PostOfferingsIDImageInternalServerErrorCode is the HTTP code returned for type PostOfferingsIDImageInternalServerError
 const PostOfferingsIDImageInternalServerErrorCode int = 500
 

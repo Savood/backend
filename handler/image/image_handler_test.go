@@ -113,3 +113,32 @@ func TestGetUsersIDImageHandler4(t *testing.T) {
 	assert.IsType(t, &operations.GetUsersIDImageNotFound{}, response)
 
 }
+
+func TestPostUsersIDImageHandler1(t *testing.T) {
+
+	img, err := os.Open("testimage.jpg")
+
+	assert.NoError(t, err)
+
+	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "500000000000000000000003", Upfile: img}, testPrincipal)
+
+	assert.IsType(t, operations.PostOfferingsIDImageForbidden{}, response)
+}
+
+func TestPostUsersIDImageHandler2(t *testing.T) {
+
+	img, err := os.Open("testimage.jpg")
+
+	assert.NoError(t, err)
+
+	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "5b32d488129072313591c682", Upfile: img}, testPrincipal)
+
+	assert.IsType(t, operations.PostOfferingsIDImageNoContent{}, response)
+}
+
+func TestPostUsersIDImageHandler3(t *testing.T) {
+
+	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "5b32d488129072313591c682"}, testPrincipal)
+
+	assert.IsType(t, operations.PostOfferingsIDImageBadRequest{}, response)
+}

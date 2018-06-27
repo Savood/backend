@@ -6,14 +6,31 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"fmt"
 	"git.dhbw.chd.cx/savood/backend/database/image"
+	"git.dhbw.chd.cx/savood/backend/dao"
 )
 
 // PostOfferingsIDImageHandler uploads given image and adds a link to the offering with the given ID
 func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
-	//UploadImage("test", params.Upfile)
+	offering, err := dao.GetOfferingByID(params.ID)
+	if err != nil {
+		return operations.NewGetOfferingsIDImageInternalServerError()
+	}
 
-	return middleware.NotImplemented("")
+	if offering.CreatorID != principal.Userid {
+		return operations.NewPostOfferingsIDImageForbidden()
+	}
+
+
+	img, err := image.ResizeImage(params.Upfile,0,0)
+
+	if err != nil {
+		return operations.NewGetOfferingsIDImageInternalServerError()
+	}
+
+	image.UploadImage(fmt.Sprintf("offering_avatar_%s.jpg",params.ID),img)
+
+	return operations.NewPostOfferingsIDImageNoContent()
 }
 
 // GetOfferingsIDImageHandler provides the Image for a Offering with a given ID

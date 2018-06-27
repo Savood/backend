@@ -550,6 +550,9 @@ func init() {
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
           },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
@@ -787,6 +790,9 @@ func init() {
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
           },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
@@ -910,9 +916,6 @@ func init() {
         },
         "address": {
           "$ref": "#/definitions/Address"
-        },
-        "avatarId": {
-          "type": "string"
         },
         "best-by-date": {
           "type": "string",
@@ -1732,6 +1735,12 @@ func init() {
               "$ref": "#/definitions/InvalidParameterInput"
             }
           },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
           "500": {
             "description": "Generic Error",
             "schema": {
@@ -1996,6 +2005,12 @@ func init() {
               "$ref": "#/definitions/InvalidParameterInput"
             }
           },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
           "500": {
             "description": "Generic Error",
             "schema": {
@@ -2122,9 +2137,6 @@ func init() {
         },
         "address": {
           "$ref": "#/definitions/Address"
-        },
-        "avatarId": {
-          "type": "string"
         },
         "best-by-date": {
           "type": "string",
