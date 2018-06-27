@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 		return
 	}
 
-	err = image.UploadImage("user_avatar_500000000000000000000003", img)
+	err = image.UploadImage("user_avatar_500000000000000000000003.jpg", img)
 	if err != nil {
 		log.Fatal(err)
 		return
@@ -39,7 +39,7 @@ func TestMain(m *testing.M) {
 		return
 	}
 
-	err = image.UploadImage("offering_avatar_500000000000000000000003", img)
+	err = image.UploadImage("offering_avatar_500000000000000000000003.jpg", img)
 	if err != nil {
 		log.Fatal(err)
 		return
