@@ -489,8 +489,6 @@ func init() {
     "/offerings/{id}/image": {
       "get": {
         "produces": [
-          "image/png",
-          "image/gif",
           "image/jpeg",
           "application/json"
         ],
@@ -728,8 +726,6 @@ func init() {
     "/users/{id}/image": {
       "get": {
         "produces": [
-          "image/png",
-          "image/gif",
           "image/jpeg",
           "application/json"
         ],
@@ -1666,8 +1662,6 @@ func init() {
     "/offerings/{id}/image": {
       "get": {
         "produces": [
-          "image/png",
-          "image/gif",
           "image/jpeg",
           "application/json"
         ],
@@ -1932,8 +1926,6 @@ func init() {
     "/users/{id}/image": {
       "get": {
         "produces": [
-          "image/png",
-          "image/gif",
           "image/jpeg",
           "application/json"
         ],

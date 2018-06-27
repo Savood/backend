@@ -8,10 +8,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
-    networks:
-      - savood
-    volumes:
-      - db-data
+    ports:
+      - "27017:27017"
+
 
 
   backend:
@@ -19,6 +18,7 @@ services:
     environment:
         MONGODB_URL: mongodb://mongodb
         MONGODB_DB: savood
+        JWT_SECRET: secret
     depends_on:
         mongodb:
           condition: service_healthy
@@ -27,17 +27,8 @@ services:
         interval: 5s
         timeout: 5s
         retries: 12
-    networks:
-      - savood
+    ports:
+      - "8080:8080"
 
-  test:
-    image: hello-world
-    depends_on:
-      backend:
-        condition: service_healthy
 
-networks:
-  savood:
 
-volumes:
-  db-data:

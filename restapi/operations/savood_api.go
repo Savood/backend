@@ -46,14 +46,8 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		JSONConsumer:          runtime.JSONConsumer(),
 		MultipartformConsumer: runtime.DiscardConsumer,
 		JSONProducer:          runtime.JSONProducer(),
-		ImageGifProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
-			return errors.NotImplemented("imageGif producer has not yet been implemented")
-		}),
 		ImageJpegProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
 			return errors.NotImplemented("imageJpeg producer has not yet been implemented")
-		}),
-		ImagePngProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
-			return errors.NotImplemented("imagePng producer has not yet been implemented")
 		}),
 		GetOfferingsIDImageHandler: GetOfferingsIDImageHandlerFunc(func(params GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation GetOfferingsIDImage has not yet been implemented")
@@ -164,12 +158,8 @@ type SavoodAPI struct {
 
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
-	// ImageGifProducer registers a producer for a "image/gif" mime type
-	ImageGifProducer runtime.Producer
 	// ImageJpegProducer registers a producer for a "image/jpeg" mime type
 	ImageJpegProducer runtime.Producer
-	// ImagePngProducer registers a producer for a "image/png" mime type
-	ImagePngProducer runtime.Producer
 
 	// BearerAuth registers a function that takes a token and returns a principal
 	// it performs authentication based on an api key Authorization provided in the header
@@ -291,16 +281,8 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.ImageGifProducer == nil {
-		unregistered = append(unregistered, "ImageGifProducer")
-	}
-
 	if o.ImageJpegProducer == nil {
 		unregistered = append(unregistered, "ImageJpegProducer")
-	}
-
-	if o.ImagePngProducer == nil {
-		unregistered = append(unregistered, "ImagePngProducer")
 	}
 
 	if o.BearerAuth == nil {
@@ -470,14 +452,8 @@ func (o *SavoodAPI) ProducersFor(mediaTypes []string) map[string]runtime.Produce
 		case "application/json":
 			result["application/json"] = o.JSONProducer
 
-		case "image/gif":
-			result["image/gif"] = o.ImageGifProducer
-
 		case "image/jpeg":
 			result["image/jpeg"] = o.ImageJpegProducer
-
-		case "image/png":
-			result["image/png"] = o.ImagePngProducer
 
 		}
 
