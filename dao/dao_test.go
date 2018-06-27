@@ -61,7 +61,6 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 		ID:          offeringID,
 		Description: "description",
 		Name:        "name",
-		AvatarID:    "avatar-id",
 		BestByDate:  strfmt.Date(time.Now().UTC()),
 		Location: &models.OfferingLocation{
 			Coordinates: []float64{0.0, 0.0},
