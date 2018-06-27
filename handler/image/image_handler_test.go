@@ -39,6 +39,18 @@ func TestMain(m *testing.M) {
 		return
 	}
 
+	err = image.UploadImage("user_bg_500000000000000000000003.jpg", img)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	img, err = os.Open("testimage.jpg")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
 	err = image.UploadImage("offering_avatar_500000000000000000000003.jpg", img)
 	if err != nil {
 		log.Fatal(err)
@@ -206,7 +218,7 @@ func TestPostUsersIDBackgroundImageHandler2(t *testing.T) {
 
 func TestPostUsersIDBackgroundImageHandler3(t *testing.T) {
 
-	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682"}, testPrincipal)
+	response := PostUsersIDBackgroundimageJpegHandler(operations.PostUsersIDBackgroundimageJpegParams{ID: "5b32d488129072313591c682"}, testPrincipal)
 
 	assert.IsType(t, &operations.PostUsersIDBackgroundimageJpegBadRequest{}, response)
 }
