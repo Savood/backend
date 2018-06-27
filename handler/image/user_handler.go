@@ -32,12 +32,7 @@ func PostUsersIDImageJpegHandler(params operations.PostUsersIDImageJpegParams, p
 
 	filename := fmt.Sprintf("user_avatar_%s.jpg", params.ID)
 
-	err = image.DeleteImage(filename)
-
-	if err != nil {
-		str := err.Error()
-		return operations.NewPostUsersIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
-	}
+	image.DeleteImage(filename)
 
 	err = image.UploadImage(filename, img)
 
