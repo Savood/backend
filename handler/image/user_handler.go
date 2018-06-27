@@ -73,7 +73,7 @@ func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, pri
 	return operations.NewGetUsersIDImageJpegOK().WithPayload(out)
 }
 
-// PostUsersIDImageJpegHandler uploads given image
+// PostUsersIDBackgroundimageJpegHandler uploads given image
 func PostUsersIDBackgroundimageJpegHandler(params operations.PostUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
 
 	if params.ID != principal.Userid.String() {
@@ -107,7 +107,7 @@ func PostUsersIDBackgroundimageJpegHandler(params operations.PostUsersIDBackgrou
 
 }
 
-// GetUsersIDImageJpegHandler provides the Image for a User with a given ID
+// GetUsersIDBackgroundimageJpegHandler provides the Background-Image for a User with a given ID
 func GetUsersIDBackgroundimageJpegHandler(params operations.GetUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
 
 
