@@ -19,9 +19,6 @@ type UserShort struct {
 	// id
 	ID bson.ObjectId `json:"_id,omitempty"`
 
-	// avatar Id
-	AvatarID string `json:"avatarId,omitempty"`
-
 	// firstname
 	Firstname string `json:"firstname,omitempty"`
 

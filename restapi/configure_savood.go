@@ -18,6 +18,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
+	"git.dhbw.chd.cx/savood/backend/handler/image"
+	"io"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -40,6 +42,18 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	api.ImageJpegProducer = runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
+
+		wr := w.(http.ResponseWriter)
+		d := data.(io.ReadCloser)
+
+		io.Copy(wr, d)
+
+		d.Close()
+
+		return nil
+	})
+
 	// Applies when the "Authorization" header is set
 	api.BearerAuth = func(token string) (*models.Principal, error) {
 
@@ -55,7 +69,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 
 	api.HealthHealthcheckGetHandler = health.HealthcheckGetHandlerFunc(func(params health.HealthcheckGetParams) middleware.Responder {
-		if !database.HealthCheck(){
+		if !database.HealthCheck() {
 			code := int32(503)
 			message := "database unhealthy"
 			return health.NewHealthcheckGetServiceUnavailable().WithPayload(&models.ErrorModel{Code: &code, Message: &message})
@@ -68,6 +82,18 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	//
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
+
+	api.PostOfferingsIDImageJpegHandler = operations.PostOfferingsIDImageJpegHandlerFunc(image.PostOfferingsIDImageJpegHandler)
+
+	api.GetOfferingsIDImageJpegHandler = operations.GetOfferingsIDImageJpegHandlerFunc(image.GetOfferingsIDImageJpegHandler)
+
+	api.PostUsersIDImageJpegHandler = operations.PostUsersIDImageJpegHandlerFunc(image.PostUsersIDImageJpegHandler)
+
+	api.GetUsersIDImageJpegHandler = operations.GetUsersIDImageJpegHandlerFunc(image.GetUsersIDImageJpegHandler)
+
+	api.PostUsersIDBackgroundimageJpegHandler = operations.PostUsersIDBackgroundimageJpegHandlerFunc(image.PostUsersIDBackgroundimageJpegHandler)
+
+	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
@@ -137,7 +163,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *http.Server, scheme, addr string) {
 
-	database.ConnectDatabase(nil,nil)
+	database.ConnectDatabase(nil, nil)
 
 }
 

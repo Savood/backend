@@ -141,6 +141,12 @@
   revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/nfnt/resize"
+  packages = ["."]
+  revision = "83c6a9932646f83e3267f353373d47347b6036b2"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -202,6 +208,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ffc0417913f91a78c2d98f4d23bb08f03e7f25033c58f4cd50dd4a187163dce6"
+  inputs-digest = "8d4332208a590bda6ecf2f24e4a641c9288c21b65ae82f1fb0521a109ba4c2b6"
   solver-name = "gps-cdcl"
   solver-version = 1

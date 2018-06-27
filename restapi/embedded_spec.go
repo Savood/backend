@@ -294,39 +294,6 @@ func init() {
         }
       }
     },
-    "/offering/{id}/image": {
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "summary": "Uploads avatar image.",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "file",
-            "description": "The file to upload.",
-            "name": "upfile",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
-          },
-          "400": {
-            "$ref": "#/responses/InvalidParameterInput"
-          },
-          "500": {
-            "$ref": "#/responses/ErrorResponse"
-          }
-        }
-      }
-    },
     "/offerings": {
       "get": {
         "produces": [
@@ -519,6 +486,87 @@ func init() {
         }
       ]
     },
+    "/offerings/{id}/image.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/placeSavood": {
       "post": {
         "consumes": [
@@ -529,7 +577,7 @@ func init() {
         ],
         "tags": [
           "rpc-calls",
-          "offering"
+          "offerings"
         ],
         "summary": "Places a savood on an offering",
         "operationId": "placeSavood",
@@ -678,19 +726,56 @@ func init() {
         }
       ]
     },
-    "/users/{id}/image": {
+    "/users/{id}/backgroundimage.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
+        "tags": [
+          "users",
+          "image"
+        ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -705,11 +790,103 @@ func init() {
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
           },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/users/{id}/image.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {
@@ -821,9 +998,6 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "avatarId": {
-          "type": "string"
-        },
         "best-by-date": {
           "type": "string",
           "format": "date"
@@ -904,12 +1078,6 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "avatarId": {
-          "type": "string"
-        },
-        "backgroundId": {
-          "type": "string"
-        },
         "badges": {
           "type": "array",
           "items": {
@@ -969,9 +1137,6 @@ func init() {
       "type": "object",
       "properties": {
         "_id": {
-          "type": "string"
-        },
-        "avatarId": {
           "type": "string"
         },
         "firstname": {
@@ -1356,45 +1521,6 @@ func init() {
         }
       }
     },
-    "/offering/{id}/image": {
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "summary": "Uploads avatar image.",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "file",
-            "description": "The file to upload.",
-            "name": "upfile",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Accepted; No response."
-          },
-          "400": {
-            "description": "Invalid parameter input was passed",
-            "schema": {
-              "$ref": "#/definitions/InvalidParameterInput"
-            }
-          },
-          "500": {
-            "description": "Generic Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          }
-        }
-      }
-    },
     "/offerings": {
       "get": {
         "produces": [
@@ -1608,6 +1734,102 @@ func init() {
         }
       ]
     },
+    "/offerings/{id}/image.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getOfferingsIdImageJpegOKBody"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "offerings",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/placeSavood": {
       "post": {
         "consumes": [
@@ -1618,7 +1840,7 @@ func init() {
         ],
         "tags": [
           "rpc-calls",
-          "offering"
+          "offerings"
         ],
         "summary": "Places a savood on an offering",
         "operationId": "placeSavood",
@@ -1782,19 +2004,62 @@ func init() {
         }
       ]
     },
-    "/users/{id}/image": {
+    "/users/{id}/backgroundimage.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getUsersIdBackgroundimageJpegOKBody"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
       "post": {
         "consumes": [
           "multipart/form-data"
         ],
+        "tags": [
+          "users",
+          "image"
+        ],
         "summary": "Uploads avatar image.",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
           {
             "type": "file",
             "description": "The file to upload.",
@@ -1812,6 +2077,12 @@ func init() {
               "$ref": "#/definitions/InvalidParameterInput"
             }
           },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
           "500": {
             "description": "Generic Error",
             "schema": {
@@ -1819,7 +2090,111 @@ func init() {
             }
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/users/{id}/image.jpeg": {
+      "get": {
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Gets the avatar image.",
+        "parameters": [
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "height",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "description": "If either width or height is set to 0, it will be set to an aspect ratio preserving value.",
+            "name": "width",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getUsersIdImageJpegOKBody"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "tags": [
+          "users",
+          "image"
+        ],
+        "summary": "Uploads avatar image.",
+        "parameters": [
+          {
+            "type": "file",
+            "description": "The file to upload.",
+            "name": "upfile",
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Accepted; No response."
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "string",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {
@@ -1931,9 +2306,6 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "avatarId": {
-          "type": "string"
-        },
         "best-by-date": {
           "type": "string",
           "format": "date"
@@ -2002,12 +2374,6 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "avatarId": {
-          "type": "string"
-        },
-        "backgroundId": {
-          "type": "string"
-        },
         "badges": {
           "type": "array",
           "items": {
@@ -2069,9 +2435,6 @@ func init() {
         "_id": {
           "type": "string"
         },
-        "avatarId": {
-          "type": "string"
-        },
         "firstname": {
           "type": "string"
         },
@@ -2088,6 +2451,18 @@ func init() {
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
+    },
+    "getOfferingsIdImageJpegOKBody": {
+      "type": "file",
+      "x-go-gen-location": "operations"
+    },
+    "getUsersIdBackgroundimageJpegOKBody": {
+      "type": "file",
+      "x-go-gen-location": "operations"
+    },
+    "getUsersIdImageJpegOKBody": {
+      "type": "file",
+      "x-go-gen-location": "operations"
     },
     "offeringLocation": {
       "type": "object",

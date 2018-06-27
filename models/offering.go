@@ -25,9 +25,6 @@ type Offering struct {
 	// address
 	Address *Address `json:"address,omitempty"`
 
-	// avatar Id
-	AvatarID string `json:"avatarId,omitempty"`
-
 	// best by date
 	// Format: date
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`

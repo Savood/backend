@@ -17,18 +17,18 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewPostOfferingIDImageParams creates a new PostOfferingIDImageParams object
+// NewPostUsersIDImageJpegParams creates a new PostUsersIDImageJpegParams object
 // no default values defined in spec.
-func NewPostOfferingIDImageParams() PostOfferingIDImageParams {
+func NewPostUsersIDImageJpegParams() PostUsersIDImageJpegParams {
 
-	return PostOfferingIDImageParams{}
+	return PostUsersIDImageJpegParams{}
 }
 
-// PostOfferingIDImageParams contains all the bound params for the post offering ID image operation
+// PostUsersIDImageJpegParams contains all the bound params for the post users ID image jpeg operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PostOfferingIDImage
-type PostOfferingIDImageParams struct {
+// swagger:parameters PostUsersIDImageJpeg
+type PostUsersIDImageJpegParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -47,8 +47,8 @@ type PostOfferingIDImageParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPostOfferingIDImageParams() beforehand.
-func (o *PostOfferingIDImageParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewPostUsersIDImageJpegParams() beforehand.
+func (o *PostUsersIDImageJpegParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -84,7 +84,7 @@ func (o *PostOfferingIDImageParams) BindRequest(r *http.Request, route *middlewa
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *PostOfferingIDImageParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *PostUsersIDImageJpegParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -101,6 +101,6 @@ func (o *PostOfferingIDImageParams) bindID(rawData []string, hasKey bool, format
 // bindUpfile binds file parameter Upfile.
 //
 // The only supported validations on files are MinLength and MaxLength
-func (o *PostOfferingIDImageParams) bindUpfile(file multipart.File, header *multipart.FileHeader) error {
+func (o *PostUsersIDImageJpegParams) bindUpfile(file multipart.File, header *multipart.FileHeader) error {
 	return nil
 }
