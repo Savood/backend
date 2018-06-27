@@ -5,12 +5,13 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"fmt"
+	"git.dhbw.chd.cx/savood/backend/database/image"
 )
 
 // PostOfferingsIDImageHandler uploads given image and adds a link to the offering with the given ID
 func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
-	//uploadImage("test", params.Upfile)
+	//UploadImage("test", params.Upfile)
 
 	return middleware.NotImplemented("")
 }
@@ -18,7 +19,7 @@ func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, p
 // GetOfferingsIDImageHandler provides the Image for a Offering with a given ID
 func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
 
-	img, err := getImage(fmt.Sprintf("offering_avatar_%s.jpg", params.ID))
+	img, err := image.GetImage(fmt.Sprintf("offering_avatar_%s.jpg", params.ID))
 	if err != nil {
 		return operations.NewGetOfferingsIDImageNotFound()
 	}
@@ -36,7 +37,7 @@ func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, pri
 			params.Width = &widthDefault
 		}
 
-		out, err = resizeImage(img, uint(*params.Width), uint(*params.Height))
+		out, err = image.ResizeImage(img, uint(*params.Width), uint(*params.Height))
 		if err != nil {
 			str := err.Error()
 			return operations.NewGetOfferingsIDImageInternalServerError().WithPayload(&models.ErrorModel{Message: &str})

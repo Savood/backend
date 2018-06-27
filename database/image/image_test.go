@@ -23,7 +23,7 @@ func TestMain(m *testing.M) {
 func TestNotGettingImage(t *testing.T) {
 
 	// try to get non existing file
-	_, err := getImage("thisDoesNotExist.no")
+	_, err := GetImage("thisDoesNotExist.no")
 
 	assert.Error(t, err)
 
@@ -43,7 +43,7 @@ func TestGetImage(t *testing.T) {
 	}
 
 	// upload Image
-	err = uploadImage("testImage.jpg", testFile)
+	err = UploadImage("testImage.jpg", testFile)
 	assert.NoError(t, err)
 
 	if err != nil {
@@ -51,7 +51,7 @@ func TestGetImage(t *testing.T) {
 	}
 
 	// download Image
-	gridFile, err := getImage("testImage.jpg")
+	gridFile, err := GetImage("testImage.jpg")
 
 	g := gridFile.(*mgo.GridFile)
 
@@ -60,7 +60,7 @@ func TestGetImage(t *testing.T) {
 	// assert equal size
 	assert.Equal(t, stats.Size(), g.Size())
 
-	deleteImage("testImage.jpg")
+	DeleteImage("testImage.jpg")
 
 }
 
@@ -74,7 +74,7 @@ func TestDeleteImage(t *testing.T) {
 	}
 
 	// upload image
-	err = uploadImage("testImageDelete.jpg", testFile)
+	err = UploadImage("testImageDelete.jpg", testFile)
 	assert.NoError(t, err)
 
 	if err != nil {
@@ -82,11 +82,11 @@ func TestDeleteImage(t *testing.T) {
 	}
 
 	// delete image
-	err = deleteImage("testImageDelete.jpg")
+	err = DeleteImage("testImageDelete.jpg")
 	assert.NoError(t, err)
 
 	// assert no image is found
-	_, err = getImage("testImageDelete.jpg")
+	_, err = GetImage("testImageDelete.jpg")
 	assert.Error(t, err)
 }
 
@@ -100,7 +100,7 @@ func TestResizeImage(t *testing.T) {
 		return
 	}
 
-	err = uploadImage("testImage2.jpg", testFile)
+	err = UploadImage("testImage2.jpg", testFile)
 
 	assert.NoError(t, err)
 
@@ -115,16 +115,16 @@ func TestResizeImage(t *testing.T) {
 		return
 	}
 
-	resizeLocal, err := resizeImage(testFileToResize, 5, 0)
+	resizeLocal, err := ResizeImage(testFileToResize, 5, 0)
 	assert.NoError(t, err)
 
 	buf := new(bytes.Buffer)
 	io.Copy(buf, resizeLocal)
 
-	gridFile, err := getImage("testImage2.jpg")
+	gridFile, err := GetImage("testImage2.jpg")
 	assert.NoError(t, err)
 
-	resizeRemote, err := resizeImage(gridFile, 5, 0)
+	resizeRemote, err := ResizeImage(gridFile, 5, 0)
 	assert.NoError(t, err)
 
 	buf2 := new(bytes.Buffer)
@@ -132,6 +132,6 @@ func TestResizeImage(t *testing.T) {
 
 	assert.Equal(t, len(buf.Bytes()), len(buf2.Bytes()))
 
-	deleteImage("testImage2.jpg")
+	DeleteImage("testImage2.jpg")
 
 }

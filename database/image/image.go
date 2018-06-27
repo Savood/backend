@@ -12,8 +12,8 @@ import (
 
 const fs = "fs"
 
-// uploadImage creates a GridFS file and writes to it
-func uploadImage(filename string, inputFile io.ReadCloser) error {
+// UploadImage creates a GridFS file and writes to it
+func UploadImage(filename string, inputFile io.ReadCloser) error {
 
 	db := database.GetDatabase()
 
@@ -49,8 +49,8 @@ func (cb *closingBuffer) Close() (err error) {
 	return
 }
 
-// resizeImage resizes the image
-func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, error) {
+// ResizeImage resizes the image
+func ResizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, error) {
 	var (
 		originalImage image.Image
 		newImage      image.Image
@@ -76,8 +76,8 @@ func resizeImage(origImg io.ReadCloser, width, height uint) (io.ReadCloser, erro
 	return &closingBuffer{buf}, nil
 }
 
-// getImage gets Image from gridFS
-func getImage(filename string) (io.ReadCloser, error) {
+// GetImage gets Image from gridFS
+func GetImage(filename string) (io.ReadCloser, error) {
 
 	db := database.GetDatabase()
 
@@ -91,8 +91,8 @@ func getImage(filename string) (io.ReadCloser, error) {
 
 }
 
-// deleteImage deletes an Image from gridFS
-func deleteImage(filename string) error {
+// DeleteImage deletes an Image from gridFS
+func DeleteImage(filename string) error {
 
 	db := database.GetDatabase()
 

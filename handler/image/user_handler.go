@@ -5,6 +5,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"fmt"
+	"git.dhbw.chd.cx/savood/backend/database/image"
 )
 
 // PostUsersIDImageHandler uploads given image and adds a link to the user with the given ID
@@ -18,7 +19,7 @@ func PostUsersIDImageHandler (params operations.PostUsersIDImageParams, principa
 func GetUsersIDImageHandler (params operations.GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
 
 
-	img, err := getImage(fmt.Sprintf("user_avatar_%s.jpg", params.ID))
+	img, err := image.GetImage(fmt.Sprintf("user_avatar_%s.jpg", params.ID))
 	if err != nil {
 		return operations.NewGetUsersIDImageNotFound()
 	}
@@ -36,7 +37,7 @@ func GetUsersIDImageHandler (params operations.GetUsersIDImageParams, principal 
 			params.Width = &widthDefault
 		}
 
-		out, err = resizeImage(img, uint(*params.Width), uint(*params.Height))
+		out, err = image.ResizeImage(img, uint(*params.Width), uint(*params.Height))
 		if err != nil {
 			str := err.Error()
 			return operations.NewGetUsersIDImageInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
