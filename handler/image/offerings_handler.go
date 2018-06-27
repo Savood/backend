@@ -22,15 +22,23 @@ func PostOfferingsIDImageJpegHandler(params operations.PostOfferingsIDImageJpegP
 		return operations.NewPostOfferingsIDImageJpegForbidden()
 	}
 
-
-	img, err := image.ResizeImage(params.Upfile,0,0)
+	img, err := image.ResizeImage(params.Upfile, 0, 0)
 
 	if err != nil {
 		str := err.Error()
 		return operations.NewGetOfferingsIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
 
-	image.UploadImage(fmt.Sprintf("offering_avatar_%s.jpg",params.ID),img)
+	filename := fmt.Sprintf("offering_avatar_%s.jpg", params.ID)
+
+	image.DeleteImage(filename)
+
+	err = image.UploadImage(filename, img)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewPostOfferingsIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
 
 	return operations.NewPostOfferingsIDImageJpegNoContent()
 }
