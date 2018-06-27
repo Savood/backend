@@ -76,12 +76,66 @@ func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, pri
 // PostUsersIDImageJpegHandler uploads given image
 func PostUsersIDBackgroundimageJpegHandler(params operations.PostUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
 
-	return middleware.NotImplemented("")
+	if params.ID != principal.Userid.String() {
+		return operations.NewPostUsersIDBackgroundimageJpegForbidden()
+	}
+
+	img, err := image.ResizeImage(params.Upfile, 0, 0)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDBackgroundimageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	filename := fmt.Sprintf("user_bg_%s.jpg", params.ID)
+
+	err = image.DeleteImage(filename)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDBackgroundimageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	err = image.UploadImage(filename, img)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDBackgroundimageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	return operations.NewPostUsersIDBackgroundimageJpegNoContent()
+
 }
 
 // GetUsersIDImageJpegHandler provides the Image for a User with a given ID
 func GetUsersIDBackgroundimageJpegHandler(params operations.GetUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
 
 
-	return middleware.NotImplemented("")
+	img, err := image.GetImage(fmt.Sprintf("user_bg_%s.jpg", params.ID))
+	if err != nil {
+		return operations.NewGetUsersIDBackgroundimageJpegNotFound()
+	}
+
+	out := img
+
+	heightDefault := float64(0)
+	widthDefault := float64(0)
+
+	if params.Height != nil || params.Width != nil {
+		if params.Height == nil || *params.Height < float64(0) {
+			params.Height = &heightDefault
+		}
+		if params.Width == nil || *params.Width < float64(0) {
+			params.Width = &widthDefault
+		}
+
+		out, err = image.ResizeImage(img, uint(*params.Width), uint(*params.Height))
+		if err != nil {
+			str := err.Error()
+			return operations.NewGetUsersIDBackgroundimageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+		}
+	}
+
+	return operations.NewGetUsersIDBackgroundimageJpegOK().WithPayload(out)
 }
+
