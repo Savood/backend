@@ -302,7 +302,7 @@ func init() {
         "tags": [
           "offerings"
         ],
-        "summary": "Display a feed of nearby offerings",
+        "summary": "Display owned or requested offerings",
         "operationId": "getOfferings",
         "parameters": [
           {
@@ -363,6 +363,9 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
           },
           "500": {
             "$ref": "#/responses/ErrorResponse"
@@ -1529,7 +1532,7 @@ func init() {
         "tags": [
           "offerings"
         ],
-        "summary": "Display a feed of nearby offerings",
+        "summary": "Display owned or requested offerings",
         "operationId": "getOfferings",
         "parameters": [
           {
@@ -1595,6 +1598,12 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           },
           "500": {

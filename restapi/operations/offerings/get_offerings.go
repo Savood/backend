@@ -33,7 +33,7 @@ func NewGetOfferings(ctx *middleware.Context, handler GetOfferingsHandler) *GetO
 
 /*GetOfferings swagger:route GET /offerings offerings getOfferings
 
-Display a feed of nearby offerings
+Display owned or requested offerings
 
 */
 type GetOfferings struct {

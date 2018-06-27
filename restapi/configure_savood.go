@@ -19,6 +19,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/handler/image"
+	o "git.dhbw.chd.cx/savood/backend/handler/offerings"
 	"io"
 )
 
@@ -95,11 +96,10 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
+	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.OfferingsCreateNewOfferingHandler)
+
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
-	})
-	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.CreateNewOffering has not yet been implemented")
 	})
 	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation users.CreateNewUser has not yet been implemented")

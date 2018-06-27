@@ -101,6 +101,50 @@ func (o *CreateNewOfferingBadRequest) WriteResponse(rw http.ResponseWriter, prod
 	}
 }
 
+// CreateNewOfferingForbiddenCode is the HTTP code returned for type CreateNewOfferingForbidden
+const CreateNewOfferingForbiddenCode int = 403
+
+/*CreateNewOfferingForbidden Unauthorized
+
+swagger:response createNewOfferingForbidden
+*/
+type CreateNewOfferingForbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewCreateNewOfferingForbidden creates CreateNewOfferingForbidden with default headers values
+func NewCreateNewOfferingForbidden() *CreateNewOfferingForbidden {
+
+	return &CreateNewOfferingForbidden{}
+}
+
+// WithPayload adds the payload to the create new offering forbidden response
+func (o *CreateNewOfferingForbidden) WithPayload(payload *models.ErrorModel) *CreateNewOfferingForbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the create new offering forbidden response
+func (o *CreateNewOfferingForbidden) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *CreateNewOfferingForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 // CreateNewOfferingInternalServerErrorCode is the HTTP code returned for type CreateNewOfferingInternalServerError
 const CreateNewOfferingInternalServerErrorCode int = 500
 
