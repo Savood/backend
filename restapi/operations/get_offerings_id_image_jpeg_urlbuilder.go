@@ -10,11 +10,16 @@ import (
 	"net/url"
 	golangswaggerpaths "path"
 	"strings"
+
+	"github.com/go-openapi/swag"
 )
 
-// PostUsersIDImageURL generates an URL for the post users ID image operation
-type PostUsersIDImageURL struct {
+// GetOfferingsIDImageJpegURL generates an URL for the get offerings ID image jpeg operation
+type GetOfferingsIDImageJpegURL struct {
 	ID string
+
+	Height *float64
+	Width  *float64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -24,7 +29,7 @@ type PostUsersIDImageURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *PostUsersIDImageURL) WithBasePath(bp string) *PostUsersIDImageURL {
+func (o *GetOfferingsIDImageJpegURL) WithBasePath(bp string) *GetOfferingsIDImageJpegURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -32,21 +37,21 @@ func (o *PostUsersIDImageURL) WithBasePath(bp string) *PostUsersIDImageURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *PostUsersIDImageURL) SetBasePath(bp string) {
+func (o *GetOfferingsIDImageJpegURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *PostUsersIDImageURL) Build() (*url.URL, error) {
+func (o *GetOfferingsIDImageJpegURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/users/{id}/image"
+	var _path = "/offerings/{id}/image.jpeg"
 
 	id := o.ID
 	if id != "" {
 		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("ID is required on PostUsersIDImageURL")
+		return nil, errors.New("ID is required on GetOfferingsIDImageJpegURL")
 	}
 
 	_basePath := o._basePath
@@ -55,11 +60,31 @@ func (o *PostUsersIDImageURL) Build() (*url.URL, error) {
 	}
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
+	qs := make(url.Values)
+
+	var height string
+	if o.Height != nil {
+		height = swag.FormatFloat64(*o.Height)
+	}
+	if height != "" {
+		qs.Set("height", height)
+	}
+
+	var width string
+	if o.Width != nil {
+		width = swag.FormatFloat64(*o.Width)
+	}
+	if width != "" {
+		qs.Set("width", width)
+	}
+
+	result.RawQuery = qs.Encode()
+
 	return &result, nil
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *PostUsersIDImageURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetOfferingsIDImageJpegURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -70,17 +95,17 @@ func (o *PostUsersIDImageURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *PostUsersIDImageURL) String() string {
+func (o *GetOfferingsIDImageJpegURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *PostUsersIDImageURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetOfferingsIDImageJpegURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on PostUsersIDImageURL")
+		return nil, errors.New("scheme is required for a full url on GetOfferingsIDImageJpegURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on PostUsersIDImageURL")
+		return nil, errors.New("host is required for a full url on GetOfferingsIDImageJpegURL")
 	}
 
 	base, err := o.Build()
@@ -94,6 +119,6 @@ func (o *PostUsersIDImageURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *PostUsersIDImageURL) StringFull(scheme, host string) string {
+func (o *GetOfferingsIDImageJpegURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

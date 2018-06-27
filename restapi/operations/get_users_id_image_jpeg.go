@@ -13,40 +13,40 @@ import (
 	models "git.dhbw.chd.cx/savood/backend/models"
 )
 
-// GetOfferingIDImageHandlerFunc turns a function with the right signature into a get offering ID image handler
-type GetOfferingIDImageHandlerFunc func(GetOfferingIDImageParams, *models.Principal) middleware.Responder
+// GetUsersIDImageJpegHandlerFunc turns a function with the right signature into a get users ID image jpeg handler
+type GetUsersIDImageJpegHandlerFunc func(GetUsersIDImageJpegParams, *models.Principal) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetOfferingIDImageHandlerFunc) Handle(params GetOfferingIDImageParams, principal *models.Principal) middleware.Responder {
+func (fn GetUsersIDImageJpegHandlerFunc) Handle(params GetUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
 	return fn(params, principal)
 }
 
-// GetOfferingIDImageHandler interface for that can handle valid get offering ID image params
-type GetOfferingIDImageHandler interface {
-	Handle(GetOfferingIDImageParams, *models.Principal) middleware.Responder
+// GetUsersIDImageJpegHandler interface for that can handle valid get users ID image jpeg params
+type GetUsersIDImageJpegHandler interface {
+	Handle(GetUsersIDImageJpegParams, *models.Principal) middleware.Responder
 }
 
-// NewGetOfferingIDImage creates a new http.Handler for the get offering ID image operation
-func NewGetOfferingIDImage(ctx *middleware.Context, handler GetOfferingIDImageHandler) *GetOfferingIDImage {
-	return &GetOfferingIDImage{Context: ctx, Handler: handler}
+// NewGetUsersIDImageJpeg creates a new http.Handler for the get users ID image jpeg operation
+func NewGetUsersIDImageJpeg(ctx *middleware.Context, handler GetUsersIDImageJpegHandler) *GetUsersIDImageJpeg {
+	return &GetUsersIDImageJpeg{Context: ctx, Handler: handler}
 }
 
-/*GetOfferingIDImage swagger:route GET /offering/{id}/image getOfferingIdImage
+/*GetUsersIDImageJpeg swagger:route GET /users/{id}/image.jpeg users image getUsersIdImageJpeg
 
 Gets the avatar image.
 
 */
-type GetOfferingIDImage struct {
+type GetUsersIDImageJpeg struct {
 	Context *middleware.Context
-	Handler GetOfferingIDImageHandler
+	Handler GetUsersIDImageJpegHandler
 }
 
-func (o *GetOfferingIDImage) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+func (o *GetUsersIDImageJpeg) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
 		r = rCtx
 	}
-	var Params = NewGetOfferingIDImageParams()
+	var Params = NewGetUsersIDImageJpegParams()
 
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {

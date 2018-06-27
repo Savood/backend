@@ -49,9 +49,9 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetOfferingsIDImageHandler1(t *testing.T) {
-	response := GetOfferingsIDImageHandler(operations.GetOfferingsIDImageParams{ID: "500000000000000000000003"}, testPrincipal)
+	response := GetOfferingsIDImageJpegHandler(operations.GetOfferingsIDImageJpegParams{ID: "500000000000000000000003"}, testPrincipal)
 
-	assert.IsType(t, &operations.GetOfferingsIDImageOK{}, response)
+	assert.IsType(t, &operations.GetOfferingsIDImageJpegOK{}, response)
 
 }
 
@@ -59,9 +59,9 @@ func TestGetOfferingsIDImageHandler2(t *testing.T) {
 	height := float64(2000)
 	width := float64(50)
 
-	response := GetOfferingsIDImageHandler(operations.GetOfferingsIDImageParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+	response := GetOfferingsIDImageJpegHandler(operations.GetOfferingsIDImageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
 
-	assert.IsType(t, &operations.GetOfferingsIDImageOK{}, response)
+	assert.IsType(t, &operations.GetOfferingsIDImageJpegOK{}, response)
 
 }
 
@@ -69,22 +69,22 @@ func TestGetOfferingsIDImageHandler3(t *testing.T) {
 	height := float64(2000)
 	width := float64(-50)
 
-	response := GetOfferingsIDImageHandler(operations.GetOfferingsIDImageParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+	response := GetOfferingsIDImageJpegHandler(operations.GetOfferingsIDImageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
 
-	assert.IsType(t, &operations.GetOfferingsIDImageOK{}, response)
+	assert.IsType(t, &operations.GetOfferingsIDImageJpegOK{}, response)
 }
 
 func TestGetOfferingsIDImageHandler4(t *testing.T) {
-	response := GetOfferingsIDImageHandler(operations.GetOfferingsIDImageParams{ID: "404040404040404040404040"}, testPrincipal)
+	response := GetOfferingsIDImageJpegHandler(operations.GetOfferingsIDImageJpegParams{ID: "404040404040404040404040"}, testPrincipal)
 
-	assert.IsType(t, &operations.GetOfferingsIDImageNotFound{}, response)
+	assert.IsType(t, &operations.GetOfferingsIDImageJpegNotFound{}, response)
 
 }
 
 func TestGetUsersIDImageHandler1(t *testing.T) {
-	response := GetUsersIDImageHandler(operations.GetUsersIDImageParams{ID: "500000000000000000000003"}, testPrincipal)
+	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "500000000000000000000003"}, testPrincipal)
 
-	assert.IsType(t, &operations.GetUsersIDImageOK{}, response)
+	assert.IsType(t, &operations.GetUsersIDImageJpegOK{}, response)
 
 }
 
@@ -92,9 +92,9 @@ func TestGetUsersIDImageHandler2(t *testing.T) {
 	height := float64(2000)
 	width := float64(50)
 
-	response := GetUsersIDImageHandler(operations.GetUsersIDImageParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
 
-	assert.IsType(t, &operations.GetUsersIDImageOK{}, response)
+	assert.IsType(t, &operations.GetUsersIDImageJpegOK{}, response)
 
 }
 
@@ -102,15 +102,15 @@ func TestGetUsersIDImageHandler3(t *testing.T) {
 	height := float64(2000)
 	width := float64(-50)
 
-	response := GetUsersIDImageHandler(operations.GetUsersIDImageParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
 
-	assert.IsType(t, &operations.GetUsersIDImageOK{}, response)
+	assert.IsType(t, &operations.GetUsersIDImageJpegOK{}, response)
 }
 
 func TestGetUsersIDImageHandler4(t *testing.T) {
-	response := GetUsersIDImageHandler(operations.GetUsersIDImageParams{ID: "404040404040404040404040"}, testPrincipal)
+	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "404040404040404040404040"}, testPrincipal)
 
-	assert.IsType(t, &operations.GetUsersIDImageNotFound{}, response)
+	assert.IsType(t, &operations.GetUsersIDImageJpegNotFound{}, response)
 
 }
 
@@ -120,9 +120,9 @@ func TestPostUsersIDImageHandler1(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "500000000000000000000003", Upfile: img}, testPrincipal)
+	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "500000000000000000000003", Upfile: img}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageForbidden{}, response)
+	assert.IsType(t, operations.PostOfferingsIDImageJpegForbidden{}, response)
 }
 
 func TestPostUsersIDImageHandler2(t *testing.T) {
@@ -131,14 +131,14 @@ func TestPostUsersIDImageHandler2(t *testing.T) {
 
 	assert.NoError(t, err)
 
-	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "5b32d488129072313591c682", Upfile: img}, testPrincipal)
+	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682", Upfile: img}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageNoContent{}, response)
+	assert.IsType(t, operations.PostOfferingsIDImageJpegNoContent{}, response)
 }
 
 func TestPostUsersIDImageHandler3(t *testing.T) {
 
-	response := PostUsersIDImageHandler(operations.PostUsersIDImageParams{ID: "5b32d488129072313591c682"}, testPrincipal)
+	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682"}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageBadRequest{}, response)
+	assert.IsType(t, operations.PostOfferingsIDImageJpegBadRequest{}, response)
 }

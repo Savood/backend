@@ -83,13 +83,13 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
 
-	api.PostOfferingsIDImageHandler = operations.PostOfferingsIDImageHandlerFunc(image.PostOfferingsIDImageHandler)
+	api.PostOfferingsIDImageJpegHandler = operations.PostOfferingsIDImageJpegHandlerFunc(image.PostOfferingsIDImageJpegHandler)
 
-	api.GetOfferingsIDImageHandler = operations.GetOfferingsIDImageHandlerFunc(image.GetOfferingsIDImageHandler)
+	api.GetOfferingsIDImageJpegHandler = operations.GetOfferingsIDImageJpegHandlerFunc(image.GetOfferingsIDImageJpegHandler)
 
-	api.PostUsersIDImageHandler = operations.PostUsersIDImageHandlerFunc(image.PostUsersIDImageHandler)
+	api.PostUsersIDImageJpegHandler = operations.PostUsersIDImageJpegHandlerFunc(image.PostUsersIDImageJpegHandler)
 
-	api.GetUsersIDImageHandler = operations.GetUsersIDImageHandlerFunc(image.GetUsersIDImageHandler)
+	api.GetUsersIDImageJpegHandler = operations.GetUsersIDImageJpegHandlerFunc(image.GetUsersIDImageJpegHandler)
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")

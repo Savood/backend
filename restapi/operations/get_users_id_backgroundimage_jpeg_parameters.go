@@ -16,18 +16,18 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetUsersIDImageParams creates a new GetUsersIDImageParams object
+// NewGetUsersIDBackgroundimageJpegParams creates a new GetUsersIDBackgroundimageJpegParams object
 // no default values defined in spec.
-func NewGetUsersIDImageParams() GetUsersIDImageParams {
+func NewGetUsersIDBackgroundimageJpegParams() GetUsersIDBackgroundimageJpegParams {
 
-	return GetUsersIDImageParams{}
+	return GetUsersIDBackgroundimageJpegParams{}
 }
 
-// GetUsersIDImageParams contains all the bound params for the get users ID image operation
+// GetUsersIDBackgroundimageJpegParams contains all the bound params for the get users ID backgroundimage jpeg operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters GetUsersIDImage
-type GetUsersIDImageParams struct {
+// swagger:parameters GetUsersIDBackgroundimageJpeg
+type GetUsersIDBackgroundimageJpegParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -50,8 +50,8 @@ type GetUsersIDImageParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetUsersIDImageParams() beforehand.
-func (o *GetUsersIDImageParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetUsersIDBackgroundimageJpegParams() beforehand.
+func (o *GetUsersIDBackgroundimageJpegParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -80,7 +80,7 @@ func (o *GetUsersIDImageParams) BindRequest(r *http.Request, route *middleware.M
 }
 
 // bindHeight binds and validates parameter Height from query.
-func (o *GetUsersIDImageParams) bindHeight(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetUsersIDBackgroundimageJpegParams) bindHeight(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -102,7 +102,7 @@ func (o *GetUsersIDImageParams) bindHeight(rawData []string, hasKey bool, format
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *GetUsersIDImageParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetUsersIDBackgroundimageJpegParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -117,7 +117,7 @@ func (o *GetUsersIDImageParams) bindID(rawData []string, hasKey bool, formats st
 }
 
 // bindWidth binds and validates parameter Width from query.
-func (o *GetUsersIDImageParams) bindWidth(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetUsersIDBackgroundimageJpegParams) bindWidth(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

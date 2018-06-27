@@ -24,12 +24,6 @@ type User struct {
 	// address
 	Address *Address `json:"address,omitempty"`
 
-	// avatar Id
-	AvatarID string `json:"avatarId,omitempty"`
-
-	// background Id
-	BackgroundID string `json:"backgroundId,omitempty"`
-
 	// badges
 	Badges []string `json:"badges"`
 

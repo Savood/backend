@@ -8,20 +8,20 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database/image"
 )
 
-// PostUsersIDImageHandler uploads given image and adds a link to the user with the given ID
-func PostUsersIDImageHandler (params operations.PostUsersIDImageParams, principal *models.Principal) middleware.Responder {
+// PostUsersIDImageJpegHandler uploads given image and adds a link to the user with the given ID
+func PostUsersIDImageJpegHandler(params operations.PostUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
 
 	return middleware.NotImplemented("")
 }
 
-// GetUsersIDImageHandler provides the Image for a User with a given ID
-func GetUsersIDImageHandler (params operations.GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
+// GetUsersIDImageJpegHandler provides the Image for a User with a given ID
+func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
 
 	img, err := image.GetImage(fmt.Sprintf("user_avatar_%s.jpg", params.ID))
 	if err != nil {
-		return operations.NewGetUsersIDImageNotFound()
+		return operations.NewGetUsersIDImageJpegNotFound()
 	}
 
 	out := img
@@ -40,9 +40,9 @@ func GetUsersIDImageHandler (params operations.GetUsersIDImageParams, principal 
 		out, err = image.ResizeImage(img, uint(*params.Width), uint(*params.Height))
 		if err != nil {
 			str := err.Error()
-			return operations.NewGetUsersIDImageInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+			return operations.NewGetUsersIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 		}
 	}
 
-	return operations.NewGetUsersIDImageOK().WithPayload(out)
+	return operations.NewGetUsersIDImageJpegOK().WithPayload(out)
 }

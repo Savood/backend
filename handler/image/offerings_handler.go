@@ -9,36 +9,36 @@ import (
 	"git.dhbw.chd.cx/savood/backend/dao"
 )
 
-// PostOfferingsIDImageHandler uploads given image and adds a link to the offering with the given ID
-func PostOfferingsIDImageHandler(params operations.PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
+// PostOfferingsIDImageJpegHandler uploads given image and adds a link to the offering with the given ID
+func PostOfferingsIDImageJpegHandler(params operations.PostOfferingsIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
 	offering, err := dao.GetOfferingByID(params.ID)
 	if err != nil {
-		return operations.NewGetOfferingsIDImageInternalServerError()
+		return operations.NewGetOfferingsIDImageJpegInternalServerError()
 	}
 
 	if offering.CreatorID != principal.Userid {
-		return operations.NewPostOfferingsIDImageForbidden()
+		return operations.NewPostOfferingsIDImageJpegForbidden()
 	}
 
 
 	img, err := image.ResizeImage(params.Upfile,0,0)
 
 	if err != nil {
-		return operations.NewGetOfferingsIDImageInternalServerError()
+		return operations.NewGetOfferingsIDImageJpegInternalServerError()
 	}
 
 	image.UploadImage(fmt.Sprintf("offering_avatar_%s.jpg",params.ID),img)
 
-	return operations.NewPostOfferingsIDImageNoContent()
+	return operations.NewPostOfferingsIDImageJpegNoContent()
 }
 
-// GetOfferingsIDImageHandler provides the Image for a Offering with a given ID
-func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
+// GetOfferingsIDImageJpegHandler provides the Image for a Offering with a given ID
+func GetOfferingsIDImageJpegHandler(params operations.GetOfferingsIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
 	img, err := image.GetImage(fmt.Sprintf("offering_avatar_%s.jpg", params.ID))
 	if err != nil {
-		return operations.NewGetOfferingsIDImageNotFound()
+		return operations.NewGetOfferingsIDImageJpegNotFound()
 	}
 
 	out := img
@@ -57,9 +57,9 @@ func GetOfferingsIDImageHandler(params operations.GetOfferingsIDImageParams, pri
 		out, err = image.ResizeImage(img, uint(*params.Width), uint(*params.Height))
 		if err != nil {
 			str := err.Error()
-			return operations.NewGetOfferingsIDImageInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+			return operations.NewGetOfferingsIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 		}
 	}
 
-	return operations.NewGetOfferingsIDImageOK().WithPayload(out)
+	return operations.NewGetOfferingsIDImageJpegOK().WithPayload(out)
 }

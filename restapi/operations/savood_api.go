@@ -49,17 +49,23 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		ImageJpegProducer: runtime.ProducerFunc(func(w io.Writer, data interface{}) error {
 			return errors.NotImplemented("imageJpeg producer has not yet been implemented")
 		}),
-		GetOfferingsIDImageHandler: GetOfferingsIDImageHandlerFunc(func(params GetOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation GetOfferingsIDImage has not yet been implemented")
+		GetOfferingsIDImageJpegHandler: GetOfferingsIDImageJpegHandlerFunc(func(params GetOfferingsIDImageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetOfferingsIDImageJpeg has not yet been implemented")
 		}),
-		GetUsersIDImageHandler: GetUsersIDImageHandlerFunc(func(params GetUsersIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation GetUsersIDImage has not yet been implemented")
+		GetUsersIDBackgroundimageJpegHandler: GetUsersIDBackgroundimageJpegHandlerFunc(func(params GetUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetUsersIDBackgroundimageJpeg has not yet been implemented")
 		}),
-		PostOfferingsIDImageHandler: PostOfferingsIDImageHandlerFunc(func(params PostOfferingsIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation PostOfferingsIDImage has not yet been implemented")
+		GetUsersIDImageJpegHandler: GetUsersIDImageJpegHandlerFunc(func(params GetUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation GetUsersIDImageJpeg has not yet been implemented")
 		}),
-		PostUsersIDImageHandler: PostUsersIDImageHandlerFunc(func(params PostUsersIDImageParams, principal *models.Principal) middleware.Responder {
-			return middleware.NotImplemented("operation PostUsersIDImage has not yet been implemented")
+		PostOfferingsIDImageJpegHandler: PostOfferingsIDImageJpegHandlerFunc(func(params PostOfferingsIDImageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostOfferingsIDImageJpeg has not yet been implemented")
+		}),
+		PostUsersIDBackgroundimageJpegHandler: PostUsersIDBackgroundimageJpegHandlerFunc(func(params PostUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostUsersIDBackgroundimageJpeg has not yet been implemented")
+		}),
+		PostUsersIDImageJpegHandler: PostUsersIDImageJpegHandlerFunc(func(params PostUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation PostUsersIDImageJpeg has not yet been implemented")
 		}),
 		MessagesCreateNewMessageHandler: messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesCreateNewMessage has not yet been implemented")
@@ -168,14 +174,18 @@ type SavoodAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
-	// GetOfferingsIDImageHandler sets the operation handler for the get offerings ID image operation
-	GetOfferingsIDImageHandler GetOfferingsIDImageHandler
-	// GetUsersIDImageHandler sets the operation handler for the get users ID image operation
-	GetUsersIDImageHandler GetUsersIDImageHandler
-	// PostOfferingsIDImageHandler sets the operation handler for the post offerings ID image operation
-	PostOfferingsIDImageHandler PostOfferingsIDImageHandler
-	// PostUsersIDImageHandler sets the operation handler for the post users ID image operation
-	PostUsersIDImageHandler PostUsersIDImageHandler
+	// GetOfferingsIDImageJpegHandler sets the operation handler for the get offerings ID image jpeg operation
+	GetOfferingsIDImageJpegHandler GetOfferingsIDImageJpegHandler
+	// GetUsersIDBackgroundimageJpegHandler sets the operation handler for the get users ID backgroundimage jpeg operation
+	GetUsersIDBackgroundimageJpegHandler GetUsersIDBackgroundimageJpegHandler
+	// GetUsersIDImageJpegHandler sets the operation handler for the get users ID image jpeg operation
+	GetUsersIDImageJpegHandler GetUsersIDImageJpegHandler
+	// PostOfferingsIDImageJpegHandler sets the operation handler for the post offerings ID image jpeg operation
+	PostOfferingsIDImageJpegHandler PostOfferingsIDImageJpegHandler
+	// PostUsersIDBackgroundimageJpegHandler sets the operation handler for the post users ID backgroundimage jpeg operation
+	PostUsersIDBackgroundimageJpegHandler PostUsersIDBackgroundimageJpegHandler
+	// PostUsersIDImageJpegHandler sets the operation handler for the post users ID image jpeg operation
+	PostUsersIDImageJpegHandler PostUsersIDImageJpegHandler
 	// MessagesCreateNewMessageHandler sets the operation handler for the create new message operation
 	MessagesCreateNewMessageHandler messages.CreateNewMessageHandler
 	// OfferingsCreateNewOfferingHandler sets the operation handler for the create new offering operation
@@ -289,20 +299,28 @@ func (o *SavoodAPI) Validate() error {
 		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
-	if o.GetOfferingsIDImageHandler == nil {
-		unregistered = append(unregistered, "GetOfferingsIDImageHandler")
+	if o.GetOfferingsIDImageJpegHandler == nil {
+		unregistered = append(unregistered, "GetOfferingsIDImageJpegHandler")
 	}
 
-	if o.GetUsersIDImageHandler == nil {
-		unregistered = append(unregistered, "GetUsersIDImageHandler")
+	if o.GetUsersIDBackgroundimageJpegHandler == nil {
+		unregistered = append(unregistered, "GetUsersIDBackgroundimageJpegHandler")
 	}
 
-	if o.PostOfferingsIDImageHandler == nil {
-		unregistered = append(unregistered, "PostOfferingsIDImageHandler")
+	if o.GetUsersIDImageJpegHandler == nil {
+		unregistered = append(unregistered, "GetUsersIDImageJpegHandler")
 	}
 
-	if o.PostUsersIDImageHandler == nil {
-		unregistered = append(unregistered, "PostUsersIDImageHandler")
+	if o.PostOfferingsIDImageJpegHandler == nil {
+		unregistered = append(unregistered, "PostOfferingsIDImageJpegHandler")
+	}
+
+	if o.PostUsersIDBackgroundimageJpegHandler == nil {
+		unregistered = append(unregistered, "PostUsersIDBackgroundimageJpegHandler")
+	}
+
+	if o.PostUsersIDImageJpegHandler == nil {
+		unregistered = append(unregistered, "PostUsersIDImageJpegHandler")
 	}
 
 	if o.MessagesCreateNewMessageHandler == nil {
@@ -500,22 +518,32 @@ func (o *SavoodAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/offerings/{id}/image"] = NewGetOfferingsIDImage(o.context, o.GetOfferingsIDImageHandler)
+	o.handlers["GET"]["/offerings/{id}/image.jpeg"] = NewGetOfferingsIDImageJpeg(o.context, o.GetOfferingsIDImageJpegHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/users/{id}/image"] = NewGetUsersIDImage(o.context, o.GetUsersIDImageHandler)
+	o.handlers["GET"]["/users/{id}/backgroundimage.jpeg"] = NewGetUsersIDBackgroundimageJpeg(o.context, o.GetUsersIDBackgroundimageJpegHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/users/{id}/image.jpeg"] = NewGetUsersIDImageJpeg(o.context, o.GetUsersIDImageJpegHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/offerings/{id}/image"] = NewPostOfferingsIDImage(o.context, o.PostOfferingsIDImageHandler)
+	o.handlers["POST"]["/offerings/{id}/image.jpeg"] = NewPostOfferingsIDImageJpeg(o.context, o.PostOfferingsIDImageJpegHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/users/{id}/image"] = NewPostUsersIDImage(o.context, o.PostUsersIDImageHandler)
+	o.handlers["POST"]["/users/{id}/backgroundimage.jpeg"] = NewPostUsersIDBackgroundimageJpeg(o.context, o.PostUsersIDBackgroundimageJpegHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/users/{id}/image.jpeg"] = NewPostUsersIDImageJpeg(o.context, o.PostUsersIDImageJpegHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
