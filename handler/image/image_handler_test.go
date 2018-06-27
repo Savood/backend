@@ -48,6 +48,8 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+// Offerings
+
 func TestGetOfferingsIDImageHandler1(t *testing.T) {
 	response := GetOfferingsIDImageJpegHandler(operations.GetOfferingsIDImageJpegParams{ID: "500000000000000000000003"}, testPrincipal)
 
@@ -81,6 +83,8 @@ func TestGetOfferingsIDImageHandler4(t *testing.T) {
 
 }
 
+// Users
+
 func TestGetUsersIDImageHandler1(t *testing.T) {
 	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "500000000000000000000003"}, testPrincipal)
 
@@ -102,7 +106,7 @@ func TestGetUsersIDImageHandler3(t *testing.T) {
 	height := float64(2000)
 	width := float64(-50)
 
-	response := GetUsersIDImageJpegHandler(operations.GetUsersIDImageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+	response := GetUsersIDBackgroundimageJpegHandler(operations.GetUsersIDBackgroundimageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
 
 	assert.IsType(t, &operations.GetUsersIDImageJpegOK{}, response)
 }
@@ -122,7 +126,7 @@ func TestPostUsersIDImageHandler1(t *testing.T) {
 
 	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "500000000000000000000003", Upfile: img}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageJpegForbidden{}, response)
+	assert.IsType(t, operations.PostUsersIDImageJpegForbidden{}, response)
 }
 
 func TestPostUsersIDImageHandler2(t *testing.T) {
@@ -133,12 +137,76 @@ func TestPostUsersIDImageHandler2(t *testing.T) {
 
 	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682", Upfile: img}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageJpegNoContent{}, response)
+	assert.IsType(t, operations.PostUsersIDImageJpegNoContent{}, response)
 }
 
 func TestPostUsersIDImageHandler3(t *testing.T) {
 
 	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682"}, testPrincipal)
 
-	assert.IsType(t, operations.PostOfferingsIDImageJpegBadRequest{}, response)
+	assert.IsType(t, operations.PostUsersIDImageJpegBadRequest{}, response)
+}
+
+// User Background
+
+func TestGetUsersIDBackgroundImageHandler1(t *testing.T) {
+	response := GetUsersIDBackgroundimageJpegHandler(operations.GetUsersIDBackgroundimageJpegParams{ID: "500000000000000000000003"}, testPrincipal)
+
+	assert.IsType(t, &operations.GetUsersIDBackgroundimageJpegOK{}, response)
+
+}
+
+func TestGetUsersIDBackgroundImageHandler2(t *testing.T) {
+	height := float64(2000)
+	width := float64(50)
+
+	response := GetUsersIDBackgroundimageJpegHandler(operations.GetUsersIDBackgroundimageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+
+	assert.IsType(t, &operations.GetUsersIDBackgroundimageJpegOK{}, response)
+
+}
+
+func TestGetUsersIDBackgroundImageHandler3(t *testing.T) {
+	height := float64(2000)
+	width := float64(-50)
+
+	response := GetUsersIDBackgroundimageJpegHandler(operations.GetUsersIDBackgroundimageJpegParams{ID: "500000000000000000000003", Height: &height, Width: &width}, testPrincipal)
+
+	assert.IsType(t, &operations.GetUsersIDBackgroundimageJpegOK{}, response)
+}
+
+func TestGetUsersIDBackgroundImageHandler4(t *testing.T) {
+	response := GetUsersIDBackgroundimageJpegHandler(operations.GetUsersIDBackgroundimageJpegParams{ID: "404040404040404040404040"}, testPrincipal)
+
+	assert.IsType(t, &operations.GetUsersIDBackgroundimageJpegNotFound{}, response)
+
+}
+
+func TestPostUsersIDBackgroundImageHandler1(t *testing.T) {
+
+	img, err := os.Open("testimage.jpg")
+
+	assert.NoError(t, err)
+
+	response := PostUsersIDBackgroundimageJpegHandler(operations.PostUsersIDBackgroundimageJpegParams{ID: "500000000000000000000003", Upfile: img}, testPrincipal)
+
+	assert.IsType(t, operations.PostUsersIDBackgroundimageJpegForbidden{}, response)
+}
+
+func TestPostUsersIDBackgroundImageHandler2(t *testing.T) {
+
+	img, err := os.Open("testimage.jpg")
+
+	assert.NoError(t, err)
+
+	response := PostUsersIDBackgroundimageJpegHandler(operations.PostUsersIDBackgroundimageJpegParams{ID: "5b32d488129072313591c682", Upfile: img}, testPrincipal)
+
+	assert.IsType(t, operations.PostUsersIDBackgroundimageJpegNoContent{}, response)
+}
+
+func TestPostUsersIDBackgroundImageHandler3(t *testing.T) {
+
+	response := PostUsersIDImageJpegHandler(operations.PostUsersIDImageJpegParams{ID: "5b32d488129072313591c682"}, testPrincipal)
+
+	assert.IsType(t, operations.PostUsersIDBackgroundimageJpegBadRequest{}, response)
 }

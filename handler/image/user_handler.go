@@ -8,16 +8,42 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database/image"
 )
 
-// PostUsersIDImageJpegHandler uploads given image and adds a link to the user with the given ID
+// PostUsersIDImageJpegHandler uploads given image
 func PostUsersIDImageJpegHandler(params operations.PostUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
+	if params.ID != principal.Userid.String() {
+		return operations.NewPostUsersIDImageJpegForbidden()
+	}
 
-	return middleware.NotImplemented("")
+	img, err := image.ResizeImage(params.Upfile, 0, 0)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	filename := fmt.Sprintf("user_avatar_%s.jpg", params.ID)
+
+	err = image.DeleteImage(filename)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	err = image.UploadImage(filename, img)
+
+	if err != nil {
+		str := err.Error()
+		return operations.NewGetUsersIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	return operations.NewPostUsersIDImageJpegNoContent()
+
 }
 
 // GetUsersIDImageJpegHandler provides the Image for a User with a given ID
 func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
-
 
 	img, err := image.GetImage(fmt.Sprintf("user_avatar_%s.jpg", params.ID))
 	if err != nil {
@@ -45,4 +71,17 @@ func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, pri
 	}
 
 	return operations.NewGetUsersIDImageJpegOK().WithPayload(out)
+}
+
+// PostUsersIDImageJpegHandler uploads given image
+func PostUsersIDBackgroundimageJpegHandler(params operations.PostUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
+
+	return middleware.NotImplemented("")
+}
+
+// GetUsersIDImageJpegHandler provides the Image for a User with a given ID
+func GetUsersIDBackgroundimageJpegHandler(params operations.GetUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
+
+
+	return middleware.NotImplemented("")
 }
