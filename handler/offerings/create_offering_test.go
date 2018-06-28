@@ -15,7 +15,7 @@ import (
 func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
 
 	offeringName := "testName"
-	location := &models.OfferingLocation{Type: "Point", Coordinates: []float64{1, 2}}
+	location := &models.OfferingLocation{Type: "Point", Coordinates: []float64{49.4874592, 8.4660395}}
 
 	inOut := []struct {
 		in  *models.Offering

@@ -33,12 +33,12 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 			Street: "Street",
 			Zip:    68167,
 		},
-		Badges:       []string{"badge1", "badge2"},
-		Description:  "description",
-		Email:        "email@example.com",
-		Firstname:    "Hans",
-		Lastname:     "Peter",
-		Phone:        "+49000000000",
+		Badges:      []string{"badge1", "badge2"},
+		Description: "description",
+		Email:       "email@example.com",
+		Firstname:   "Hans",
+		Lastname:    "Peter",
+		Phone:       "+49000000000",
 	}
 
 	err := SaveUser(user)
@@ -100,12 +100,12 @@ func TestSaveUser(t *testing.T) {
 			Street: "Street",
 			Zip:    68167,
 		},
-		Badges:       []string{"badge1", "badge2"},
-		Description:  "description",
-		Email:        "email@example.com",
-		Firstname:    "Hans",
-		Lastname:     "Peter",
-		Phone:        "+49000000000",
+		Badges:      []string{"badge1", "badge2"},
+		Description: "description",
+		Email:       "email@example.com",
+		Firstname:   "Hans",
+		Lastname:    "Peter",
+		Phone:       "+49000000000",
 	}
 
 	assert.NoError(t, SaveUser(user))
@@ -219,6 +219,16 @@ func TestGetOfferingByID(t *testing.T) {
 	assert.NotNil(t, offering)
 
 	assert.Equal(t, "description", offering.Description)
+}
+
+func TestGetNearOfferings(t *testing.T) {
+	_, offering := CreateFakeOffering()
+
+	offerings, err := GetNearOfferings(*offering.Location, 200)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, offerings)
+	assert.True(t, len(offerings) > 0)
 }
 
 func TestSaveOffering(t *testing.T) {

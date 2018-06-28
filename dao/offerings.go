@@ -6,14 +6,11 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-//OfferingsCollectionName collection of offerings in mongodb
-const OfferingsCollectionName = "offerings"
-
 //GetAllOfferingsByUserID Get all Offerings filtered by userId
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offerings)
+	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offerings)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +22,7 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 func GetOfferingByID(offeringID string) (*models.Offering, error) {
 	var offering *models.Offering
 
-	err := database.GetDatabase().C(OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offering)
+	err := database.GetDatabase().C(database.OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offering)
 	if err != nil {
 		return nil, err
 	}
@@ -39,12 +36,33 @@ func SaveOffering(offering *models.Offering) error {
 		offering.ID = bson.NewObjectId()
 	}
 
-	_, error := database.GetDatabase().C(OfferingsCollectionName).UpsertId(offering.ID, offering)
+	_, error := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offering.ID, offering)
 
 	return error
 }
 
 // DeleteOfferingByID deletes an offering by id
 func DeleteOfferingByID(offeringID string) error {
-	return database.GetDatabase().C(OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
+	return database.GetDatabase().C(database.OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
+}
+
+func GetNearOfferings(location models.OfferingLocation, maxDistance int) ([]*models.Offering, error) {
+
+	var offerings []*models.Offering
+
+	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(
+		map[string]interface{}{
+			"location": map[string]interface{}{
+				"$nearSphere": map[string]interface{}{
+					"$geometry":    location,
+					"$minDistance": 0,
+					"$maxDistance": maxDistance,
+				},
+			}}).All(&offerings)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return offerings, nil
 }

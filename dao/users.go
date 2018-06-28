@@ -6,14 +6,13 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 )
 
-//UsersCollectionName collection of users in mongodb
-const UsersCollectionName = "users"
+
 
 //GetUserByID getting user by id
 func GetUserByID(userID string) (*models.User, error) {
 	var user *models.User
 
-	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
+	err := database.GetDatabase().C(database.UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +24,7 @@ func GetUserByID(userID string) (*models.User, error) {
 func GetUserShortByID(userID string) (*models.UserShort, error) {
 	var user *models.UserShort
 
-	err := database.GetDatabase().C(UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
+	err := database.GetDatabase().C(database.UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +38,7 @@ func SaveUser(user *models.User) error {
 		user.ID = bson.NewObjectId()
 	}
 
-	_, error := database.GetDatabase().C(UsersCollectionName).UpsertId(user.ID, user)
+	_, error := database.GetDatabase().C(database.UsersCollectionName).UpsertId(user.ID, user)
 
 	return error
 }
