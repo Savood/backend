@@ -8,6 +8,8 @@ import (
 	"github.com/globalsign/mgo"
 )
 
+
+// GetOfferingByIDHandler gets an offering by id
 func GetOfferingByIDHandler(params offerings.GetOfferingByIDParams, principal *models.Principal) middleware.Responder {
 
 	offering, err := dao.GetOfferingByID(params.ID)

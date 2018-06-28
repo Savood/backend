@@ -8,6 +8,7 @@ import (
 	"github.com/globalsign/mgo"
 )
 
+// DeleteOfferingByIDHandler handles deletion of offering by id
 func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
 
 	offering, err := dao.GetOfferingByID(params.ID)
