@@ -392,6 +392,12 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -1043,11 +1049,17 @@ func init() {
       },
       "example": {
         "_id": "string",
-        "avatarId": "/assets/img/speakers/bear.jpg",
-        "best-by-date": "2018-06-21T13:55:58.380Z",
+        "best-by-date": "2018-06-21",
         "creatorId": "27",
-        "header": "Keine Ahnung",
-        "location": "Somewhere Over, The Rainbow",
+        "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
+        "location": [
+          {
+            "coordinates": [
+              50.5636277,
+              9.6711443
+            ]
+          }
+        ],
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -1154,7 +1166,6 @@ func init() {
       },
       "example": {
         "_id": "5",
-        "avatarId": "",
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
@@ -1636,6 +1647,18 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -2345,11 +2368,17 @@ func init() {
       },
       "example": {
         "_id": "string",
-        "avatarId": "/assets/img/speakers/bear.jpg",
-        "best-by-date": "2018-06-21T13:55:58.380Z",
+        "best-by-date": "2018-06-21",
         "creatorId": "27",
-        "header": "Keine Ahnung",
-        "location": "Somewhere Over, The Rainbow",
+        "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
+        "location": [
+          {
+            "coordinates": [
+              50.5636277,
+              9.6711443
+            ]
+          }
+        ],
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -2456,7 +2485,6 @@ func init() {
       },
       "example": {
         "_id": "5",
-        "avatarId": "",
         "firstname": "Marty",
         "lastname": "McFlfy"
       }

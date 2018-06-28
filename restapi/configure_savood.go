@@ -98,6 +98,8 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.CreateNewOfferingHandler)
 
+	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(o.GetOfferingByIDHandler)
+
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
 	})
@@ -127,9 +129,6 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	})
 	api.MessagesGetMessageByIDHandler = messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.GetMessageByID has not yet been implemented")
-	})
-	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetOfferingByID has not yet been implemented")
 	})
 	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")

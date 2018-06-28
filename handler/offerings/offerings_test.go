@@ -9,7 +9,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 )
 
-var testPrincipal = &models.Principal{Email: "test@test.com", Userid: bson.ObjectId("5b32d488129072313591c682")}
+var testPrincipal = &models.Principal{Email: "test@test.com", Userid: bson.ObjectIdHex("5b32d488129072313591c682")}
 
 
 func TestMain(m *testing.M) {
