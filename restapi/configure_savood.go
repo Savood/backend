@@ -100,6 +100,8 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(o.GetOfferingByIDHandler)
 
+	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(o.DeleteOfferingByIDHandler)
+
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
 	})
@@ -108,9 +110,6 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	})
 	api.MessagesDeleteMessageByIDHandler = messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.DeleteMessageByID has not yet been implemented")
-	})
-	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.DeleteOfferingByID has not yet been implemented")
 	})
 	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation users.DeleteUserByID has not yet been implemented")

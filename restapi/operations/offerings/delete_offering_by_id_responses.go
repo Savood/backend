@@ -80,3 +80,91 @@ func (o *DeleteOfferingByIDBadRequest) WriteResponse(rw http.ResponseWriter, pro
 		}
 	}
 }
+
+// DeleteOfferingByIDForbiddenCode is the HTTP code returned for type DeleteOfferingByIDForbidden
+const DeleteOfferingByIDForbiddenCode int = 403
+
+/*DeleteOfferingByIDForbidden Generic Error
+
+swagger:response deleteOfferingByIdForbidden
+*/
+type DeleteOfferingByIDForbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewDeleteOfferingByIDForbidden creates DeleteOfferingByIDForbidden with default headers values
+func NewDeleteOfferingByIDForbidden() *DeleteOfferingByIDForbidden {
+
+	return &DeleteOfferingByIDForbidden{}
+}
+
+// WithPayload adds the payload to the delete offering by Id forbidden response
+func (o *DeleteOfferingByIDForbidden) WithPayload(payload *models.ErrorModel) *DeleteOfferingByIDForbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the delete offering by Id forbidden response
+func (o *DeleteOfferingByIDForbidden) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *DeleteOfferingByIDForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// DeleteOfferingByIDInternalServerErrorCode is the HTTP code returned for type DeleteOfferingByIDInternalServerError
+const DeleteOfferingByIDInternalServerErrorCode int = 500
+
+/*DeleteOfferingByIDInternalServerError Generic Error
+
+swagger:response deleteOfferingByIdInternalServerError
+*/
+type DeleteOfferingByIDInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewDeleteOfferingByIDInternalServerError creates DeleteOfferingByIDInternalServerError with default headers values
+func NewDeleteOfferingByIDInternalServerError() *DeleteOfferingByIDInternalServerError {
+
+	return &DeleteOfferingByIDInternalServerError{}
+}
+
+// WithPayload adds the payload to the delete offering by Id internal server error response
+func (o *DeleteOfferingByIDInternalServerError) WithPayload(payload *models.ErrorModel) *DeleteOfferingByIDInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the delete offering by Id internal server error response
+func (o *DeleteOfferingByIDInternalServerError) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *DeleteOfferingByIDInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

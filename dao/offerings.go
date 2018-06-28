@@ -43,3 +43,8 @@ func SaveOffering(offering *models.Offering) error {
 
 	return error
 }
+
+// DeleteOffering deletes an offering
+func DeleteOfferingByID(offeringID string) error {
+	return database.GetDatabase().C(OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
+}

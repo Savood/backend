@@ -416,6 +416,12 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -1680,6 +1686,18 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
