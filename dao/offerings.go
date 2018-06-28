@@ -46,7 +46,7 @@ func DeleteOfferingByID(offeringID string) error {
 	return database.GetDatabase().C(database.OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
 }
 
-func GetNearOfferings(location models.OfferingLocation, maxDistance int) ([]*models.Offering, error) {
+func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]*models.Offering, error) {
 
 	var offerings []*models.Offering
 

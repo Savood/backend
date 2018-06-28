@@ -103,3 +103,47 @@ func (o *GetFeedBadRequest) WriteResponse(rw http.ResponseWriter, producer runti
 		}
 	}
 }
+
+// GetFeedInternalServerErrorCode is the HTTP code returned for type GetFeedInternalServerError
+const GetFeedInternalServerErrorCode int = 500
+
+/*GetFeedInternalServerError Generic Error
+
+swagger:response getFeedInternalServerError
+*/
+type GetFeedInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewGetFeedInternalServerError creates GetFeedInternalServerError with default headers values
+func NewGetFeedInternalServerError() *GetFeedInternalServerError {
+
+	return &GetFeedInternalServerError{}
+}
+
+// WithPayload adds the payload to the get feed internal server error response
+func (o *GetFeedInternalServerError) WithPayload(payload *models.ErrorModel) *GetFeedInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get feed internal server error response
+func (o *GetFeedInternalServerError) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *GetFeedInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

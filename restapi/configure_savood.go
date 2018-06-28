@@ -104,6 +104,12 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(o.UpdateOfferingByIDHandler)
 
+	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(o.GetFeedHandler)
+
+	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
+		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")
+	})
+
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
@@ -126,14 +132,8 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.GetAllMessagesForChat has not yet been implemented")
 	})
-	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetFeed has not yet been implemented")
-	})
 	api.MessagesGetMessageByIDHandler = messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.GetMessageByID has not yet been implemented")
-	})
-	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")
 	})
 	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation users.GetUserByID has not yet been implemented")
