@@ -7,6 +7,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/dao"
 )
 
+// GetFeedHandler handles getting the nearest offerings
 func GetFeedHandler(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
 
 	if params.Lat > 90 || params.Lat < -90 ||

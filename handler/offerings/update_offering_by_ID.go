@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// UpdateOfferingByIDHandler updates an offering by id
 func UpdateOfferingByIDHandler(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
 
 	offering, err := dao.GetOfferingByID(params.ID)

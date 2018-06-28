@@ -46,6 +46,8 @@ func DeleteOfferingByID(offeringID string) error {
 	return database.GetDatabase().C(database.OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
 }
 
+
+// GetNearOfferings gets offerings with $nearSphereQuery
 func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]*models.Offering, error) {
 
 	var offerings []*models.Offering
