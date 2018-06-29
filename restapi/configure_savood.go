@@ -110,9 +110,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	})
 	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(user.UsersDeleteUserByIDHandler)
 	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)
-	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(func(params operations.GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation .GetAllChatsForOffering has not yet been implemented")
-	})
+	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(chat.MessagesGetAllChatsForOfferingHandler)
 	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(chat.MessagesGetAllMessagesForChatHandler)
 	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.GetFeed has not yet been implemented")

@@ -6,14 +6,52 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"git.dhbw.chd.cx/savood/backend/dao"
 	"encoding/json"
+	"github.com/globalsign/mgo/bson"
+	"github.com/go-openapi/strfmt"
 )
 
 func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
+	formats := strfmt.NewFormats()
 
+	user := params.Body
+	user.ID = bson.NewObjectId()
+	user.Badges = []string{}
+
+	err := user.Validate(formats)
+
+	if err != nil {
+		attribute := "idk!?"
+		message := err.Error()
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+
+	dao.SaveUser(user)
+	return users.NewCreateNewUserOK().WithPayload(user)
 }
 
 func UsersDeleteUserByIDHandler(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
+	if principal.Userid.Hex() != params.ID {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+	user, err := dao.GetUserByID(principal.Userid.Hex())
+	if err != nil {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
 
+	user.Address = &models.Address{}
+	user.Firstname = "Gelöschter"
+	user.Lastname = "Nutzer"
+	user.Phone = ""
+	user.Description = ""
+	user.Email = "deleted@chd.cx"
+	user.Badges = []string{}
+	dao.SaveUser(user)
+
+	return users.NewDeleteUserByIDNoContent()
 }
 
 func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
@@ -54,9 +92,23 @@ func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.P
 }
 
 func UsersUpdateUserByIDHandler(params users.UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
-	user := params.Body
-	user.ID = principal.Userid
-	err := dao.SaveUser(user)
+	userNew := params.Body
+
+	user, err := dao.GetUserByID(principal.Userid.Hex())
+	if err != nil {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewUpdateUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+
+	user.Email = userNew.Email
+	user.Description = userNew.Description
+	user.Phone = userNew.Phone
+	user.Lastname = userNew.Lastname
+	user.Firstname = userNew.Firstname
+	user.Address = userNew.Address
+
+	err = dao.SaveUser(user)
 	if err != nil {
 		attribute := "idk!?"
 		message := "?!"
