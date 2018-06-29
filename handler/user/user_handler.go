@@ -10,6 +10,7 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
+//UsersCreateNewUserHandler Handler func: Create New User
 func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
 	formats := strfmt.NewFormats()
 
@@ -29,6 +30,7 @@ func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *mode
 	return users.NewCreateNewUserOK().WithPayload(user)
 }
 
+//UsersDeleteUserByIDHandler Handler func: Delete a User
 func UsersDeleteUserByIDHandler(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
 	if principal.Userid.Hex() != params.ID {
 		attribute := "idk!?"
@@ -54,6 +56,7 @@ func UsersDeleteUserByIDHandler(params users.DeleteUserByIDParams, principal *mo
 	return users.NewDeleteUserByIDNoContent()
 }
 
+//UsersGetUserByIDHandler Handler func: get User by ID
 func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
 	if params.ID == principal.Userid.Hex() {
 		user, err := dao.GetUserByID(params.ID)
@@ -64,33 +67,33 @@ func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.P
 		}
 
 		return users.NewGetUserByIDOK().WithPayload(user)
-	} else {
-		userShort, err := dao.GetUserShortByID(params.ID)
-		if err != nil {
-			attribute := "idk!?"
-			message := "?!"
-			return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
-		}
-
-		userShortJSON, err := json.Marshal(userShort)
-		if err != nil {
-			attribute := "idk!?"
-			message := "?!"
-			return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
-		}
-
-		user := models.User{}
-		err = json.Unmarshal(userShortJSON, &user)
-		if err != nil {
-			attribute := "idk!?"
-			message := "?!"
-			return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
-		}
-
-		return users.NewGetUserByIDOK().WithPayload(&user)
 	}
+	userShort, err := dao.GetUserShortByID(params.ID)
+	if err != nil {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+
+	userShortJSON, err := json.Marshal(userShort)
+	if err != nil {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+
+	user := models.User{}
+	err = json.Unmarshal(userShortJSON, &user)
+	if err != nil {
+		attribute := "idk!?"
+		message := "?!"
+		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
+	}
+
+	return users.NewGetUserByIDOK().WithPayload(&user)
 }
 
+//UsersUpdateUserByIDHandler Handler func: updating User by ID
 func UsersUpdateUserByIDHandler(params users.UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
 	userNew := params.Body
 

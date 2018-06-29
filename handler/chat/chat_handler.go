@@ -9,6 +9,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 )
 
+//MessagesGetAllChatsHandler Handler func: getting all Chats a user participates in
 func MessagesGetAllChatsHandler(params messages.GetAllChatsParams, principal *models.Principal) middleware.Responder {
 	chats, err := dao.GetAllChatsByUserID(principal.Userid.Hex())
 	if err != nil {
@@ -19,6 +20,7 @@ func MessagesGetAllChatsHandler(params messages.GetAllChatsParams, principal *mo
 	return messages.NewGetAllChatsOK().WithPayload(chats)
 }
 
+//MessagesGetAllMessagesForChatHandler Handler func: getting all messages in a Chat
 func MessagesGetAllMessagesForChatHandler(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
 	_, err := dao.GetChatByIDAndUserID(params.ChatID, principal.Userid.Hex())
 	if err != nil {
@@ -36,6 +38,7 @@ func MessagesGetAllMessagesForChatHandler(params messages.GetAllMessagesForChatP
 	return messages.NewGetAllMessagesForChatOK().WithPayload(msgs)
 }
 
+//MessagesCreateNewMessageHandler Handler func: Create New Message for In Chat
 func MessagesCreateNewMessageHandler(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 	chat, err := dao.GetChatByIDAndUserID(params.ChatID, principal.Userid.Hex())
 	if err != nil {
@@ -55,6 +58,7 @@ func MessagesCreateNewMessageHandler(params messages.CreateNewMessageParams, pri
 	return messages.NewCreateNewMessageOK().WithPayload(message)
 }
 
+//MessagesGetAllChatsForOfferingHandler Handler func: getting all chats for an offering
 func MessagesGetAllChatsForOfferingHandler(params operations.GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
 	chats, err := dao.GetAllChatsByOfferingAndUserID(params.ID, principal.Userid.Hex())
 	if err != nil {
