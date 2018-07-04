@@ -6,18 +6,16 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
-	graceful "github.com/tylerb/graceful"
-
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/health"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/messages"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/users"
 
-	models "git.dhbw.chd.cx/savood/backend/models"
+	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/handler/image"
@@ -149,7 +147,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // If you need to modify a config, store server instance to stop it individually later, this is the place.
 // This function can be called multiple times, depending on the number of serving schemes.
 // scheme value will be set accordingly: "http", "https" or "unix"
-func configureServer(s *graceful.Server, scheme, addr string) {
+func configureServer(s *http.Server, scheme, addr string) {
 
 	database.ConnectDatabase(nil,nil)
 
