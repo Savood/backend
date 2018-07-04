@@ -13,8 +13,8 @@ import (
 func MessagesGetAllChatsHandler(params messages.GetAllChatsParams, principal *models.Principal) middleware.Responder {
 	chats, err := dao.GetAllChatsByUserID(principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return messages.NewGetAllChatsBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 	return messages.NewGetAllChatsOK().WithPayload(chats)
@@ -24,15 +24,15 @@ func MessagesGetAllChatsHandler(params messages.GetAllChatsParams, principal *mo
 func MessagesGetAllMessagesForChatHandler(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
 	_, err := dao.GetChatByIDAndUserID(params.ChatID, principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return messages.NewGetAllMessagesForChatBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
 	msgs, err := dao.GetAllMessagesByChatID(params.ChatID)
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return messages.NewGetAllMessagesForChatBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 	return messages.NewGetAllMessagesForChatOK().WithPayload(msgs)
@@ -42,8 +42,8 @@ func MessagesGetAllMessagesForChatHandler(params messages.GetAllMessagesForChatP
 func MessagesCreateNewMessageHandler(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
 	chat, err := dao.GetChatByIDAndUserID(params.ChatID, principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return messages.NewCreateNewMessageBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
@@ -62,8 +62,8 @@ func MessagesCreateNewMessageHandler(params messages.CreateNewMessageParams, pri
 func MessagesGetAllChatsForOfferingHandler(params operations.GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
 	chats, err := dao.GetAllChatsByOfferingAndUserID(params.ID, principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return operations.NewGetAllChatsForOfferingBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 

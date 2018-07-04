@@ -21,7 +21,7 @@ func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *mode
 	err := user.Validate(formats)
 
 	if err != nil {
-		attribute := "idk!?"
+		attribute := "error"
 		message := err.Error()
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
@@ -33,14 +33,14 @@ func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *mode
 //UsersDeleteUserByIDHandler Handler func: Delete a User
 func UsersDeleteUserByIDHandler(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
 	if principal.Userid.Hex() != params.ID {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := "forbidden"
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 	user, err := dao.GetUserByID(principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
@@ -61,8 +61,8 @@ func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.P
 	if params.ID == principal.Userid.Hex() {
 		user, err := dao.GetUserByID(params.ID)
 		if err != nil {
-			attribute := "idk!?"
-			message := "?!"
+			attribute := "error"
+			message := err.Error()
 			return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 		}
 
@@ -70,23 +70,23 @@ func UsersGetUserByIDHandler(params users.GetUserByIDParams, principal *models.P
 	}
 	userShort, err := dao.GetUserShortByID(params.ID)
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
 	userShortJSON, err := json.Marshal(userShort)
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
 	user := models.User{}
 	err = json.Unmarshal(userShortJSON, &user)
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewGetUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
@@ -99,8 +99,8 @@ func UsersUpdateUserByIDHandler(params users.UpdateUserByIDParams, principal *mo
 
 	user, err := dao.GetUserByID(principal.Userid.Hex())
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewUpdateUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
@@ -113,8 +113,8 @@ func UsersUpdateUserByIDHandler(params users.UpdateUserByIDParams, principal *mo
 
 	err = dao.SaveUser(user)
 	if err != nil {
-		attribute := "idk!?"
-		message := "?!"
+		attribute := "error"
+		message := err.Error()
 		return users.NewUpdateUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
