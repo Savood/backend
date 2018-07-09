@@ -19,6 +19,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/handler/image"
+	"git.dhbw.chd.cx/savood/backend/handler/chat"
+	"git.dhbw.chd.cx/savood/backend/handler/user"
 	"io"
 )
 
@@ -95,33 +97,21 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
-	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(func(params messages.CreateNewMessageParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation messages.CreateNewMessage has not yet been implemented")
-	})
+	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(chat.MessagesCreateNewMessageHandler)
 	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.CreateNewOffering has not yet been implemented")
 	})
-	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(func(params users.CreateNewUserParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation users.CreateNewUser has not yet been implemented")
-	})
+	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(user.UsersCreateNewUserHandler)
 	api.MessagesDeleteMessageByIDHandler = messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.DeleteMessageByID has not yet been implemented")
 	})
 	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.DeleteOfferingByID has not yet been implemented")
 	})
-	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(func(params users.DeleteUserByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation users.DeleteUserByID has not yet been implemented")
-	})
-	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(func(params messages.GetAllChatsParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation messages.GetAllChats has not yet been implemented")
-	})
-	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(func(params operations.GetAllChatsForOfferingParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation .GetAllChatsForOffering has not yet been implemented")
-	})
-	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(func(params messages.GetAllMessagesForChatParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation messages.GetAllMessagesForChat has not yet been implemented")
-	})
+	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(user.UsersDeleteUserByIDHandler)
+	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)
+	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(chat.MessagesGetAllChatsForOfferingHandler)
+	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(chat.MessagesGetAllMessagesForChatHandler)
 	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.GetFeed has not yet been implemented")
 	})
@@ -134,18 +124,14 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")
 	})
-	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(func(params users.GetUserByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation users.GetUserByID has not yet been implemented")
-	})
+	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(user.UsersGetUserByIDHandler)
 	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.UpdateMessageByID has not yet been implemented")
 	})
 	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation offerings.UpdateOfferingByID has not yet been implemented")
 	})
-	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(func(params users.UpdateUserByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation users.UpdateUserByID has not yet been implemented")
-	})
+	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(user.UsersUpdateUserByIDHandler)
 
 	api.ServerShutdown = func() {}
 
@@ -163,7 +149,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *http.Server, scheme, addr string) {
 
-	database.ConnectDatabase(nil, nil)
+	database.ConnectDatabase(nil,nil)
 
 }
 
