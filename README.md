@@ -23,6 +23,6 @@ GOOS=linux go build -o ./bin/savood-server -ldflags="-s -w" cmd/savood-server/ma
 
 ```bash
 docker build --tag savood:test . 
-CONTAINER_IMAGE=savood CI_BUILD_REF=test docker-compose -f test-docker-compose.yml up 
+CONTAINER_IMAGE=savood CI_BUILD_REF=test docker-compose up 
 ```
 
