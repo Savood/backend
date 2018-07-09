@@ -6,7 +6,6 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"git.dhbw.chd.cx/savood/backend/dao"
 	"encoding/json"
-	"github.com/globalsign/mgo/bson"
 	"github.com/go-openapi/strfmt"
 )
 
@@ -15,7 +14,8 @@ func UsersCreateNewUserHandler(params users.CreateNewUserParams, principal *mode
 	formats := strfmt.NewFormats()
 
 	user := params.Body
-	user.ID = bson.NewObjectId()
+	user.ID = principal.Userid
+	user.Email = strfmt.Email(principal.Email)
 	user.Badges = []string{}
 
 	err := user.Validate(formats)
