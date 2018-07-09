@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"github.com/globalsign/mgo/bson"
+	"github.com/go-openapi/errors"
 )
 
 // GetAuthorizer produces Authorizer function
@@ -30,14 +31,12 @@ func GetAuthorizer(secret *string) (func(string) (*models.Principal, error)) {
 		})
 		if err != nil {
 			log.Printf("jwt parsing failed: %+v", err)
-			return nil, err
+			return nil, errors.New(401, err.Error())
 		}
 
 		var principal models.Principal
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-
-			log.Printf("claims: %+v", claims)
 
 			if claims["userid"] == nil || claims["email"] == nil ||
 				claims["userid"].(string) == "" || claims["email"].(string) == "" {
