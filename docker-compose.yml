@@ -1,0 +1,40 @@
+version: "2.1"
+services:
+
+  mongodb:
+    image: mongo
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks:
+      - savood
+    volumes:
+      - db-data
+
+
+  backend:
+    image: "${CONTAINER_IMAGE}:${CI_BUILD_REF}"
+    environment:
+        MONGODB_URL: mongodb://mongodb
+        MONGODB_DB: savood
+        JWT_SECRET: secret
+    depends_on:
+        mongodb:
+          condition: service_healthy
+    healthcheck:
+        test: wget --server-response localhost:8080/v2/healthcheck -O ip-current 2>&1| grep -c 'HTTP/1.1 200 OK'
+        interval: 5s
+        timeout: 5s
+        retries: 12
+    networks:
+      - savood
+    ports:
+      - "8080:8080"
+
+networks:
+  savood:
+
+volumes:
+  db-data:

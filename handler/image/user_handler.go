@@ -12,9 +12,9 @@ import (
 // PostUsersIDImageJpegHandler uploads given image
 func PostUsersIDImageJpegHandler(params operations.PostUsersIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
-	log.Printf("requested ID: %+v, principal ID: %+v", params.ID, principal.Userid.String())
+	log.Printf("requested ID: %+v, principal ID: %+v", params.ID, principal.Userid.Hex())
 
-	if params.ID != string(principal.Userid) {
+	if params.ID != principal.Userid.Hex() {
 		return operations.NewPostUsersIDImageJpegForbidden()
 	}
 
@@ -79,10 +79,9 @@ func GetUsersIDImageJpegHandler(params operations.GetUsersIDImageJpegParams, pri
 // PostUsersIDBackgroundimageJpegHandler uploads given image
 func PostUsersIDBackgroundimageJpegHandler(params operations.PostUsersIDBackgroundimageJpegParams, principal *models.Principal) middleware.Responder {
 
-	if params.ID != string(principal.Userid) {
+	if params.ID != principal.Userid.Hex() {
 		return operations.NewPostUsersIDBackgroundimageJpegForbidden()
 	}
-
 
 	if params.Upfile == nil {
 		str := "empty file"
