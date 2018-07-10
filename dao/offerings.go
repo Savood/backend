@@ -7,7 +7,7 @@ import (
 	"errors"
 )
 
-//Offering Transfer Object for Chat
+//OfferingTO Transfer Object for Offering
 type OfferingTO struct {
 	ID bson.ObjectId `json:"_id"`
 
