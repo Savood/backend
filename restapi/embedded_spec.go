@@ -962,7 +962,6 @@ func init() {
         ],
         "partner": {
           "_id": "5",
-          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
           "firstname": "Marty",
           "lastname": "McFlfy"
         }
@@ -1029,8 +1028,8 @@ func init() {
           "type": "string",
           "format": "date"
         },
-        "creatorId": {
-          "type": "string"
+        "creator": {
+          "$ref": "#/definitions/UserShort"
         },
         "description": {
           "type": "string"
@@ -1066,9 +1065,13 @@ func init() {
         "name": "Offering"
       },
       "example": {
-        "_id": "string",
+        "_id": "123",
         "best-by-date": "2018-06-21",
-        "creatorId": "27",
+        "creator": {
+          "_id": "5",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
+        },
         "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
         "location": [
           {
@@ -2329,7 +2332,6 @@ func init() {
         ],
         "partner": {
           "_id": "5",
-          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
           "firstname": "Marty",
           "lastname": "McFlfy"
         }
@@ -2396,8 +2398,8 @@ func init() {
           "type": "string",
           "format": "date"
         },
-        "creatorId": {
-          "type": "string"
+        "creator": {
+          "$ref": "#/definitions/UserShort"
         },
         "description": {
           "type": "string"
@@ -2421,9 +2423,13 @@ func init() {
         "name": "Offering"
       },
       "example": {
-        "_id": "string",
+        "_id": "123",
         "best-by-date": "2018-06-21",
-        "creatorId": "27",
+        "creator": {
+          "_id": "5",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
+        },
         "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
         "location": [
           {

@@ -6,6 +6,14 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
+//Offering Transfer Object for Chat
+type OfferingTO struct {
+	ID bson.ObjectId `json:"_id"`
+
+	CreatorID bson.ObjectId `json:"offeringcreatorid"`
+
+}
+
 //GetAllOfferingsByUserID Get all Offerings filtered by userId
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 	var offerings []*models.Offering
