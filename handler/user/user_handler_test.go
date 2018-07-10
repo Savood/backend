@@ -57,8 +57,10 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 	offeringID := bson.NewObjectId()
 
 	offering := &models.Offering{
-		Time:        strfmt.DateTime(time.Now().UTC()),
-		CreatorID:   userID,
+		Time: strfmt.DateTime(time.Now().UTC()),
+		Creator: &models.UserShort{
+			ID: userID,
+		},
 		ID:          offeringID,
 		Description: "description",
 		Name:        "name",

@@ -55,7 +55,7 @@ func TestUpdateOfferingByIDHandler(t *testing.T) {
 		},
 		{
 			inID: ok.Payload.ID,
-			in:   &models.Offering{CreatorID: bson.ObjectId("somethingnotnothing")},
+			in:   &models.Offering{Creator: &models.UserShort{ID: bson.ObjectId("somethingnotnothing")}},
 			out:  &offerings.UpdateOfferingByIDForbidden{},
 		},
 		{

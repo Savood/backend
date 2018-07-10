@@ -24,7 +24,7 @@ func UpdateOfferingByIDHandler(params offerings.UpdateOfferingByIDParams, princi
 		return offerings.NewUpdateOfferingByIDInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
 
-	if offering.CreatorID != principal.Userid {
+	if offering.Creator.ID != principal.Userid {
 		return offerings.NewUpdateOfferingByIDForbidden()
 	}
 
@@ -36,7 +36,7 @@ func UpdateOfferingByIDHandler(params offerings.UpdateOfferingByIDParams, princi
 
 	patch := *params.Body
 
-	if !(patch.CreatorID == principal.Userid || patch.CreatorID == "") ||
+	if !(patch.Creator == nil || patch.Creator.ID == principal.Userid || patch.Creator.ID == "") ||
 		!(patch.ID == offering.ID || patch.ID == "") ||
 		!(patch.Time == offering.Time || patch.Time == strfmt.DateTime(time.Time{})) {
 

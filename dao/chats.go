@@ -143,7 +143,7 @@ func SaveChat(chat *models.Chat) error {
 		Partner:           chat.Partner.ID,
 		OfferingID:        chat.OfferingID,
 		ID:                chat.ID,
-		OfferingCreatorID: offering.CreatorID,
+		OfferingCreatorID: offering.Creator.ID,
 	}
 
 	_, error := database.GetDatabase().C(database.ChatsCollectionName).UpsertId(chatTO.ID, chatTO)

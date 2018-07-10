@@ -22,7 +22,7 @@ func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, princi
 		return offerings.NewDeleteOfferingByIDInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
 
-	if offering.CreatorID != principal.Userid {
+	if offering.Creator.ID != principal.Userid {
 		return offerings.NewDeleteOfferingByIDForbidden()
 	}
 

@@ -76,9 +76,9 @@ func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
 		},
 		{
 			in: &models.Offering{
-				CreatorID: bson.ObjectId("somethingotherthaninprincipal"),
-				Name:      offeringName,
-				Location:  location,
+				Creator:  &models.UserShort{ID: bson.ObjectId("somethingotherthaninprincipal")},
+				Name:     offeringName,
+				Location: location,
 			},
 			out: &offerings.CreateNewOfferingForbidden{},
 		},
@@ -122,7 +122,7 @@ func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
 
 	log.Print(ok.Payload.ID)
 
-	assert.Equal(t, testPrincipal.Userid, ok.Payload.CreatorID)
+	assert.Equal(t, testPrincipal.Userid, ok.Payload.Creator.ID)
 
 	assert.Equal(t, offeringName, ok.Payload.Name)
 

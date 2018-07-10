@@ -4,21 +4,54 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"github.com/globalsign/mgo/bson"
+	"errors"
 )
 
 //Offering Transfer Object for Chat
 type OfferingTO struct {
 	ID bson.ObjectId `json:"_id"`
 
-	CreatorID bson.ObjectId `json:"offeringcreatorid"`
+	CreatorID bson.ObjectId `json:"creatorid"`
 
+	InnerOffering models.Offering
+}
+
+func injectCreatorShortAndID(offeringTO OfferingTO) (*OfferingTO, error) {
+	creator, err := GetUserShortByID(offeringTO.CreatorID.Hex())
+	if err != nil {
+		return nil, err
+	}
+
+	offeringTO.InnerOffering.Creator = creator
+	offeringTO.InnerOffering.ID = offeringTO.ID
+	return &offeringTO, nil
+}
+
+func injectSlice(offeringTOs []OfferingTO) ([]*models.Offering, error) {
+
+	var offerings []*models.Offering
+
+	for _, oTO := range offeringTOs {
+		o, err := injectCreatorShortAndID(oTO)
+		if err != nil {
+			return nil, err
+		}
+		offerings = append(offerings, &o.InnerOffering)
+	}
+
+	return offerings, nil
 }
 
 //GetAllOfferingsByUserID Get all Offerings filtered by userId
 func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
-	var offerings []*models.Offering
+	var offeringTOs []OfferingTO
 
-	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offerings)
+	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offeringTOs)
+	if err != nil {
+		return nil, err
+	}
+
+	offerings, err := injectSlice(offeringTOs)
 	if err != nil {
 		return nil, err
 	}
@@ -28,14 +61,21 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 
 //GetOfferingByID get offering by id
 func GetOfferingByID(offeringID string) (*models.Offering, error) {
-	var offering *models.Offering
+	var offeringTO *OfferingTO
 
-	err := database.GetDatabase().C(database.OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offering)
+	err := database.GetDatabase().C(database.OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offeringTO)
 	if err != nil {
 		return nil, err
 	}
 
-	return offering, nil
+	offeringTO, err = injectCreatorShortAndID(*offeringTO)
+	if err != nil {
+		return nil, err
+	}
+
+	offering := offeringTO.InnerOffering
+
+	return &offering, nil
 }
 
 //SaveOffering save an offering
@@ -44,7 +84,20 @@ func SaveOffering(offering *models.Offering) error {
 		offering.ID = bson.NewObjectId()
 	}
 
-	_, error := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offering.ID, offering)
+	if offering.Creator == nil {
+		return errors.New("offering needs creator")
+	}
+	if offering.Creator.ID == "" {
+		return errors.New("offering creator ID cannot be empty")
+	}
+
+	offeringTO := OfferingTO{
+		ID:            offering.ID,
+		CreatorID:     offering.Creator.ID,
+		InnerOffering: *offering,
+	}
+
+	_, error := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offeringTO.ID, offeringTO)
 
 	return error
 }
@@ -54,11 +107,10 @@ func DeleteOfferingByID(offeringID string) error {
 	return database.GetDatabase().C(database.OfferingsCollectionName).RemoveId(bson.ObjectIdHex(offeringID))
 }
 
-
 // GetNearOfferings gets offerings with $nearSphereQuery
 func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]*models.Offering, error) {
 
-	var offerings []*models.Offering
+	var offeringTOs []OfferingTO
 
 	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(
 		map[string]interface{}{
@@ -68,8 +120,13 @@ func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]
 					"$minDistance": 0,
 					"$maxDistance": maxDistance,
 				},
-			}}).All(&offerings)
+			}}).All(&offeringTOs)
 
+	if err != nil {
+		return nil, err
+	}
+
+	offerings, err := injectSlice(offeringTOs)
 	if err != nil {
 		return nil, err
 	}

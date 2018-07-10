@@ -56,7 +56,9 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 
 	offering := &models.Offering{
 		Time:        strfmt.DateTime(time.Now().UTC()),
-		CreatorID:   userID,
+		Creator:     &models.UserShort{
+			ID: userID,
+		},
 		ID:          offeringID,
 		Description: "description",
 		Name:        "name",
@@ -202,7 +204,7 @@ func TestSaveMessage(t *testing.T) {
 func TestGetAllOfferingsByUserID(t *testing.T) {
 	_, offering := CreateFakeOffering()
 
-	offerings, err := GetAllOfferingsByUserID(offering.CreatorID.Hex())
+	offerings, err := GetAllOfferingsByUserID(offering.Creator.ID.Hex())
 	assert.NoError(t, err)
 	assert.True(t, len(offerings) > 0)
 
@@ -259,7 +261,7 @@ func TestGetAllChatsByOfferingAndUserID(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, len(chatsPartner) > 0)
 
-	chatsCreator, err := GetAllChatsByOfferingAndUserID(offeringTest.ID.Hex(), offeringTest.CreatorID.Hex())
+	chatsCreator, err := GetAllChatsByOfferingAndUserID(offeringTest.ID.Hex(), offeringTest.Creator.ID.Hex())
 	assert.NoError(t, err)
 	assert.True(t, len(chatsCreator) > 0)
 }

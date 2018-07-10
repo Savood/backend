@@ -24,7 +24,7 @@ func GetFeedHandler(params offerings.GetFeedParams, principal *models.Principal)
 
 	b := out[:0]
 	for _, x := range out {
-		if x.CreatorID != principal.Userid {
+		if x.Creator.ID != principal.Userid {
 			b = append(b, x)
 		}
 	}

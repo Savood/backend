@@ -28,13 +28,15 @@ func CreateNewOfferingHandler(params offerings.CreateNewOfferingParams, principa
 	}
 
 	if offering.ID != bson.ObjectId("") ||
-		!(offering.CreatorID == bson.ObjectId("") || offering.CreatorID == principal.Userid) ||
+		!(offering.Creator == nil || offering.Creator.ID == bson.ObjectId("") || offering.Creator.ID == principal.Userid) ||
 		offering.Time != strfmt.DateTime(time.Time{}) || offering.RequestedBy != 0 {
 
 		return offerings.NewCreateNewOfferingForbidden()
 	}
 
-	offering.CreatorID = principal.Userid
+	offering.Creator = &models.UserShort{
+		ID: principal.Userid,
+	}
 	offering.Time = strfmt.DateTime(time.Now())
 	offering.RequestedBy = 0
 
