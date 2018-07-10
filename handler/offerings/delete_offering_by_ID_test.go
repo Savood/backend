@@ -13,18 +13,18 @@ func TestDeleteOfferingByIDHandler(t *testing.T) {
 	offeringName := "testName"
 	location := &models.OfferingLocation{Type: "Point", Coordinates: []float64{1, 2}}
 
+
 	response := CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, testPrincipal)
-
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	okOffering := response.(*offerings.CreateNewOfferingOK)
 
-	ok := response.(*offerings.CreateNewOfferingOK)
+	//log.Print(okOffering.Payload.ID)
 
-	response = CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, &models.Principal{Userid:bson.ObjectIdHex("404040404040404040404040")})
-
+	response = CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, forbiddenPrincipal)
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	forbiddenOffering := response.(*offerings.CreateNewOfferingOK)
 
-	forbidden := response.(*offerings.CreateNewOfferingOK)
-
+	//log.Print(forbiddenOffering.Payload.ID)
 
 	inOut := []struct {
 		in  bson.ObjectId
@@ -35,11 +35,11 @@ func TestDeleteOfferingByIDHandler(t *testing.T) {
 			out: &offerings.DeleteOfferingByIDNoContent{},
 		},
 		{
-			in:  ok.Payload.ID,
+			in:  okOffering.Payload.ID,
 			out: &offerings.DeleteOfferingByIDNoContent{},
 		},
 		{
-			in:  forbidden.Payload.ID,
+			in:  forbiddenOffering.Payload.ID,
 			out: &offerings.DeleteOfferingByIDForbidden{},
 		},
 	}

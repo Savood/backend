@@ -78,7 +78,6 @@ func TestGetFeedHandler(t *testing.T) {
 
 	for _, iot := range inOut {
 
-
 		response := GetFeedHandler(offerings.GetFeedParams{Lat: iot.inLat, Lon: iot.inLon, Distance: iot.inDistance}, testPrincipal)
 
 		assert.IsType(t, iot.out, response)
@@ -88,10 +87,8 @@ func TestGetFeedHandler(t *testing.T) {
 		log.Print(iot)
 
 		if tr {
-			assert.True(t, len(ok.Payload) == iot.outLen)
-			log.Print(ok.Payload)
+			assert.Equal(t, iot.outLen, len(ok.Payload))
 		}
-
 
 	}
 

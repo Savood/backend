@@ -6,7 +6,6 @@ import (
 	"git.dhbw.chd.cx/savood/backend/restapi/operations/offerings"
 	"github.com/stretchr/testify/assert"
 	"git.dhbw.chd.cx/savood/backend/models"
-	"github.com/globalsign/mgo/bson"
 )
 
 func TestGetOfferingByIDHandler(t *testing.T) {
@@ -14,39 +13,37 @@ func TestGetOfferingByIDHandler(t *testing.T) {
 	location := &models.OfferingLocation{Type: "Point", Coordinates: []float64{1, 2}}
 
 	response := CreateNewOfferingHandler(offerings.CreateNewOfferingParams{Body: &models.Offering{Name: offeringName, Location: location}}, testPrincipal)
-
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	okResponse := response.(*offerings.CreateNewOfferingOK)
 
-	ok := response.(*offerings.CreateNewOfferingOK)
+	//log.Print(okResponse.Payload.ID.Hex())
 
 	inOut := []struct {
-		in  bson.ObjectId
+		in  string
 		out middleware.Responder
 	}{
 		{
-			in:  bson.ObjectIdHex("404040404040404040404040"),
+			in:  "404040404040404040404040",
 			out: &offerings.GetOfferingByIDNotFound{},
 		},
 		{
-			in:  ok.Payload.ID,
+			in:  okResponse.Payload.ID.Hex(),
 			out: &offerings.GetOfferingByIDOK{},
 		},
 	}
 
 	for _, iot := range inOut {
 
-		response := GetOfferingByIDHandler(offerings.GetOfferingByIDParams{ID: iot.in.Hex()}, testPrincipal)
+		response := GetOfferingByIDHandler(offerings.GetOfferingByIDParams{ID: iot.in}, testPrincipal)
 
 		assert.IsType(t, iot.out, response)
 
 	}
 
-	response = GetOfferingByIDHandler(offerings.GetOfferingByIDParams{ID: ok.Payload.ID.Hex()}, testPrincipal)
-
+	response = GetOfferingByIDHandler(offerings.GetOfferingByIDParams{ID: okResponse.Payload.ID.Hex()}, testPrincipal)
 	assert.IsType(t, &offerings.GetOfferingByIDOK{}, response)
-
 	out := response.(*offerings.GetOfferingByIDOK)
 
-	assert.Equal(t, out.Payload.ID, ok.Payload.ID)
+	assert.Equal(t, out.Payload.ID, okResponse.Payload.ID)
 
 }

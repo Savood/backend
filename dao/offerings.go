@@ -13,10 +13,12 @@ type OfferingTO struct {
 
 	CreatorID bson.ObjectId `json:"creatorid"`
 
-	InnerOffering models.Offering
+	Location models.OfferingLocation `json:"location"`
+
+	InnerOffering models.Offering `json:"innerOffering"`
 }
 
-func injectCreatorShortAndID(offeringTO OfferingTO) (*OfferingTO, error) {
+func inject(offeringTO OfferingTO) (*OfferingTO, error) {
 	creator, err := GetUserShortByID(offeringTO.CreatorID.Hex())
 	if err != nil {
 		return nil, err
@@ -24,6 +26,7 @@ func injectCreatorShortAndID(offeringTO OfferingTO) (*OfferingTO, error) {
 
 	offeringTO.InnerOffering.Creator = creator
 	offeringTO.InnerOffering.ID = offeringTO.ID
+	offeringTO.InnerOffering.Location = &offeringTO.Location
 	return &offeringTO, nil
 }
 
@@ -32,7 +35,7 @@ func injectSlice(offeringTOs []OfferingTO) ([]*models.Offering, error) {
 	var offerings []*models.Offering
 
 	for _, oTO := range offeringTOs {
-		o, err := injectCreatorShortAndID(oTO)
+		o, err := inject(oTO)
 		if err != nil {
 			return nil, err
 		}
@@ -61,28 +64,25 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 
 //GetOfferingByID get offering by id
 func GetOfferingByID(offeringID string) (*models.Offering, error) {
-	var offeringTO *OfferingTO
+	var offeringTO OfferingTO
 
 	err := database.GetDatabase().C(database.OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offeringTO)
 	if err != nil {
 		return nil, err
 	}
 
-	offeringTO, err = injectCreatorShortAndID(*offeringTO)
+	oTO, err := inject(offeringTO)
 	if err != nil {
 		return nil, err
 	}
 
-	offering := offeringTO.InnerOffering
+	offering := oTO.InnerOffering
 
 	return &offering, nil
 }
 
 //SaveOffering save an offering
 func SaveOffering(offering *models.Offering) error {
-	if len(offering.ID) == 0 {
-		offering.ID = bson.NewObjectId()
-	}
 
 	if offering.Creator == nil {
 		return errors.New("offering needs creator")
@@ -90,16 +90,24 @@ func SaveOffering(offering *models.Offering) error {
 	if offering.Creator.ID == "" {
 		return errors.New("offering creator ID cannot be empty")
 	}
+	if offering.Location == nil {
+		return errors.New("offering location cannot be empty")
+	}
+
+	if len(offering.ID) == 0 {
+		offering.ID = bson.NewObjectId()
+	}
 
 	offeringTO := OfferingTO{
 		ID:            offering.ID,
 		CreatorID:     offering.Creator.ID,
 		InnerOffering: *offering,
+		Location:      *offering.Location,
 	}
 
-	_, error := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offeringTO.ID, offeringTO)
+	_, err := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offeringTO.ID, offeringTO)
 
-	return error
+	return err
 }
 
 // DeleteOfferingByID deletes an offering by id

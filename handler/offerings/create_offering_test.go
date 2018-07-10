@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/go-openapi/strfmt"
 	"time"
-	"log"
 )
 
 func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
@@ -120,7 +119,7 @@ func TestOfferingsCreateNewOfferingHandler(t *testing.T) {
 
 	assert.True(t, len(ok.Payload.ID) > 0)
 
-	log.Print(ok.Payload.ID)
+	//log.Print(ok.Payload.ID)
 
 	assert.Equal(t, testPrincipal.Userid, ok.Payload.Creator.ID)
 

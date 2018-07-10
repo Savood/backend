@@ -6,6 +6,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/dao"
 	"github.com/globalsign/mgo"
+	"log"
 )
 
 // DeleteOfferingByIDHandler handles deletion of offering by id
@@ -14,6 +15,7 @@ func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, princi
 	offering, err := dao.GetOfferingByID(params.ID)
 
 	if err == mgo.ErrNotFound {
+		log.Printf("not found: %+v", params.ID)
 		return offerings.NewDeleteOfferingByIDNoContent()
 	}
 
@@ -31,7 +33,6 @@ func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, princi
 		str := err.Error()
 		return offerings.NewDeleteOfferingByIDInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
-
 
 	return offerings.NewDeleteOfferingByIDNoContent()
 }
