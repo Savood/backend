@@ -22,6 +22,8 @@ import (
 	"git.dhbw.chd.cx/savood/backend/handler/chat"
 	"git.dhbw.chd.cx/savood/backend/handler/user"
 	"io"
+
+	"github.com/rs/cors"
 )
 
 //go:generate swagger generate server --target .. --name  --spec ../../api-definition/swagger.yml --principal models.Principal
@@ -149,7 +151,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *http.Server, scheme, addr string) {
 
-	database.ConnectDatabase(nil,nil)
+	database.ConnectDatabase(nil, nil)
 
 }
 
@@ -162,5 +164,15 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+
+	corsHandler := cors.New(cors.Options{
+		Debug:            false,
+		AllowedHeaders:   []string{"*"},
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+		AllowedMethods:   []string{},
+		MaxAge:           1000,
+	})
+	return corsHandler.Handler(handler)
+
 }
