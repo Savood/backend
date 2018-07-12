@@ -4,8 +4,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/database"
-	"log"
-	"errors"
+	"github.com/globalsign/mgo"
 )
 
 type UserTO struct {
@@ -48,16 +47,20 @@ func GetUserShortByID(userID string) (*models.UserShort, error) {
 
 //SaveUser saving a user
 func SaveUser(user *models.User) error {
-	//TODO rework this to a non deleting update
+	var uTO UserTO
 
 	if len(user.ID) == 0 {
 		user.ID = bson.NewObjectId()
+	} else {
+		err := database.GetDatabase().C(database.UsersCollectionName).FindId(user.ID).One(&uTO)
+		if err != nil && err != mgo.ErrNotFound{
+			return err
+		}
 	}
 
-	uTO := UserTO{
-		ID:        user.ID,
-		InnerUser: *user,
-	}
+	uTO.ID = user.ID
+	uTO.InnerUser = *user
+
 
 	_, err := database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
 
@@ -66,27 +69,42 @@ func SaveUser(user *models.User) error {
 
 func AddSavoodToUserID(userID, savoodID string) error {
 
-	//TODO do this right
+	var uTO UserTO
+	err := database.GetDatabase().C(database.UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&uTO)
+	if err != nil {
+		return err
+	}
 
-	log.Print(userID)
-	log.Print(savoodID)
+	uTO.Savoods = append(uTO.Savoods, bson.ObjectIdHex(savoodID))
 
-	return database.GetDatabase().C(database.UsersCollectionName).UpdateId(bson.ObjectIdHex(userID), struct {
-		Savoods []bson.ObjectId `json:"savoods"`
-	}{
-		Savoods: []bson.ObjectId{bson.ObjectIdHex(savoodID)},
-	})
 
+	_, err = database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
+
+	return err
 }
 
 func RemoveSavoodFromUserID(userID, savoodID string) error {
 
-	//TODO do this right
+	var uTO UserTO
+	err := database.GetDatabase().C(database.UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&uTO)
+	if err != nil {
+		return err
+	}
 
-	log.Print(userID)
-	log.Print(savoodID)
+	a := uTO.Savoods
+	b := a[:0]
+	for _, x := range a {
+		if x.Hex() != savoodID {
+			b = append(b, x)
+		}
+	}
 
-	return errors.New("not implemented")
+	uTO.Savoods = b
+
+
+	_, err = database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
+
+	return err
 
 }
 

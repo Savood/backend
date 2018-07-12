@@ -206,6 +206,11 @@ func TestRemoveSavoodFromUserID(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotContains(t, savoods, savoodID)
 
+	id, e = GetUserByID(userID.Hex())
+	assert.NotNil(t, id)
+	assert.NoError(t, e)
+	assert.Equal(t, user, id)
+
 }
 
 func TestGetAllChatsByUserID(t *testing.T) {

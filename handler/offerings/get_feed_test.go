@@ -8,9 +8,11 @@ import (
 	"git.dhbw.chd.cx/savood/backend/models"
 	"github.com/globalsign/mgo/bson"
 	"log"
+	"git.dhbw.chd.cx/savood/backend/dao"
 )
 
 func TestGetFeedHandler(t *testing.T) {
+	var offeringIDs []string
 	offeringName := "testName"
 
 	response := CreateNewOfferingHandler(offerings.CreateNewOfferingParams{
@@ -20,7 +22,10 @@ func TestGetFeedHandler(t *testing.T) {
 		}},
 		testPrincipal,
 	)
+
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	offeringIDs = append(offeringIDs, response.(*offerings.CreateNewOfferingOK).Payload.ID.Hex())
+
 	response = CreateNewOfferingHandler(offerings.CreateNewOfferingParams{
 		Body: &models.Offering{
 			Name:     offeringName,
@@ -28,6 +33,10 @@ func TestGetFeedHandler(t *testing.T) {
 		}},
 		testPrincipal,
 	)
+
+	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	offeringIDs = append(offeringIDs, response.(*offerings.CreateNewOfferingOK).Payload.ID.Hex())
+
 	response = CreateNewOfferingHandler(offerings.CreateNewOfferingParams{
 		Body: &models.Offering{
 			Name:     offeringName,
@@ -35,7 +44,10 @@ func TestGetFeedHandler(t *testing.T) {
 		}},
 		&models.Principal{Userid: bson.ObjectIdHex("404040404040404040404040")},
 	)
+
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	offeringIDs = append(offeringIDs, response.(*offerings.CreateNewOfferingOK).Payload.ID.Hex())
+
 	response = CreateNewOfferingHandler(offerings.CreateNewOfferingParams{
 		Body: &models.Offering{
 			Name:     offeringName,
@@ -43,7 +55,9 @@ func TestGetFeedHandler(t *testing.T) {
 		}},
 		&models.Principal{Userid: bson.ObjectIdHex("404040404040404040404040")},
 	)
+
 	assert.IsType(t, &offerings.CreateNewOfferingOK{}, response)
+	offeringIDs = append(offeringIDs, response.(*offerings.CreateNewOfferingOK).Payload.ID.Hex())
 
 	inOut := []struct {
 		inLon      float64
@@ -90,6 +104,10 @@ func TestGetFeedHandler(t *testing.T) {
 			assert.Equal(t, iot.outLen, len(ok.Payload))
 		}
 
+	}
+
+	for _, id := range offeringIDs {
+		assert.NoError(t, dao.DeleteOfferingByID(id))
 	}
 
 }
