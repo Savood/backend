@@ -7,8 +7,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 )
 
-//MessagesCollectionName collection of messages in mongodb
-const MessagesCollectionName = "messages"
+
 
 //MessageTO Transfer Object for Chat
 type MessageTO struct {
@@ -27,7 +26,7 @@ type MessageTO struct {
 func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 	var results []MessageTO
 
-	err := database.GetDatabase().C(MessagesCollectionName).Find(bson.M{"chatid": bson.ObjectIdHex(chatID)}).All(&results)
+	err := database.GetDatabase().C(database.MessagesCollectionName).Find(bson.M{"chatid": bson.ObjectIdHex(chatID)}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -62,6 +61,6 @@ func SaveMessage(chat models.Chat, message models.Message) error {
 		ChatID:  chat.ID,
 	}
 
-	error := database.GetDatabase().C(MessagesCollectionName).Insert(messageTO)
+	error := database.GetDatabase().C(database.MessagesCollectionName).Insert(messageTO)
 	return error
 }

@@ -269,6 +269,9 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -302,7 +305,7 @@ func init() {
         "tags": [
           "offerings"
         ],
-        "summary": "Display a feed of nearby offerings",
+        "summary": "Display owned or requested offerings",
         "operationId": "getOfferings",
         "parameters": [
           {
@@ -364,6 +367,9 @@ func init() {
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
           },
+          "403": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "500": {
             "$ref": "#/responses/ErrorResponse"
           }
@@ -389,6 +395,12 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -407,6 +419,12 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -439,6 +457,15 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       },
@@ -935,7 +962,6 @@ func init() {
         ],
         "partner": {
           "_id": "5",
-          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
           "firstname": "Marty",
           "lastname": "McFlfy"
         }
@@ -1002,8 +1028,8 @@ func init() {
           "type": "string",
           "format": "date"
         },
-        "creatorId": {
-          "type": "string"
+        "creator": {
+          "$ref": "#/definitions/UserShort"
         },
         "description": {
           "type": "string"
@@ -1039,12 +1065,22 @@ func init() {
         "name": "Offering"
       },
       "example": {
-        "_id": "string",
-        "avatarId": "/assets/img/speakers/bear.jpg",
-        "best-by-date": "2018-06-21T13:55:58.380Z",
-        "creatorId": "27",
-        "header": "Keine Ahnung",
-        "location": "Somewhere Over, The Rainbow",
+        "_id": "123",
+        "best-by-date": "2018-06-21",
+        "creator": {
+          "_id": "5",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
+        },
+        "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
+        "location": [
+          {
+            "coordinates": [
+              50.5636277,
+              9.6711443
+            ]
+          }
+        ],
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -1151,7 +1187,6 @@ func init() {
       },
       "example": {
         "_id": "5",
-        "avatarId": "",
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
@@ -1493,6 +1528,12 @@ func init() {
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
             }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
           }
         }
       }
@@ -1529,7 +1570,7 @@ func init() {
         "tags": [
           "offerings"
         ],
-        "summary": "Display a feed of nearby offerings",
+        "summary": "Display owned or requested offerings",
         "operationId": "getOfferings",
         "parameters": [
           {
@@ -1597,6 +1638,12 @@ func init() {
               "$ref": "#/definitions/InvalidParameterInput"
             }
           },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
           "500": {
             "description": "Generic Error",
             "schema": {
@@ -1628,6 +1675,18 @@ func init() {
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
             }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
           }
         }
       },
@@ -1648,6 +1707,18 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -1683,6 +1754,24 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -2243,7 +2332,6 @@ func init() {
         ],
         "partner": {
           "_id": "5",
-          "avatarId": "/assets/img/sarah-avatar.png.jpeg",
           "firstname": "Marty",
           "lastname": "McFlfy"
         }
@@ -2310,8 +2398,8 @@ func init() {
           "type": "string",
           "format": "date"
         },
-        "creatorId": {
-          "type": "string"
+        "creator": {
+          "$ref": "#/definitions/UserShort"
         },
         "description": {
           "type": "string"
@@ -2335,12 +2423,22 @@ func init() {
         "name": "Offering"
       },
       "example": {
-        "_id": "string",
-        "avatarId": "/assets/img/speakers/bear.jpg",
-        "best-by-date": "2018-06-21T13:55:58.380Z",
-        "creatorId": "27",
-        "header": "Keine Ahnung",
-        "location": "Somewhere Over, The Rainbow",
+        "_id": "123",
+        "best-by-date": "2018-06-21",
+        "creator": {
+          "_id": "5",
+          "firstname": "Marty",
+          "lastname": "McFlfy"
+        },
+        "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
+        "location": [
+          {
+            "coordinates": [
+              50.5636277,
+              9.6711443
+            ]
+          }
+        ],
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -2447,7 +2545,6 @@ func init() {
       },
       "example": {
         "_id": "5",
-        "avatarId": "",
         "firstname": "Marty",
         "lastname": "McFlfy"
       }

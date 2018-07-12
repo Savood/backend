@@ -29,8 +29,8 @@ type Offering struct {
 	// Format: date
 	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
 
-	// creator Id
-	CreatorID bson.ObjectId `json:"creatorId,omitempty"`
+	// creator
+	Creator *UserShort `json:"creator,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
@@ -58,6 +58,10 @@ func (m *Offering) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateBestByDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCreator(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -101,6 +105,24 @@ func (m *Offering) validateBestByDate(formats strfmt.Registry) error {
 
 	if err := validate.FormatOf("best-by-date", "body", "date", m.BestByDate.String(), formats); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (m *Offering) validateCreator(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Creator) { // not required
+		return nil
+	}
+
+	if m.Creator != nil {
+		if err := m.Creator.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("creator")
+			}
+			return err
+		}
 	}
 
 	return nil

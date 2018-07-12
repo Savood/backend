@@ -80,3 +80,135 @@ func (o *UpdateOfferingByIDBadRequest) WriteResponse(rw http.ResponseWriter, pro
 		}
 	}
 }
+
+// UpdateOfferingByIDForbiddenCode is the HTTP code returned for type UpdateOfferingByIDForbidden
+const UpdateOfferingByIDForbiddenCode int = 403
+
+/*UpdateOfferingByIDForbidden Generic Error
+
+swagger:response updateOfferingByIdForbidden
+*/
+type UpdateOfferingByIDForbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewUpdateOfferingByIDForbidden creates UpdateOfferingByIDForbidden with default headers values
+func NewUpdateOfferingByIDForbidden() *UpdateOfferingByIDForbidden {
+
+	return &UpdateOfferingByIDForbidden{}
+}
+
+// WithPayload adds the payload to the update offering by Id forbidden response
+func (o *UpdateOfferingByIDForbidden) WithPayload(payload *models.ErrorModel) *UpdateOfferingByIDForbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update offering by Id forbidden response
+func (o *UpdateOfferingByIDForbidden) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateOfferingByIDForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// UpdateOfferingByIDNotFoundCode is the HTTP code returned for type UpdateOfferingByIDNotFound
+const UpdateOfferingByIDNotFoundCode int = 404
+
+/*UpdateOfferingByIDNotFound The specified resource was not found
+
+swagger:response updateOfferingByIdNotFound
+*/
+type UpdateOfferingByIDNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewUpdateOfferingByIDNotFound creates UpdateOfferingByIDNotFound with default headers values
+func NewUpdateOfferingByIDNotFound() *UpdateOfferingByIDNotFound {
+
+	return &UpdateOfferingByIDNotFound{}
+}
+
+// WithPayload adds the payload to the update offering by Id not found response
+func (o *UpdateOfferingByIDNotFound) WithPayload(payload *models.ErrorModel) *UpdateOfferingByIDNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update offering by Id not found response
+func (o *UpdateOfferingByIDNotFound) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateOfferingByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// UpdateOfferingByIDInternalServerErrorCode is the HTTP code returned for type UpdateOfferingByIDInternalServerError
+const UpdateOfferingByIDInternalServerErrorCode int = 500
+
+/*UpdateOfferingByIDInternalServerError Generic Error
+
+swagger:response updateOfferingByIdInternalServerError
+*/
+type UpdateOfferingByIDInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewUpdateOfferingByIDInternalServerError creates UpdateOfferingByIDInternalServerError with default headers values
+func NewUpdateOfferingByIDInternalServerError() *UpdateOfferingByIDInternalServerError {
+
+	return &UpdateOfferingByIDInternalServerError{}
+}
+
+// WithPayload adds the payload to the update offering by Id internal server error response
+func (o *UpdateOfferingByIDInternalServerError) WithPayload(payload *models.ErrorModel) *UpdateOfferingByIDInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update offering by Id internal server error response
+func (o *UpdateOfferingByIDInternalServerError) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateOfferingByIDInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

@@ -10,8 +10,8 @@ services:
       retries: 12
     networks:
       - savood
-    volumes:
-      - db-data
+    ports:
+      - "27017:27017"
 
 
   backend:
@@ -35,6 +35,3 @@ services:
 
 networks:
   savood:
-
-volumes:
-  db-data:

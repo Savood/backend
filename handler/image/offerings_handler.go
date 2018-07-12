@@ -18,7 +18,7 @@ func PostOfferingsIDImageJpegHandler(params operations.PostOfferingsIDImageJpegP
 		return operations.NewGetOfferingsIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
 
-	if offering.CreatorID != principal.Userid {
+	if offering.Creator.ID != principal.Userid {
 		return operations.NewPostOfferingsIDImageJpegForbidden()
 	}
 

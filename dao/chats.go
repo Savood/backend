@@ -6,8 +6,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-//ChatsCollectionName collection of chats in mongodb
-const ChatsCollectionName = "chats"
+
 
 //ChatTO Transfer Object for Chat
 type ChatTO struct {
@@ -26,7 +25,7 @@ func GetAllChatsByOfferingAndUserID(offeringID string, userID string) ([]*models
 	offeringObjectID := bson.ObjectIdHex(offeringID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +55,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	userObjectID := bson.ObjectIdHex(userID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +85,7 @@ func GetChatByIDAndUserID(chatID string, userID string) (*models.Chat, error) {
 	userObjectID := bson.ObjectIdHex(userID)
 
 	var result ChatTO
-	err := database.GetDatabase().C(ChatsCollectionName).Find(bson.M{"_id": bson.ObjectIdHex(chatID), "$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}}).One(&result)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"_id": bson.ObjectIdHex(chatID), "$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}}).One(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +107,7 @@ func GetChatByIDAndUserID(chatID string, userID string) (*models.Chat, error) {
 //GetChatByID getting chat by id
 func GetChatByID(chatID string) (*models.Chat, error) {
 	var result ChatTO
-	err := database.GetDatabase().C(ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(&result)
+	err := database.GetDatabase().C(database.ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -144,10 +143,10 @@ func SaveChat(chat *models.Chat) error {
 		Partner:           chat.Partner.ID,
 		OfferingID:        chat.OfferingID,
 		ID:                chat.ID,
-		OfferingCreatorID: offering.CreatorID,
+		OfferingCreatorID: offering.Creator.ID,
 	}
 
-	_, error := database.GetDatabase().C(ChatsCollectionName).UpsertId(chatTO.ID, chatTO)
+	_, error := database.GetDatabase().C(database.ChatsCollectionName).UpsertId(chatTO.ID, chatTO)
 
 	return error
 }

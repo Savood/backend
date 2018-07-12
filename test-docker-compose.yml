@@ -19,7 +19,6 @@ services:
     environment:
         MONGODB_URL: mongodb://mongodb
         MONGODB_DB: savood
-        JWT_SECRET: secret
     depends_on:
         mongodb:
           condition: service_healthy

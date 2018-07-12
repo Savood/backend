@@ -8,6 +8,18 @@ import (
 
 var db *mgo.Database
 
+//OfferingsCollectionName collection of offerings in mongodb
+const OfferingsCollectionName = "offerings"
+
+//ChatsCollectionName collection of chats in mongodb
+const ChatsCollectionName = "chats"
+
+//MessagesCollectionName collection of messages in mongodb
+const MessagesCollectionName = "messages"
+
+//UsersCollectionName collection of users in mongodb
+const UsersCollectionName = "users"
+
 // ConnectDatabase establishes connection to database
 func ConnectDatabase(connectionURL, databaseName *string) error {
 
@@ -25,6 +37,8 @@ func ConnectDatabase(connectionURL, databaseName *string) error {
 		return err
 	}
 	db = session.DB(*databaseName)
+
+	db.C(OfferingsCollectionName).EnsureIndex(mgo.Index{Key:[]string{"$2dsphere:location"},})
 
 	// TODO do this properly with right data
 	/*

@@ -100,3 +100,91 @@ func (o *GetOfferingByIDBadRequest) WriteResponse(rw http.ResponseWriter, produc
 		}
 	}
 }
+
+// GetOfferingByIDNotFoundCode is the HTTP code returned for type GetOfferingByIDNotFound
+const GetOfferingByIDNotFoundCode int = 404
+
+/*GetOfferingByIDNotFound The specified resource was not found
+
+swagger:response getOfferingByIdNotFound
+*/
+type GetOfferingByIDNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewGetOfferingByIDNotFound creates GetOfferingByIDNotFound with default headers values
+func NewGetOfferingByIDNotFound() *GetOfferingByIDNotFound {
+
+	return &GetOfferingByIDNotFound{}
+}
+
+// WithPayload adds the payload to the get offering by Id not found response
+func (o *GetOfferingByIDNotFound) WithPayload(payload *models.ErrorModel) *GetOfferingByIDNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get offering by Id not found response
+func (o *GetOfferingByIDNotFound) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *GetOfferingByIDNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// GetOfferingByIDInternalServerErrorCode is the HTTP code returned for type GetOfferingByIDInternalServerError
+const GetOfferingByIDInternalServerErrorCode int = 500
+
+/*GetOfferingByIDInternalServerError Generic Error
+
+swagger:response getOfferingByIdInternalServerError
+*/
+type GetOfferingByIDInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewGetOfferingByIDInternalServerError creates GetOfferingByIDInternalServerError with default headers values
+func NewGetOfferingByIDInternalServerError() *GetOfferingByIDInternalServerError {
+
+	return &GetOfferingByIDInternalServerError{}
+}
+
+// WithPayload adds the payload to the get offering by Id internal server error response
+func (o *GetOfferingByIDInternalServerError) WithPayload(payload *models.ErrorModel) *GetOfferingByIDInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get offering by Id internal server error response
+func (o *GetOfferingByIDInternalServerError) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *GetOfferingByIDInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

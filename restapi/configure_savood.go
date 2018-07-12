@@ -19,6 +19,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/auth"
 	"git.dhbw.chd.cx/savood/backend/database"
 	"git.dhbw.chd.cx/savood/backend/handler/image"
+	o "git.dhbw.chd.cx/savood/backend/handler/offerings"
 	"git.dhbw.chd.cx/savood/backend/handler/chat"
 	"git.dhbw.chd.cx/savood/backend/handler/user"
 	"io"
@@ -88,52 +89,43 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	// api.APIAuthorizer = security.Authorized()
 
 	api.PostOfferingsIDImageJpegHandler = operations.PostOfferingsIDImageJpegHandlerFunc(image.PostOfferingsIDImageJpegHandler)
-
 	api.GetOfferingsIDImageJpegHandler = operations.GetOfferingsIDImageJpegHandlerFunc(image.GetOfferingsIDImageJpegHandler)
 
 	api.PostUsersIDImageJpegHandler = operations.PostUsersIDImageJpegHandlerFunc(image.PostUsersIDImageJpegHandler)
-
 	api.GetUsersIDImageJpegHandler = operations.GetUsersIDImageJpegHandlerFunc(image.GetUsersIDImageJpegHandler)
 
 	api.PostUsersIDBackgroundimageJpegHandler = operations.PostUsersIDBackgroundimageJpegHandlerFunc(image.PostUsersIDBackgroundimageJpegHandler)
-
 	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
+	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.CreateNewOfferingHandler)
+	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(o.GetOfferingByIDHandler)
+	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(o.UpdateOfferingByIDHandler)
+	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(o.DeleteOfferingByIDHandler)
+
+	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(o.GetFeedHandler)
+	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(o.GetOfferingsHandler)
+
+	api.PlaceSavoodHandler = operations.PlaceSavoodHandlerFunc(o.PlaceSavoodHandler)
+
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(chat.MessagesCreateNewMessageHandler)
-	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(func(params offerings.CreateNewOfferingParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.CreateNewOffering has not yet been implemented")
-	})
+	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)
+	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(chat.MessagesGetAllMessagesForChatHandler)
+	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(chat.MessagesGetAllChatsForOfferingHandler)
+
 	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(user.UsersCreateNewUserHandler)
+	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(user.UsersGetUserByIDHandler)
+	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(user.UsersUpdateUserByIDHandler)
+	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(user.UsersDeleteUserByIDHandler)
+
 	api.MessagesDeleteMessageByIDHandler = messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.DeleteMessageByID has not yet been implemented")
-	})
-	api.OfferingsDeleteOfferingByIDHandler = offerings.DeleteOfferingByIDHandlerFunc(func(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.DeleteOfferingByID has not yet been implemented")
-	})
-	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(user.UsersDeleteUserByIDHandler)
-	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)
-	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(chat.MessagesGetAllChatsForOfferingHandler)
-	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(chat.MessagesGetAllMessagesForChatHandler)
-	api.OfferingsGetFeedHandler = offerings.GetFeedHandlerFunc(func(params offerings.GetFeedParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetFeed has not yet been implemented")
 	})
 	api.MessagesGetMessageByIDHandler = messages.GetMessageByIDHandlerFunc(func(params messages.GetMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.GetMessageByID has not yet been implemented")
 	})
-	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(func(params offerings.GetOfferingByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetOfferingByID has not yet been implemented")
-	})
-	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(func(params offerings.GetOfferingsParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.GetOfferings has not yet been implemented")
-	})
-	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(user.UsersGetUserByIDHandler)
 	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.UpdateMessageByID has not yet been implemented")
 	})
-	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(func(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
-		return middleware.NotImplemented("operation offerings.UpdateOfferingByID has not yet been implemented")
-	})
-	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(user.UsersUpdateUserByIDHandler)
 
 	api.ServerShutdown = func() {}
 
