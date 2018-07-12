@@ -385,3 +385,51 @@ func TestGetChatByIDAndUserID(t *testing.T) {
 	assert.Equal(t, "not found", err.Error())
 	assert.Nil(t, chatl)
 }
+
+func TestUpdateChatRemoveOfferingID(t *testing.T) {
+	userID, _ := CreateFakeUser()
+
+	offeringID, _ := CreateFakeOffering()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	chatID := bson.NewObjectId()
+
+	chat := models.Chat{
+		ID:         chatID,
+		Partner:    userShort,
+		OfferingID: []bson.ObjectId{offeringID},
+	}
+
+	assert.NoError(t, SaveChat(&chat))
+
+	UpdateChatRemoveOfferingID(offeringID.Hex())
+
+	chatByID, err := GetChatByID(chatID.Hex())
+	assert.Nil(t, chatByID)
+	assert.Error(t, err)
+}
+
+func TestUpdateChatRemoveOfferingID2(t *testing.T) {
+	userID, _ := CreateFakeUser()
+
+	offeringID, _ := CreateFakeOffering()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	chatID := bson.NewObjectId()
+
+	chat := models.Chat{
+		ID:         chatID,
+		Partner:    userShort,
+		OfferingID: []bson.ObjectId{offeringID, bson.NewObjectId()},
+	}
+
+	assert.NoError(t, SaveChat(&chat))
+
+	UpdateChatRemoveOfferingID(offeringID.Hex())
+
+	chatByID, err := GetChatByID(chatID.Hex())
+	assert.NotNil(t, chatByID)
+	assert.NoError(t, err)
+}
