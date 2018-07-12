@@ -104,12 +104,29 @@ func UsersUpdateUserByIDHandler(params users.UpdateUserByIDParams, principal *mo
 		return users.NewUpdateUserByIDBadRequest().WithPayload(&models.InvalidParameterInput{Attribute: &attribute, Message: &message})
 	}
 
-	user.Email = userNew.Email
-	user.Description = userNew.Description
-	user.Phone = userNew.Phone
-	user.Lastname = userNew.Lastname
-	user.Firstname = userNew.Firstname
-	user.Address = userNew.Address
+	if len(userNew.Email.String()) > 0 {
+		user.Email = userNew.Email
+	}
+
+	if len(userNew.Description) > 0 {
+		user.Description = userNew.Description
+	}
+
+	if len(userNew.Phone) > 0 {
+		user.Phone = userNew.Phone
+	}
+
+	if len(userNew.Lastname) > 0 {
+		user.Lastname = userNew.Lastname
+	}
+
+	if len(userNew.Firstname) > 0 {
+		user.Firstname = userNew.Firstname
+	}
+
+	if userNew.Address != nil {
+		user.Address = userNew.Address
+	}
 
 	err = dao.SaveUser(user)
 	if err != nil {
