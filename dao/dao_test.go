@@ -55,8 +55,8 @@ func CreateFakeOffering() (bson.ObjectId, *models.Offering) {
 	offeringID := bson.NewObjectId()
 
 	offering := &models.Offering{
-		Time:        strfmt.DateTime(time.Now().UTC()),
-		Creator:     &models.UserShort{
+		Time: strfmt.DateTime(time.Now().UTC()),
+		Creator: &models.UserShort{
 			ID: userID,
 		},
 		ID:          offeringID,
@@ -115,6 +115,97 @@ func TestSaveUser(t *testing.T) {
 	id, e := GetUserByID(userID.Hex())
 	assert.NotNil(t, id)
 	assert.NoError(t, e)
+	assert.Equal(t, user, id)
+}
+
+func TestSaveSavood(t *testing.T) {
+	savoodID := bson.NewObjectId()
+	userID := bson.NewObjectId()
+
+	user := &models.User{
+		ID: userID,
+		Address: &models.Address{
+			City:   "City",
+			Number: "Number",
+			Street: "Street",
+			Zip:    68167,
+		},
+		Badges:      []string{"badge1", "badge2"},
+		Description: "description",
+		Email:       "email@example.com",
+		Firstname:   "Hans",
+		Lastname:    "Peter",
+		Phone:       "+49000000000",
+	}
+
+	assert.NoError(t, SaveUser(user))
+
+	id, e := GetUserByID(userID.Hex())
+	assert.NotNil(t, id)
+	assert.NoError(t, e)
+	assert.Equal(t, user, id)
+
+	err := AddSavoodToUserID(userID.Hex(), savoodID.Hex())
+	assert.NoError(t, err)
+
+	savoods, err := GetSavoodsByUserID(userID)
+	assert.NoError(t, err)
+	assert.Contains(t, savoods, savoodID)
+
+	id, e = GetUserByID(userID.Hex())
+	assert.NotNil(t, id)
+	assert.NoError(t, e)
+	assert.Equal(t, user, id)
+
+	assert.NoError(t, SaveUser(user))
+
+	savoods, err = GetSavoodsByUserID(userID)
+	assert.NoError(t, err)
+	assert.Contains(t, savoods, savoodID)
+
+}
+
+func TestRemoveSavoodFromUserID(t *testing.T) {
+	savoodID := bson.NewObjectId()
+	userID := bson.NewObjectId()
+
+	user := &models.User{
+		ID: userID,
+		Address: &models.Address{
+			City:   "City",
+			Number: "Number",
+			Street: "Street",
+			Zip:    68167,
+		},
+		Badges:      []string{"badge1", "badge2"},
+		Description: "description",
+		Email:       "email@example.com",
+		Firstname:   "Hans",
+		Lastname:    "Peter",
+		Phone:       "+49000000000",
+	}
+
+	assert.NoError(t, SaveUser(user))
+
+	id, e := GetUserByID(userID.Hex())
+	assert.NotNil(t, id)
+	assert.NoError(t, e)
+	assert.Equal(t, user, id)
+
+	err := AddSavoodToUserID(userID.Hex(), savoodID.Hex())
+	assert.NoError(t, err)
+
+	savoods, err := GetSavoodsByUserID(userID)
+	assert.NoError(t, err)
+	assert.Contains(t, savoods, savoodID)
+
+	err = RemoveSavoodFromUserID(userID.Hex(), savoodID.Hex())
+	assert.NoError(t, err)
+
+	savoods, err = GetSavoodsByUserID(userID)
+	assert.NoError(t, err)
+	assert.NotContains(t, savoods, savoodID)
+
 }
 
 func TestGetAllChatsByUserID(t *testing.T) {

@@ -97,7 +97,6 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.PostUsersIDBackgroundimageJpegHandler = operations.PostUsersIDBackgroundimageJpegHandlerFunc(image.PostUsersIDBackgroundimageJpegHandler)
 	api.GetUsersIDBackgroundimageJpegHandler = operations.GetUsersIDBackgroundimageJpegHandlerFunc(image.GetUsersIDBackgroundimageJpegHandler)
 
-
 	api.OfferingsCreateNewOfferingHandler = offerings.CreateNewOfferingHandlerFunc(o.CreateNewOfferingHandler)
 	api.OfferingsGetOfferingByIDHandler = offerings.GetOfferingByIDHandlerFunc(o.GetOfferingByIDHandler)
 	api.OfferingsUpdateOfferingByIDHandler = offerings.UpdateOfferingByIDHandlerFunc(o.UpdateOfferingByIDHandler)
@@ -108,21 +107,15 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 
 	api.PlaceSavoodHandler = operations.PlaceSavoodHandlerFunc(o.PlaceSavoodHandler)
 
-
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(chat.MessagesCreateNewMessageHandler)
 	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)
 	api.MessagesGetAllMessagesForChatHandler = messages.GetAllMessagesForChatHandlerFunc(chat.MessagesGetAllMessagesForChatHandler)
 	api.GetAllChatsForOfferingHandler = operations.GetAllChatsForOfferingHandlerFunc(chat.MessagesGetAllChatsForOfferingHandler)
 
-
 	api.UsersCreateNewUserHandler = users.CreateNewUserHandlerFunc(user.UsersCreateNewUserHandler)
 	api.UsersGetUserByIDHandler = users.GetUserByIDHandlerFunc(user.UsersGetUserByIDHandler)
 	api.UsersUpdateUserByIDHandler = users.UpdateUserByIDHandlerFunc(user.UsersUpdateUserByIDHandler)
 	api.UsersDeleteUserByIDHandler = users.DeleteUserByIDHandlerFunc(user.UsersDeleteUserByIDHandler)
-
-
-
-
 
 	api.MessagesDeleteMessageByIDHandler = messages.DeleteMessageByIDHandlerFunc(func(params messages.DeleteMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.DeleteMessageByID has not yet been implemented")
@@ -133,8 +126,6 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.MessagesUpdateMessageByIDHandler = messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 		return middleware.NotImplemented("operation messages.UpdateMessageByID has not yet been implemented")
 	})
-
-
 
 	api.ServerShutdown = func() {}
 
@@ -152,7 +143,7 @@ func configureTLS(tlsConfig *tls.Config) {
 // scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *http.Server, scheme, addr string) {
 
-	database.ConnectDatabase(nil,nil)
+	database.ConnectDatabase(nil, nil)
 
 }
 
