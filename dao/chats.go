@@ -124,6 +124,7 @@ func GetChatByID(chatID string) (*models.Chat, error) {
 	return chatModel, nil
 }
 
+//UpdateChatRemoveOfferingID updates chat objects and removes the object id. Also removes not used chats.
 func UpdateChatRemoveOfferingID(offeringID string) (error) {
 	offeringObjectID := bson.ObjectIdHex(offeringID)
 
