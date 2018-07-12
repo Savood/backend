@@ -7,6 +7,7 @@ import (
 	"github.com/globalsign/mgo"
 )
 
+// UserTO Transfer Object for User
 type UserTO struct {
 	ID bson.ObjectId `json:"_id"`
 
@@ -15,6 +16,7 @@ type UserTO struct {
 	Savoods []bson.ObjectId `json:"savoods"`
 }
 
+// UserShortTO Transfer Object for User but with UserShort
 type UserShortTO struct {
 	ID bson.ObjectId `json:"_id"`
 
@@ -67,6 +69,7 @@ func SaveUser(user *models.User) error {
 	return err
 }
 
+// AddSavoodToUserID adds a savood id to the user object
 func AddSavoodToUserID(userID, savoodID string) error {
 
 	var uTO UserTO
@@ -83,6 +86,7 @@ func AddSavoodToUserID(userID, savoodID string) error {
 	return err
 }
 
+// RemoveSavoodFromUserID removes a savood id from the user object
 func RemoveSavoodFromUserID(userID, savoodID string) error {
 
 	var uTO UserTO
@@ -108,6 +112,7 @@ func RemoveSavoodFromUserID(userID, savoodID string) error {
 
 }
 
+// GetSavoodsByUserID gets all IDs of savooded offerings
 func GetSavoodsByUserID(userID bson.ObjectId) ([]bson.ObjectId, error) {
 	var uTO UserTO
 
