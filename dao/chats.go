@@ -15,6 +15,8 @@ type ChatTO struct {
 	Partner bson.ObjectId `json:"partner"`
 
 	OfferingCreatorID bson.ObjectId `json:"offeringcreatorid"`
+
+	LastUpdated bson.MongoTimestamp
 }
 
 //GetAllChatsByOfferingAndUserID Get All chats with this offering id and containing the right userid
@@ -23,7 +25,7 @@ func GetAllChatsByOfferingAndUserID(offeringID string, userID string) ([]*models
 	offeringObjectID := bson.ObjectIdHex(offeringID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).Sort("-lastupdated").All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +55,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	userObjectID := bson.ObjectIdHex(userID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).Sort("-lastupdated").All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -141,6 +143,13 @@ func UpdateChatRemoveOfferingID(offeringID string) (error) {
 	return nil
 }
 
+//TouchChat touching a chat last updated time
+func TouchChat(chatID string) (error) {
+	err := database.GetDatabase().C(database.ChatsCollectionName).UpdateId(bson.ObjectIdHex(chatID), bson.M{"lastupdated": bson.MongoTimestamp(bson.Now().Unix())})
+
+	return err
+}
+
 //SaveChat save a Chat model
 func SaveChat(chat *models.Chat) error {
 	offeringID := chat.OfferingID[0]
@@ -159,6 +168,7 @@ func SaveChat(chat *models.Chat) error {
 		OfferingID:        chat.OfferingID,
 		ID:                chat.ID,
 		OfferingCreatorID: offering.Creator.ID,
+		LastUpdated:       bson.MongoTimestamp(bson.Now().Unix()),
 	}
 
 	_, error := database.GetDatabase().C(database.ChatsCollectionName).UpsertId(chatTO.ID, chatTO)

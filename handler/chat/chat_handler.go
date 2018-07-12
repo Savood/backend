@@ -53,6 +53,7 @@ func MessagesCreateNewMessageHandler(params messages.CreateNewMessageParams, pri
 	}
 	message.Time = strfmt.NewDateTime()
 
+	dao.TouchChat(chat.ID.Hex())
 	dao.SaveMessage(*chat, *message)
 
 	return messages.NewCreateNewMessageOK().WithPayload(message)
