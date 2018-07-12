@@ -433,3 +433,23 @@ func TestUpdateChatRemoveOfferingID2(t *testing.T) {
 	assert.NotNil(t, chatByID)
 	assert.NoError(t, err)
 }
+
+func TestTouchChat(t *testing.T) {
+	userID, _ := CreateFakeUser()
+
+	offeringID, _ := CreateFakeOffering()
+
+	userShort, _ := GetUserShortByID(userID.Hex())
+
+	chatID := bson.NewObjectId()
+
+	chat := models.Chat{
+		ID:         chatID,
+		Partner:    userShort,
+		OfferingID: []bson.ObjectId{offeringID, bson.NewObjectId()},
+	}
+
+	assert.NoError(t, SaveChat(&chat))
+
+	assert.NoError(t, TouchChat(chat.ID.Hex()))
+}
