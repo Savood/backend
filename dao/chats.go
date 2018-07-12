@@ -6,8 +6,6 @@ import (
 	"github.com/globalsign/mgo/bson"
 )
 
-
-
 //ChatTO Transfer Object for Chat
 type ChatTO struct {
 	ID bson.ObjectId `json:"_id"`
@@ -124,6 +122,23 @@ func GetChatByID(chatID string) (*models.Chat, error) {
 	}
 
 	return chatModel, nil
+}
+
+//UpdateChatRemoveOfferingID updates chat objects and removes the object id. Also removes not used chats.
+func UpdateChatRemoveOfferingID(offeringID string) (error) {
+	offeringObjectID := bson.ObjectIdHex(offeringID)
+
+	_, err := database.GetDatabase().C(database.ChatsCollectionName).UpdateAll(bson.M{"offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}, bson.M{"$pull": bson.M{"offeringid": offeringObjectID}})
+	if err != nil {
+		return err
+	}
+
+	_, err = database.GetDatabase().C(database.ChatsCollectionName).RemoveAll(bson.M{"offeringid": bson.M{"$size": 0}})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 //SaveChat save a Chat model
