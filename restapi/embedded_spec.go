@@ -930,8 +930,7 @@ func init() {
           "type": "string"
         },
         "zip": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         }
       }
     },
@@ -1066,6 +1065,12 @@ func init() {
       },
       "example": {
         "_id": "123",
+        "address": {
+          "city": "Musterstadt",
+          "number": "1337",
+          "street": "Musterstraße",
+          "zip": "42069"
+        },
         "best-by-date": "2018-06-21",
         "creator": {
           "_id": "5",
@@ -1073,14 +1078,12 @@ func init() {
           "lastname": "McFlfy"
         },
         "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
-        "location": [
-          {
-            "coordinates": [
-              50.5636277,
-              9.6711443
-            ]
-          }
-        ],
+        "location": {
+          "coordinates": [
+            50.5636277,
+            9.6711443
+          ]
+        },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -1145,22 +1148,17 @@ func init() {
         "_id": "5",
         "address": {
           "city": "Musterstadt",
-          "number": 1337,
+          "number": "1337",
           "street": "Musterstraße",
-          "zip": 42069
+          "zip": "42069"
         },
         "avatarId": "",
         "backgroundId": "",
         "badges": [
-          true,
-          false,
-          true,
-          true,
-          true,
-          false,
-          false,
-          true,
-          false
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
         ],
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
@@ -2300,8 +2298,7 @@ func init() {
           "type": "string"
         },
         "zip": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         }
       }
     },
@@ -2424,6 +2421,12 @@ func init() {
       },
       "example": {
         "_id": "123",
+        "address": {
+          "city": "Musterstadt",
+          "number": "1337",
+          "street": "Musterstraße",
+          "zip": "42069"
+        },
         "best-by-date": "2018-06-21",
         "creator": {
           "_id": "5",
@@ -2431,14 +2434,12 @@ func init() {
           "lastname": "McFlfy"
         },
         "description": "Die Lagen hier so rum, kp mehr von wann, aber was solls. ich brauche Sie nicht mehr. Also nur zu Savooded mich ihr Jünger",
-        "location": [
-          {
-            "coordinates": [
-              50.5636277,
-              9.6711443
-            ]
-          }
-        ],
+        "location": {
+          "coordinates": [
+            50.5636277,
+            9.6711443
+          ]
+        },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
         "time": "2018-06-21T13:55:58.380Z"
@@ -2503,22 +2504,17 @@ func init() {
         "_id": "5",
         "address": {
           "city": "Musterstadt",
-          "number": 1337,
+          "number": "1337",
           "street": "Musterstraße",
-          "zip": 42069
+          "zip": "42069"
         },
         "avatarId": "",
         "backgroundId": "",
         "badges": [
-          true,
-          false,
-          true,
-          true,
-          true,
-          false,
-          false,
-          true,
-          false
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
         ],
         "description": "I save the wrap and the world",
         "email": "apiteam@swagger.io",
