@@ -25,7 +25,7 @@ type Address struct {
 	Street string `json:"street,omitempty"`
 
 	// zip
-	Zip int64 `json:"zip,omitempty"`
+	Zip string `json:"zip,omitempty"`
 }
 
 // Validate validates this address
