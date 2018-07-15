@@ -91,7 +91,7 @@ func patchOffering(offering *models.Offering, patch models.Offering) {
 			offering.Address.Street = patch.Address.Street
 
 		}
-		if patch.Address.Zip != 0 {
+		if len(patch.Address.Zip) > 0 {
 			offering.Address.Zip = patch.Address.Zip
 		}
 	}

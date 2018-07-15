@@ -34,7 +34,7 @@ func CreateFakeUser() (bson.ObjectId, *models.User) {
 			City:   "City",
 			Number: "Number",
 			Street: "Street",
-			Zip:    68167,
+			Zip:    "68167",
 		},
 		Badges:      []string{"badge1", "badge2"},
 		Description: "description",
