@@ -12,7 +12,7 @@ import (
 // PlaceSavoodHandler places a savood
 func PlaceSavoodHandler(params operations.PlaceSavoodParams, principal *models.Principal) middleware.Responder {
 
-	offering, err := dao.GetOfferingByID(params.OfferingID, nil)
+	offering, err := dao.GetOfferingByID(params.OfferingID, principal)
 
 	if err == mgo.ErrNotFound {
 		return operations.NewPlaceSavoodNotFound()
