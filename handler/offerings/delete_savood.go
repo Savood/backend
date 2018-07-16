@@ -53,7 +53,12 @@ func UnSavoodHandler(params operations.UnSavoodParams, principal *models.Princip
 
 		chats[0].OfferingID = b
 
-		err = dao.SaveChat(chats[0])
+		if len(chats[0].OfferingID) == 0 {
+			err = dao.DeleteChatByID(chats[0].ID.Hex())
+		} else {
+			err = dao.SaveChat(chats[0])
+		}
+
 
 		if err != nil {
 			str := err.Error()

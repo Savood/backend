@@ -57,6 +57,7 @@ func TestRemoveSavoodHandler(t *testing.T) {
 
 	for _, iot := range inOut {
 
+
 		response := UnSavoodHandler(operations.UnSavoodParams{OfferingID: iot.offeringID}, testPrincipal)
 
 		assert.IsType(t, iot.expected, response)
