@@ -5,7 +5,6 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 	"github.com/globalsign/mgo/bson"
 	"errors"
-	"github.com/globalsign/mgo"
 )
 
 //OfferingTO Transfer Object for Offering
@@ -19,7 +18,13 @@ type OfferingTO struct {
 	InnerOffering models.Offering `json:"innerOffering"`
 }
 
-func inject(offeringTO OfferingTO) (*OfferingTO, error) {
+func requestedByCount(savoodID bson.ObjectId) (int64, error) {
+	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(struct{ Savoods bson.ObjectId `json:"savoods"` }{Savoods: savoodID}).Count()
+
+	return int64(n), err
+}
+
+func inject(offeringTO OfferingTO, principal *models.Principal) (*OfferingTO, error) {
 	creator, err := GetUserShortByID(offeringTO.CreatorID.Hex())
 	if err != nil {
 		return nil, err
@@ -28,15 +33,35 @@ func inject(offeringTO OfferingTO) (*OfferingTO, error) {
 	offeringTO.InnerOffering.Creator = creator
 	offeringTO.InnerOffering.ID = offeringTO.ID
 	offeringTO.InnerOffering.Location = &offeringTO.Location
+
+	if principal != nil {
+		savoods, err := GetSavoodsByUserID(principal.Userid)
+		if err != nil {
+			return &offeringTO, err
+		}
+
+		for _, id := range savoods {
+			if offeringTO.ID == id {
+				offeringTO.InnerOffering.Savooded = true
+			}
+		}
+	}
+
+	i, err := requestedByCount(offeringTO.ID)
+	if err != nil {
+		return &offeringTO, err
+	}
+	offeringTO.InnerOffering.RequestedBy = i
+
 	return &offeringTO, nil
 }
 
-func injectSlice(offeringTOs []OfferingTO) ([]*models.Offering, error) {
+func injectSlice(offeringTOs []OfferingTO, principal *models.Principal) ([]*models.Offering, error) {
 
 	var offerings []*models.Offering
 
 	for _, oTO := range offeringTOs {
-		o, err := inject(oTO)
+		o, err := inject(oTO, principal)
 		if err != nil {
 			return nil, err
 		}
@@ -47,7 +72,7 @@ func injectSlice(offeringTOs []OfferingTO) ([]*models.Offering, error) {
 }
 
 //GetAllOfferingsByUserID Get all Offerings filtered by userId
-func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
+func GetAllOfferingsByUserID(userID string, principal *models.Principal) ([]*models.Offering, error) {
 	var offeringTOs []OfferingTO
 
 	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offeringTOs)
@@ -55,7 +80,7 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 		return nil, err
 	}
 
-	offerings, err := injectSlice(offeringTOs)
+	offerings, err := injectSlice(offeringTOs, principal)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +89,7 @@ func GetAllOfferingsByUserID(userID string) ([]*models.Offering, error) {
 }
 
 //GetOfferingByID get offering by id
-func GetOfferingByID(offeringID string) (*models.Offering, error) {
+func GetOfferingByID(offeringID string, principal *models.Principal) (*models.Offering, error) {
 	var offeringTO OfferingTO
 
 	err := database.GetDatabase().C(database.OfferingsCollectionName).FindId(bson.ObjectIdHex(offeringID)).One(&offeringTO)
@@ -72,7 +97,7 @@ func GetOfferingByID(offeringID string) (*models.Offering, error) {
 		return nil, err
 	}
 
-	oTO, err := inject(offeringTO)
+	oTO, err := inject(offeringTO, principal)
 	if err != nil {
 		return nil, err
 	}
@@ -80,24 +105,6 @@ func GetOfferingByID(offeringID string) (*models.Offering, error) {
 	offering := oTO.InnerOffering
 
 	return &offering, nil
-}
-
-//GetOfferingsByIDs get offering by id
-func GetOfferingsByIDs(offeringIDs []string) ([]*models.Offering, error) {
-	var offerings []*models.Offering
-	var err error
-
-	for _, id := range offeringIDs {
-		var o *models.Offering
-		o, err = GetOfferingByID(id)
-		if err != nil && err != mgo.ErrNotFound {
-			return nil, err
-		}
-		offerings = append(offerings, o)
-	}
-
-	return offerings, err
-
 }
 
 //SaveOffering save an offering
@@ -135,7 +142,7 @@ func DeleteOfferingByID(offeringID string) error {
 }
 
 // GetNearOfferings gets offerings with $nearSphereQuery
-func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]*models.Offering, error) {
+func GetNearOfferings(location models.OfferingLocation, maxDistance float64, principal *models.Principal) ([]*models.Offering, error) {
 
 	var offeringTOs []OfferingTO
 
@@ -153,7 +160,7 @@ func GetNearOfferings(location models.OfferingLocation, maxDistance float64) ([]
 		return nil, err
 	}
 
-	offerings, err := injectSlice(offeringTOs)
+	offerings, err := injectSlice(offeringTOs, principal)
 	if err != nil {
 		return nil, err
 	}

@@ -15,7 +15,7 @@ func GetFeedHandler(params offerings.GetFeedParams, principal *models.Principal)
 		return offerings.NewGetFeedBadRequest()
 	}
 
-	out, err := dao.GetNearOfferings(models.OfferingLocation{Type: "Point", Coordinates: []float64{params.Lon, params.Lat}}, params.Distance)
+	out, err := dao.GetNearOfferings(models.OfferingLocation{Type: "Point", Coordinates: []float64{params.Lon, params.Lat}}, params.Distance, principal)
 
 	if err != nil {
 		str := err.Error()

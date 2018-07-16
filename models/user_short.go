@@ -9,6 +9,7 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/swag"
+
 	"github.com/globalsign/mgo/bson"
 )
 
@@ -18,6 +19,9 @@ type UserShort struct {
 
 	// id
 	ID bson.ObjectId `json:"_id,omitempty"`
+
+	// badges
+	Badges []string `json:"badges"`
 
 	// firstname
 	Firstname string `json:"firstname,omitempty"`

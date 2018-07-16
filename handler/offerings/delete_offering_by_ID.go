@@ -14,7 +14,7 @@ func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, princi
 
 	//TODO delete related chats
 
-	offering, err := dao.GetOfferingByID(params.ID)
+	offering, err := dao.GetOfferingByID(params.ID, nil)
 
 	if err == mgo.ErrNotFound {
 		log.Printf("not found: %+v", params.ID)

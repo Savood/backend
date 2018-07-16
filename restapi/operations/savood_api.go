@@ -115,6 +115,9 @@ func NewSavoodAPI(spec *loads.Document) *SavoodAPI {
 		PlaceSavoodHandler: PlaceSavoodHandlerFunc(func(params PlaceSavoodParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation PlaceSavood has not yet been implemented")
 		}),
+		UnSavoodHandler: UnSavoodHandlerFunc(func(params UnSavoodParams, principal *models.Principal) middleware.Responder {
+			return middleware.NotImplemented("operation UnSavood has not yet been implemented")
+		}),
 		MessagesUpdateMessageByIDHandler: messages.UpdateMessageByIDHandlerFunc(func(params messages.UpdateMessageByIDParams, principal *models.Principal) middleware.Responder {
 			return middleware.NotImplemented("operation MessagesUpdateMessageByID has not yet been implemented")
 		}),
@@ -218,6 +221,8 @@ type SavoodAPI struct {
 	HealthHealthcheckGetHandler health.HealthcheckGetHandler
 	// PlaceSavoodHandler sets the operation handler for the place savood operation
 	PlaceSavoodHandler PlaceSavoodHandler
+	// UnSavoodHandler sets the operation handler for the un savood operation
+	UnSavoodHandler UnSavoodHandler
 	// MessagesUpdateMessageByIDHandler sets the operation handler for the update message by Id operation
 	MessagesUpdateMessageByIDHandler messages.UpdateMessageByIDHandler
 	// OfferingsUpdateOfferingByIDHandler sets the operation handler for the update offering by Id operation
@@ -385,6 +390,10 @@ func (o *SavoodAPI) Validate() error {
 
 	if o.PlaceSavoodHandler == nil {
 		unregistered = append(unregistered, "PlaceSavoodHandler")
+	}
+
+	if o.UnSavoodHandler == nil {
+		unregistered = append(unregistered, "UnSavoodHandler")
 	}
 
 	if o.MessagesUpdateMessageByIDHandler == nil {
@@ -624,6 +633,11 @@ func (o *SavoodAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/placeSavood"] = NewPlaceSavood(o.context, o.PlaceSavoodHandler)
+
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/unSavood"] = NewUnSavood(o.context, o.UnSavoodHandler)
 
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)

@@ -100,3 +100,135 @@ func (o *PlaceSavoodBadRequest) WriteResponse(rw http.ResponseWriter, producer r
 		}
 	}
 }
+
+// PlaceSavoodForbiddenCode is the HTTP code returned for type PlaceSavoodForbidden
+const PlaceSavoodForbiddenCode int = 403
+
+/*PlaceSavoodForbidden Generic Error
+
+swagger:response placeSavoodForbidden
+*/
+type PlaceSavoodForbidden struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewPlaceSavoodForbidden creates PlaceSavoodForbidden with default headers values
+func NewPlaceSavoodForbidden() *PlaceSavoodForbidden {
+
+	return &PlaceSavoodForbidden{}
+}
+
+// WithPayload adds the payload to the place savood forbidden response
+func (o *PlaceSavoodForbidden) WithPayload(payload *models.ErrorModel) *PlaceSavoodForbidden {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the place savood forbidden response
+func (o *PlaceSavoodForbidden) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PlaceSavoodForbidden) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(403)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// PlaceSavoodNotFoundCode is the HTTP code returned for type PlaceSavoodNotFound
+const PlaceSavoodNotFoundCode int = 404
+
+/*PlaceSavoodNotFound The specified resource was not found
+
+swagger:response placeSavoodNotFound
+*/
+type PlaceSavoodNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewPlaceSavoodNotFound creates PlaceSavoodNotFound with default headers values
+func NewPlaceSavoodNotFound() *PlaceSavoodNotFound {
+
+	return &PlaceSavoodNotFound{}
+}
+
+// WithPayload adds the payload to the place savood not found response
+func (o *PlaceSavoodNotFound) WithPayload(payload *models.ErrorModel) *PlaceSavoodNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the place savood not found response
+func (o *PlaceSavoodNotFound) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PlaceSavoodNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// PlaceSavoodInternalServerErrorCode is the HTTP code returned for type PlaceSavoodInternalServerError
+const PlaceSavoodInternalServerErrorCode int = 500
+
+/*PlaceSavoodInternalServerError Generic Error
+
+swagger:response placeSavoodInternalServerError
+*/
+type PlaceSavoodInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorModel `json:"body,omitempty"`
+}
+
+// NewPlaceSavoodInternalServerError creates PlaceSavoodInternalServerError with default headers values
+func NewPlaceSavoodInternalServerError() *PlaceSavoodInternalServerError {
+
+	return &PlaceSavoodInternalServerError{}
+}
+
+// WithPayload adds the payload to the place savood internal server error response
+func (o *PlaceSavoodInternalServerError) WithPayload(payload *models.ErrorModel) *PlaceSavoodInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the place savood internal server error response
+func (o *PlaceSavoodInternalServerError) SetPayload(payload *models.ErrorModel) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *PlaceSavoodInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

@@ -44,6 +44,9 @@ type Offering struct {
 	// requested by
 	RequestedBy int64 `json:"requested-by,omitempty"`
 
+	// savooded
+	Savooded bool `json:"savooded,omitempty"`
+
 	// time
 	// Format: date-time
 	Time strfmt.DateTime `json:"time,omitempty"`

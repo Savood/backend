@@ -16,18 +16,18 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewPlaceSavoodParams creates a new PlaceSavoodParams object
+// NewUnSavoodParams creates a new UnSavoodParams object
 // no default values defined in spec.
-func NewPlaceSavoodParams() PlaceSavoodParams {
+func NewUnSavoodParams() UnSavoodParams {
 
-	return PlaceSavoodParams{}
+	return UnSavoodParams{}
 }
 
-// PlaceSavoodParams contains all the bound params for the place savood operation
+// UnSavoodParams contains all the bound params for the un savood operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters placeSavood
-type PlaceSavoodParams struct {
+// swagger:parameters unSavood
+type UnSavoodParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -42,8 +42,8 @@ type PlaceSavoodParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPlaceSavoodParams() beforehand.
-func (o *PlaceSavoodParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewUnSavoodParams() beforehand.
+func (o *UnSavoodParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -62,7 +62,7 @@ func (o *PlaceSavoodParams) BindRequest(r *http.Request, route *middleware.Match
 }
 
 // bindOfferingID binds and validates parameter OfferingID from query.
-func (o *PlaceSavoodParams) bindOfferingID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *UnSavoodParams) bindOfferingID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("offeringId", "query")
 	}

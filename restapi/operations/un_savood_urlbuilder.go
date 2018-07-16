@@ -11,8 +11,8 @@ import (
 	golangswaggerpaths "path"
 )
 
-// PlaceSavoodURL generates an URL for the place savood operation
-type PlaceSavoodURL struct {
+// UnSavoodURL generates an URL for the un savood operation
+type UnSavoodURL struct {
 	OfferingID string
 
 	_basePath string
@@ -23,7 +23,7 @@ type PlaceSavoodURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *PlaceSavoodURL) WithBasePath(bp string) *PlaceSavoodURL {
+func (o *UnSavoodURL) WithBasePath(bp string) *UnSavoodURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -31,15 +31,15 @@ func (o *PlaceSavoodURL) WithBasePath(bp string) *PlaceSavoodURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *PlaceSavoodURL) SetBasePath(bp string) {
+func (o *UnSavoodURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *PlaceSavoodURL) Build() (*url.URL, error) {
+func (o *UnSavoodURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/placeSavood"
+	var _path = "/unSavood"
 
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -60,7 +60,7 @@ func (o *PlaceSavoodURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *PlaceSavoodURL) Must(u *url.URL, err error) *url.URL {
+func (o *UnSavoodURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -71,17 +71,17 @@ func (o *PlaceSavoodURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *PlaceSavoodURL) String() string {
+func (o *UnSavoodURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *PlaceSavoodURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *UnSavoodURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on PlaceSavoodURL")
+		return nil, errors.New("scheme is required for a full url on UnSavoodURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on PlaceSavoodURL")
+		return nil, errors.New("host is required for a full url on UnSavoodURL")
 	}
 
 	base, err := o.Build()
@@ -95,6 +95,6 @@ func (o *PlaceSavoodURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *PlaceSavoodURL) StringFull(scheme, host string) string {
+func (o *UnSavoodURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

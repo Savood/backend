@@ -613,7 +613,8 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -625,6 +626,60 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/unSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offerings"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "unSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savood is deleted",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -1055,6 +1110,9 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooded": {
+          "type": "boolean"
+        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -1086,6 +1144,7 @@ func init() {
         },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
+        "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
     },
@@ -1104,7 +1163,7 @@ func init() {
       "type": "object",
       "properties": {
         "success": {
-          "type": "string"
+          "type": "boolean"
         }
       }
     },
@@ -1173,6 +1232,12 @@ func init() {
         "_id": {
           "type": "string"
         },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "firstname": {
           "type": "string"
         },
@@ -1185,6 +1250,12 @@ func init() {
       },
       "example": {
         "_id": "5",
+        "badges": [
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
+        ],
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
@@ -1936,7 +2007,8 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -1950,6 +2022,81 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/unSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offerings"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "unSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savood is deleted",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -2411,6 +2558,9 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooded": {
+          "type": "boolean"
+        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -2442,6 +2592,7 @@ func init() {
         },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
+        "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
     },
@@ -2460,7 +2611,7 @@ func init() {
       "type": "object",
       "properties": {
         "success": {
-          "type": "string"
+          "type": "boolean"
         }
       }
     },
@@ -2529,6 +2680,12 @@ func init() {
         "_id": {
           "type": "string"
         },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "firstname": {
           "type": "string"
         },
@@ -2541,6 +2698,12 @@ func init() {
       },
       "example": {
         "_id": "5",
+        "badges": [
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
+        ],
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
