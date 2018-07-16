@@ -252,7 +252,7 @@ func TestSaveChat(t *testing.T) {
 
 	assert.NoError(t, SaveChat(&chat))
 
-	chatByID, err := GetChatByID(chatID.Hex())
+	chatByID, err := GetChatByID(chatID.Hex(), userID.Hex())
 	assert.NotNil(t, chatByID)
 	assert.NoError(t, err)
 }
@@ -405,7 +405,7 @@ func TestUpdateChatRemoveOfferingID(t *testing.T) {
 
 	UpdateChatRemoveOfferingID(offeringID.Hex())
 
-	chatByID, err := GetChatByID(chatID.Hex())
+	chatByID, err := GetChatByID(chatID.Hex(), userID.Hex())
 	assert.Nil(t, chatByID)
 	assert.Error(t, err)
 }
@@ -429,7 +429,7 @@ func TestUpdateChatRemoveOfferingID2(t *testing.T) {
 
 	UpdateChatRemoveOfferingID(offeringID.Hex())
 
-	chatByID, err := GetChatByID(chatID.Hex())
+	chatByID, err := GetChatByID(chatID.Hex(), userID.Hex())
 	assert.NotNil(t, chatByID)
 	assert.NoError(t, err)
 }
