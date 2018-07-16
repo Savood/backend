@@ -12,6 +12,7 @@ import (
 )
 
 var testPrincipal = &models.Principal{Email: "test@test.com", Userid: bson.ObjectIdHex("5b32d488129072313591c682")}
+var testPrincipal1 = &models.Principal{Email: "1111@test.com", Userid: bson.ObjectIdHex("11111111129072313591c682")}
 var forbiddenPrincipal = &models.Principal{Userid: bson.ObjectIdHex("404040404040404040404040")}
 
 func TestMain(m *testing.M) {
@@ -32,6 +33,14 @@ func TestMain(m *testing.M) {
 
 	err = dao.SaveUser(&models.User{
 		ID: forbiddenPrincipal.Userid,
+	})
+	if err != nil {
+		log.Fatal("Failed User init")
+		return
+	}
+
+	err = dao.SaveUser(&models.User{
+		ID: testPrincipal1.Userid,
 	})
 	if err != nil {
 		log.Fatal("Failed User init")
