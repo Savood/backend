@@ -106,6 +106,7 @@ func configureAPI(api *operations.SavoodAPI) http.Handler {
 	api.OfferingsGetOfferingsHandler = offerings.GetOfferingsHandlerFunc(o.GetOfferingsHandler)
 
 	api.PlaceSavoodHandler = operations.PlaceSavoodHandlerFunc(o.PlaceSavoodHandler)
+	api.UnSavoodHandler = operations.UnSavoodHandlerFunc(o.RemoveSavoodHandler)
 
 	api.MessagesCreateNewMessageHandler = messages.CreateNewMessageHandlerFunc(chat.MessagesCreateNewMessageHandler)
 	api.MessagesGetAllChatsHandler = messages.GetAllChatsHandlerFunc(chat.MessagesGetAllChatsHandler)

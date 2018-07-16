@@ -1087,6 +1087,9 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooded": {
+          "type": "boolean"
+        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -1118,6 +1121,7 @@ func init() {
         },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
+        "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
     },
@@ -1205,6 +1209,12 @@ func init() {
         "_id": {
           "type": "string"
         },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "firstname": {
           "type": "string"
         },
@@ -1217,6 +1227,12 @@ func init() {
       },
       "example": {
         "_id": "5",
+        "badges": [
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
+        ],
         "firstname": "Marty",
         "lastname": "McFlfy"
       }
@@ -2478,6 +2494,9 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
+        "savooded": {
+          "type": "boolean"
+        },
         "time": {
           "type": "string",
           "format": "date-time"
@@ -2509,6 +2528,7 @@ func init() {
         },
         "name": "Normale Kartoffeln",
         "requested-by": 12,
+        "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
     },
@@ -2596,6 +2616,12 @@ func init() {
         "_id": {
           "type": "string"
         },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "firstname": {
           "type": "string"
         },
@@ -2608,6 +2634,12 @@ func init() {
       },
       "example": {
         "_id": "5",
+        "badges": [
+          "SAVOOD_1",
+          "SAVOOD_5",
+          "SAVOOD_10",
+          "MESSAGE_1"
+        ],
         "firstname": "Marty",
         "lastname": "McFlfy"
       }

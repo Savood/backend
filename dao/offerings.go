@@ -5,7 +5,6 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 	"github.com/globalsign/mgo/bson"
 	"errors"
-	"github.com/globalsign/mgo"
 )
 
 //OfferingTO Transfer Object for Offering
@@ -19,7 +18,7 @@ type OfferingTO struct {
 	InnerOffering models.Offering `json:"innerOffering"`
 }
 
-func inject(offeringTO OfferingTO) (*OfferingTO, error) {
+func inject(offeringTO OfferingTO, userID bson.ObjectId) (*OfferingTO, error) {
 	creator, err := GetUserShortByID(offeringTO.CreatorID.Hex())
 	if err != nil {
 		return nil, err
@@ -28,6 +27,24 @@ func inject(offeringTO OfferingTO) (*OfferingTO, error) {
 	offeringTO.InnerOffering.Creator = creator
 	offeringTO.InnerOffering.ID = offeringTO.ID
 	offeringTO.InnerOffering.Location = &offeringTO.Location
+
+	savoods, err := GetSavoodsByUserID(userID)
+	if err != nil {
+		return &offeringTO, err
+	}
+
+	for _, id := range savoods {
+		if offeringTO.ID == id {
+			offeringTO.InnerOffering.Savooded = true
+		}
+	}
+
+	i, err := requestedByCound(offeringTO.ID)
+	if err != nil {
+		return &offeringTO, err
+	}
+	offeringTO.InnerOffering.RequestedBy = i
+
 	return &offeringTO, nil
 }
 
@@ -80,24 +97,6 @@ func GetOfferingByID(offeringID string) (*models.Offering, error) {
 	offering := oTO.InnerOffering
 
 	return &offering, nil
-}
-
-//GetOfferingsByIDs get offering by id
-func GetOfferingsByIDs(offeringIDs []string) ([]*models.Offering, error) {
-	var offerings []*models.Offering
-	var err error
-
-	for _, id := range offeringIDs {
-		var o *models.Offering
-		o, err = GetOfferingByID(id)
-		if err != nil && err != mgo.ErrNotFound {
-			return nil, err
-		}
-		offerings = append(offerings, o)
-	}
-
-	return offerings, err
-
 }
 
 //SaveOffering save an offering
