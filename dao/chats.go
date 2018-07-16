@@ -102,7 +102,12 @@ func GetChatByIDAndUserID(chatID string, userID string) (*models.Chat, error) {
 		return nil, err
 	}
 
-	chatPartner, err := GetUserShortByID(result.Partner.Hex())
+	var chatPartner *models.UserShort
+	if result.Partner.Hex() == userID {
+		chatPartner, err = GetUserShortByID(result.OfferingCreatorID.Hex())
+	} else {
+		chatPartner, err = GetUserShortByID(result.Partner.Hex())
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -117,14 +122,19 @@ func GetChatByIDAndUserID(chatID string, userID string) (*models.Chat, error) {
 }
 
 //GetChatByID getting chat by id
-func GetChatByID(chatID string) (*models.Chat, error) {
+func GetChatByID(chatID string, userID string) (*models.Chat, error) {
 	var result ChatTO
 	err := database.GetDatabase().C(database.ChatsCollectionName).FindId(bson.ObjectIdHex(chatID)).One(&result)
 	if err != nil {
 		return nil, err
 	}
 
-	chatPartner, err := GetUserShortByID(result.Partner.Hex())
+	var chatPartner *models.UserShort
+	if result.Partner.Hex() == userID {
+		chatPartner, err = GetUserShortByID(result.OfferingCreatorID.Hex())
+	} else {
+		chatPartner, err = GetUserShortByID(result.Partner.Hex())
+	}
 	if err != nil {
 		return nil, err
 	}
