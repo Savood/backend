@@ -9,6 +9,8 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	"github.com/go-openapi/swag"
+
+	"github.com/globalsign/mgo/bson"
 )
 
 // UserShort user short

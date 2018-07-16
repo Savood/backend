@@ -300,7 +300,7 @@ func TestSaveMessage(t *testing.T) {
 func TestGetAllOfferingsByUserID(t *testing.T) {
 	_, offering := CreateFakeOffering()
 
-	offerings, err := GetAllOfferingsByUserID(offering.Creator.ID.Hex())
+	offerings, err := GetAllOfferingsByUserID(offering.Creator.ID.Hex(), nil)
 	assert.NoError(t, err)
 	assert.True(t, len(offerings) > 0)
 
@@ -312,7 +312,7 @@ func TestGetAllOfferingsByUserID(t *testing.T) {
 func TestGetOfferingByID(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(offeringID.Hex())
+	offering, err := GetOfferingByID(offeringID.Hex(), nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 
@@ -322,7 +322,7 @@ func TestGetOfferingByID(t *testing.T) {
 func TestGetNearOfferings(t *testing.T) {
 	_, offering := CreateFakeOffering()
 
-	offerings, err := GetNearOfferings(*offering.Location, 200)
+	offerings, err := GetNearOfferings(*offering.Location, 200, nil)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, offerings)
@@ -332,7 +332,7 @@ func TestGetNearOfferings(t *testing.T) {
 func TestSaveOffering(t *testing.T) {
 	offeringID, _ := CreateFakeOffering()
 
-	offering, err := GetOfferingByID(offeringID.Hex())
+	offering, err := GetOfferingByID(offeringID.Hex(), nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, offering)
 

@@ -13,7 +13,7 @@ import (
 // UpdateOfferingByIDHandler updates an offering by id
 func UpdateOfferingByIDHandler(params offerings.UpdateOfferingByIDParams, principal *models.Principal) middleware.Responder {
 
-	offering, err := dao.GetOfferingByID(params.ID)
+	offering, err := dao.GetOfferingByID(params.ID, nil)
 
 	if err == mgo.ErrNotFound {
 		return offerings.NewUpdateOfferingByIDNotFound()

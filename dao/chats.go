@@ -154,7 +154,7 @@ func TouchChat(chatID string) (error) {
 func SaveChat(chat *models.Chat) error {
 	offeringID := chat.OfferingID[0]
 
-	offering, err := GetOfferingByID(offeringID.Hex())
+	offering, err := GetOfferingByID(offeringID.Hex(), nil)
 	if err != nil {
 		return err
 	}

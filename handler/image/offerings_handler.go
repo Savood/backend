@@ -12,7 +12,7 @@ import (
 // PostOfferingsIDImageJpegHandler uploads given image
 func PostOfferingsIDImageJpegHandler(params operations.PostOfferingsIDImageJpegParams, principal *models.Principal) middleware.Responder {
 
-	offering, err := dao.GetOfferingByID(params.ID)
+	offering, err := dao.GetOfferingByID(params.ID, nil)
 	if err != nil {
 		str := err.Error()
 		return operations.NewGetOfferingsIDImageJpegInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
