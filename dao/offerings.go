@@ -19,9 +19,9 @@ type OfferingTO struct {
 }
 
 func requestedByCount(savoodID bson.ObjectId) (int64, error) {
-	//TODO
+	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(struct{ Savoods string `json:"savoods"` }{Savoods: savoodID.Hex()}).Count()
 
-	return 0, errors.New("not implemented")
+	return int64(n), err
 }
 
 func inject(offeringTO OfferingTO, principal *models.Principal) (*OfferingTO, error) {

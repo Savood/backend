@@ -119,7 +119,7 @@ func TestSaveUser(t *testing.T) {
 }
 
 func TestSaveSavood(t *testing.T) {
-	savoodID := bson.NewObjectId()
+	savoodID, _ := CreateFakeOffering()
 	userID := bson.NewObjectId()
 
 	user := &models.User{
