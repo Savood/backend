@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/validate"
 
 	strfmt "github.com/go-openapi/strfmt"
 )
@@ -32,9 +33,10 @@ type UnSavoodParams struct {
 	HTTPRequest *http.Request `json:"-"`
 
 	/*The offering ID on which the savood should be placed.
+	  Required: true
 	  In: query
 	*/
-	OfferingID *string
+	OfferingID string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -61,18 +63,21 @@ func (o *UnSavoodParams) BindRequest(r *http.Request, route *middleware.MatchedR
 
 // bindOfferingID binds and validates parameter OfferingID from query.
 func (o *UnSavoodParams) bindOfferingID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("offeringId", "query")
+	}
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
 	}
 
-	// Required: false
+	// Required: true
 	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
+	if err := validate.RequiredString("offeringId", "query", raw); err != nil {
+		return err
 	}
 
-	o.OfferingID = &raw
+	o.OfferingID = raw
 
 	return nil
 }

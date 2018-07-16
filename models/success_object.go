@@ -16,7 +16,7 @@ import (
 type SuccessObject struct {
 
 	// success
-	Success string `json:"success,omitempty"`
+	Success bool `json:"success,omitempty"`
 }
 
 // Validate validates this success object

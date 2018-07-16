@@ -613,7 +613,8 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -625,6 +626,15 @@ func init() {
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -648,15 +658,28 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "Savood is deleted"
+          "200": {
+            "description": "Savood is deleted",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
           },
           "400": {
             "$ref": "#/responses/InvalidParameterInput"
+          },
+          "403": {
+            "$ref": "#/responses/ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/responses/ErrorResponse"
           }
         }
       }
@@ -1140,7 +1163,7 @@ func init() {
       "type": "object",
       "properties": {
         "success": {
-          "type": "string"
+          "type": "boolean"
         }
       }
     },
@@ -1984,7 +2007,8 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
@@ -1998,6 +2022,24 @@ func init() {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -2022,17 +2064,39 @@ func init() {
             "type": "string",
             "description": "The offering ID on which the savood should be placed.",
             "name": "offeringId",
-            "in": "query"
+            "in": "query",
+            "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "Savood is deleted"
+          "200": {
+            "description": "Savood is deleted",
+            "schema": {
+              "$ref": "#/definitions/SuccessObject"
+            }
           },
           "400": {
             "description": "Invalid parameter input was passed",
             "schema": {
               "$ref": "#/definitions/InvalidParameterInput"
+            }
+          },
+          "403": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "404": {
+            "description": "The specified resource was not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "500": {
+            "description": "Generic Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
             }
           }
         }
@@ -2547,7 +2611,7 @@ func init() {
       "type": "object",
       "properties": {
         "success": {
-          "type": "string"
+          "type": "boolean"
         }
       }
     },

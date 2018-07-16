@@ -19,7 +19,7 @@ type OfferingTO struct {
 }
 
 func requestedByCount(savoodID bson.ObjectId) (int64, error) {
-	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(struct{ Savoods string `json:"savoods"` }{Savoods: savoodID.Hex()}).Count()
+	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(struct{ Savoods bson.ObjectId `json:"savoods"` }{Savoods: savoodID}).Count()
 
 	return int64(n), err
 }

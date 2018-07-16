@@ -13,7 +13,7 @@ import (
 
 // PlaceSavoodURL generates an URL for the place savood operation
 type PlaceSavoodURL struct {
-	OfferingID *string
+	OfferingID string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -49,10 +49,7 @@ func (o *PlaceSavoodURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var offeringID string
-	if o.OfferingID != nil {
-		offeringID = *o.OfferingID
-	}
+	offeringID := o.OfferingID
 	if offeringID != "" {
 		qs.Set("offeringId", offeringID)
 	}
