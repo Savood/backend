@@ -12,8 +12,6 @@ import (
 // DeleteOfferingByIDHandler handles deletion of offering by id
 func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, principal *models.Principal) middleware.Responder {
 
-	//TODO delete related chats
-
 	offering, err := dao.GetOfferingByID(params.ID, nil)
 
 	if err == mgo.ErrNotFound {
@@ -31,6 +29,12 @@ func DeleteOfferingByIDHandler(params offerings.DeleteOfferingByIDParams, princi
 	}
 
 	err = dao.DeleteOfferingByID(params.ID)
+	if err != nil {
+		str := err.Error()
+		return offerings.NewDeleteOfferingByIDInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+
+	err = dao.UpdateChatRemoveOfferingID(params.ID)
 	if err != nil {
 		str := err.Error()
 		return offerings.NewDeleteOfferingByIDInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
