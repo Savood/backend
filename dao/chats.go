@@ -157,7 +157,7 @@ func UpdateChatRemoveOfferingID(offeringID string) (error) {
 
 //TouchChat touching a chat last updated time
 func TouchChat(chatID string) (error) {
-	err := database.GetDatabase().C(database.ChatsCollectionName).UpdateId(bson.ObjectIdHex(chatID), bson.M{"lastupdated": bson.MongoTimestamp(bson.Now().Unix())})
+	err := database.GetDatabase().C(database.ChatsCollectionName).UpdateId(bson.ObjectIdHex(chatID), bson.M{"$set": bson.M{"lastupdated": bson.MongoTimestamp(bson.Now().Unix())}})
 
 	return err
 }
