@@ -62,7 +62,7 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	userObjectID := bson.ObjectIdHex(userID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offering-creator-id": userObjectID}}}).Sort("-lastupdated").All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}}).Sort("-lastupdated").All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +70,12 @@ func GetAllChatsByUserID(userID string) ([]*models.Chat, error) {
 	var chatObjects []*models.Chat
 
 	for _, result := range results {
-		chatPartner, err := GetUserShortByID(result.Partner.Hex())
+		var chatPartner *models.UserShort
+		if result.Partner.Hex() == userID {
+			chatPartner, err = GetUserShortByID(result.OfferingCreatorID.Hex())
+		} else {
+			chatPartner, err = GetUserShortByID(result.Partner.Hex())
+		}
 		if err != nil {
 			return nil, err
 		}
