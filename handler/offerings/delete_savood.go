@@ -37,5 +37,34 @@ func UnSavoodHandler(params operations.UnSavoodParams, principal *models.Princip
 		return operations.NewUnSavoodInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
 	}
 
+	chats, err := dao.GetAllChatsByOfferingAndUserID(params.OfferingID, principal.Userid.Hex())
+	if err != nil {
+		str := err.Error()
+		return operations.NewPlaceSavoodInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+	}
+	if len(chats) > 0 {
+
+		b := chats[0].OfferingID[:0]
+		for _, x := range chats[0].OfferingID {
+			if x != offering.ID {
+				b = append(b, x)
+			}
+		}
+
+		chats[0].OfferingID = b
+
+		if len(chats[0].OfferingID) == 0 {
+			err = dao.DeleteChatByID(chats[0].ID.Hex())
+		} else {
+			err = dao.SaveChat(chats[0])
+		}
+
+
+		if err != nil {
+			str := err.Error()
+			return operations.NewPlaceSavoodInternalServerError().WithPayload(&models.ErrorModel{Message: &str})
+		}
+	}
+
 	return operations.NewUnSavoodOK().WithPayload(&models.SuccessObject{Success: true})
 }

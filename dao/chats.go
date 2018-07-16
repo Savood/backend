@@ -25,7 +25,14 @@ func GetAllChatsByOfferingAndUserID(offeringID string, userID string) ([]*models
 	offeringObjectID := bson.ObjectIdHex(offeringID)
 
 	var results []ChatTO
-	err := database.GetDatabase().C(database.ChatsCollectionName).Find(bson.M{"$or": []bson.M{bson.M{"partner": userObjectID}, bson.M{"offeringcreatorid": userObjectID}}, "offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}}}).Sort("-lastupdated").All(&results)
+	err := database.GetDatabase().C(database.ChatsCollectionName).Find(
+		bson.M{
+			"$or": []bson.M{
+				bson.M{"partner": userObjectID},
+				bson.M{"offeringcreatorid": userObjectID},
+			},
+			"offeringid": bson.M{"$in": []bson.ObjectId{offeringObjectID}},
+		}).Sort("-lastupdated").All(&results)
 	if err != nil {
 		return nil, err
 	}
@@ -124,6 +131,11 @@ func GetChatByID(chatID string) (*models.Chat, error) {
 	}
 
 	return chatModel, nil
+}
+
+//DeleteChatByID deletes chat by id
+func DeleteChatByID(chatID string) error {
+	return database.GetDatabase().C(database.ChatsCollectionName).RemoveId(bson.ObjectIdHex(chatID))
 }
 
 //UpdateChatRemoveOfferingID updates chat objects and removes the object id. Also removes not used chats.
