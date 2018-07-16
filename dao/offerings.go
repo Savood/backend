@@ -5,6 +5,7 @@ import (
 	"git.dhbw.chd.cx/savood/backend/database"
 	"github.com/globalsign/mgo/bson"
 	"errors"
+	"github.com/globalsign/mgo"
 )
 
 //OfferingTO Transfer Object for Offering
@@ -105,6 +106,24 @@ func GetOfferingByID(offeringID string, principal *models.Principal) (*models.Of
 	offering := oTO.InnerOffering
 
 	return &offering, nil
+}
+
+//GetOfferingsByIDs gets offerings for multiple ids
+func GetOfferingsByIDs(offeringIds []bson.ObjectId, principal *models.Principal) ([]*models.Offering, error) {
+
+	var out []*models.Offering
+
+	for _, id := range offeringIds {
+		o, err := GetOfferingByID(id.Hex(), principal)
+		if err != nil && err != mgo.ErrNotFound {
+			return nil, err
+		}
+		if o != nil {
+			out = append(out, o)
+		}
+	}
+
+	return out, nil
 }
 
 //SaveOffering save an offering
