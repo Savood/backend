@@ -629,6 +629,38 @@ func init() {
         }
       }
     },
+    "/unSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offerings"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "unSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Savood is deleted"
+          },
+          "400": {
+            "$ref": "#/responses/InvalidParameterInput"
+          }
+        }
+      }
+    },
     "/users": {
       "post": {
         "consumes": [
@@ -1945,6 +1977,41 @@ func init() {
             "schema": {
               "$ref": "#/definitions/SuccessObject"
             }
+          },
+          "400": {
+            "description": "Invalid parameter input was passed",
+            "schema": {
+              "$ref": "#/definitions/InvalidParameterInput"
+            }
+          }
+        }
+      }
+    },
+    "/unSavood": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "rpc-calls",
+          "offerings"
+        ],
+        "summary": "Places a savood on an offering",
+        "operationId": "unSavood",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "The offering ID on which the savood should be placed.",
+            "name": "offeringId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Savood is deleted"
           },
           "400": {
             "description": "Invalid parameter input was passed",
