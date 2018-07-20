@@ -55,14 +55,13 @@ func SaveUser(user *models.User) error {
 		user.ID = bson.NewObjectId()
 	} else {
 		err := database.GetDatabase().C(database.UsersCollectionName).FindId(user.ID).One(&uTO)
-		if err != nil && err != mgo.ErrNotFound{
+		if err != nil && err != mgo.ErrNotFound {
 			return err
 		}
 	}
 
 	uTO.ID = user.ID
 	uTO.InnerUser = *user
-
 
 	_, err := database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
 
@@ -71,19 +70,7 @@ func SaveUser(user *models.User) error {
 
 // AddSavoodToUserID adds a savood id to the user object
 func AddSavoodToUserID(userID, savoodID string) error {
-
-	var uTO UserTO
-	err := database.GetDatabase().C(database.UsersCollectionName).FindId(bson.ObjectIdHex(userID)).One(&uTO)
-	if err != nil {
-		return err
-	}
-
-	uTO.Savoods = append(uTO.Savoods, bson.ObjectIdHex(savoodID))
-
-
-	_, err = database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
-
-	return err
+	return database.GetDatabase().C(database.UsersCollectionName).UpdateId(bson.ObjectIdHex(userID), bson.M{"$addToSet": bson.M{"savoods": bson.ObjectIdHex(savoodID)}})
 }
 
 // RemoveSavoodFromUserID removes a savood id from the user object
@@ -104,7 +91,6 @@ func RemoveSavoodFromUserID(userID, savoodID string) error {
 	}
 
 	uTO.Savoods = b
-
 
 	_, err = database.GetDatabase().C(database.UsersCollectionName).UpsertId(uTO.ID, uTO)
 
