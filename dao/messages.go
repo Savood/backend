@@ -5,9 +5,8 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"git.dhbw.chd.cx/savood/backend/models"
 	"git.dhbw.chd.cx/savood/backend/database"
+	"time"
 )
-
-
 
 //MessageTO Transfer Object for Chat
 type MessageTO struct {
@@ -19,7 +18,7 @@ type MessageTO struct {
 
 	From bson.ObjectId `json:"partner"`
 
-	Time strfmt.DateTime `json:"time"`
+	Time bson.MongoTimestamp `json:"time"`
 }
 
 //GetAllMessagesByChatID getting all messages in a chat
@@ -42,7 +41,7 @@ func GetAllMessagesByChatID(chatID string) ([]*models.Message, error) {
 		messageModel := &models.Message{
 			Content: result.Content,
 			From:    userFrom,
-			Time:    result.Time,
+			Time:    strfmt.DateTime(time.Unix(int64(result.Time), 0)),
 		}
 
 		messageObjects = append(messageObjects, messageModel)
@@ -56,7 +55,7 @@ func SaveMessage(chat models.Chat, message models.Message) error {
 	messageTO := MessageTO{
 		From:    message.From.ID,
 		ID:      bson.NewObjectId(),
-		Time:    message.Time,
+		Time:    bson.MongoTimestamp(time.Time(message.Time).Unix()),
 		Content: message.Content,
 		ChatID:  chat.ID,
 	}

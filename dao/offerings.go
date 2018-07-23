@@ -6,6 +6,8 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"errors"
 	"github.com/globalsign/mgo"
+	"github.com/go-openapi/strfmt"
+	"time"
 )
 
 //OfferingTO Transfer Object for Offering
@@ -17,6 +19,8 @@ type OfferingTO struct {
 	Location models.OfferingLocation `json:"location"`
 
 	InnerOffering models.Offering `json:"innerOffering"`
+
+	Time bson.MongoTimestamp `json:"time"`
 }
 
 func requestedByCount(savoodID bson.ObjectId) (int64, error) {
@@ -34,6 +38,7 @@ func inject(offeringTO OfferingTO, principal *models.Principal) (*OfferingTO, er
 	offeringTO.InnerOffering.Creator = creator
 	offeringTO.InnerOffering.ID = offeringTO.ID
 	offeringTO.InnerOffering.Location = &offeringTO.Location
+	offeringTO.InnerOffering.Time = strfmt.DateTime(time.Unix(int64(offeringTO.Time), 0))
 
 	if principal != nil {
 		savoods, err := GetSavoodsByUserID(principal.Userid)
@@ -76,7 +81,7 @@ func injectSlice(offeringTOs []OfferingTO, principal *models.Principal) ([]*mode
 func GetAllOfferingsByUserID(userID string, principal *models.Principal) ([]*models.Offering, error) {
 	var offeringTOs []OfferingTO
 
-	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).All(&offeringTOs)
+	err := database.GetDatabase().C(database.OfferingsCollectionName).Find(bson.M{"creatorid": bson.ObjectIdHex(userID)}).Sort("-time").All(&offeringTOs)
 	if err != nil {
 		return nil, err
 	}
@@ -148,6 +153,7 @@ func SaveOffering(offering *models.Offering) error {
 		CreatorID:     offering.Creator.ID,
 		InnerOffering: *offering,
 		Location:      *offering.Location,
+		Time:          bson.MongoTimestamp(time.Time(offering.Time).Unix()),
 	}
 
 	_, err := database.GetDatabase().C(database.OfferingsCollectionName).UpsertId(offeringTO.ID, offeringTO)
@@ -173,7 +179,7 @@ func GetNearOfferings(location models.OfferingLocation, maxDistance float64, pri
 					"$minDistance": 0,
 					"$maxDistance": maxDistance,
 				},
-			}}).All(&offeringTOs)
+			}}).Sort("-time").All(&offeringTOs)
 
 	if err != nil {
 		return nil, err
