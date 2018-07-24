@@ -40,7 +40,12 @@ func GetAllChatsByOfferingAndUserID(offeringID string, userID string) ([]*models
 	var chatObjects []*models.Chat
 
 	for _, result := range results {
-		chatPartner, err := GetUserShortByID(result.Partner.Hex())
+		var chatPartner *models.UserShort
+		if result.Partner.Hex() == userID {
+			chatPartner, err = GetUserShortByID(result.OfferingCreatorID.Hex())
+		} else {
+			chatPartner, err = GetUserShortByID(result.Partner.Hex())
+		}
 		if err != nil {
 			return nil, err
 		}
