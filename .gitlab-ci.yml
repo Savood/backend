@@ -1,5 +1,5 @@
 variables:
-  CONTAINER_IMAGE: docker.dhbw.chd.cx/$CI_PROJECT_PATH
+  CONTAINER_IMAGE: "savood/backend"
 
 stages:
 - pre_build
@@ -80,7 +80,7 @@ build:
   stage: build
   script:
    #- env
-   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+   - docker login -u $CI_DOCKER_USERNAME -p $CI_DOCKER_PASSWORD
    - docker pull $CONTAINER_IMAGE:latest || true
    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
    - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
@@ -95,7 +95,7 @@ buildStaging:
   stage: build
   script:
    #- env
-   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker.dhbw.chd.cx
+   - docker login -u $CI_DOCKER_USERNAME -p $CI_DOCKER_PASSWORD
    - docker pull $CONTAINER_IMAGE:latest || true
    - docker build --cache-from $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:$CI_BUILD_REF .
    - docker push $CONTAINER_IMAGE:$CI_BUILD_REF
