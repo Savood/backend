@@ -24,7 +24,7 @@ type OfferingTO struct {
 }
 
 func requestedByCount(savoodID bson.ObjectId) (int64, error) {
-	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(struct{ Savoods bson.ObjectId `json:"savoods"` }{Savoods: savoodID}).Count()
+	n, err := database.GetDatabase().C(database.UsersCollectionName).Find(bson.M{"$in": []bson.M{{"savoods": savoodID}}}).Count()
 
 	return int64(n), err
 }
