@@ -1,5 +1,8 @@
 # Savood Backend in GO
 
+A detailed description can be found in the presentation repository, wich links to important code.
+
+
 ## Code Generation
 
 Ensure basepath to be "v2" and scheme to be "http" not "https" because SSL is terminated in k8s cluster 
@@ -25,4 +28,3 @@ GOOS=linux go build -o ./bin/savood-server -ldflags="-s -w" cmd/savood-server/ma
 docker build --tag savood:test . 
 CONTAINER_IMAGE=savood CI_BUILD_REF=test docker-compose up 
 ```
-
