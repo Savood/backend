@@ -53,6 +53,7 @@ func inject(offeringTO OfferingTO, principal *models.Principal) (*OfferingTO, er
 		}
 	}
 
+	offeringTO.InnerOffering.RequestedBy = 0
 	i, err := requestedByCount(offeringTO.ID)
 	if err != nil {
 		return &offeringTO, err

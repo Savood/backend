@@ -27,7 +27,7 @@ type Offering struct {
 
 	// best by date
 	// Format: date
-	BestByDate strfmt.Date `json:"best-by-date,omitempty"`
+	BestByDate strfmt.Date `json:"bestByDate,omitempty"`
 
 	// creator
 	Creator *UserShort `json:"creator,omitempty"`
@@ -42,7 +42,7 @@ type Offering struct {
 	Name string `json:"name,omitempty"`
 
 	// requested by
-	RequestedBy int64 `json:"requested-by,omitempty"`
+	RequestedBy int64 `json:"requestedBy,omitempty"`
 
 	// savooded
 	Savooded bool `json:"savooded,omitempty"`
@@ -106,7 +106,7 @@ func (m *Offering) validateBestByDate(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.FormatOf("best-by-date", "body", "date", m.BestByDate.String(), formats); err != nil {
+	if err := validate.FormatOf("bestByDate", "body", "date", m.BestByDate.String(), formats); err != nil {
 		return err
 	}
 

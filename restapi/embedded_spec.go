@@ -1081,7 +1081,7 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "best-by-date": {
+        "bestByDate": {
           "type": "string",
           "format": "date"
         },
@@ -1109,7 +1109,7 @@ func init() {
         "name": {
           "type": "string"
         },
-        "requested-by": {
+        "requestedBy": {
           "type": "integer",
           "format": "int64"
         },
@@ -1132,7 +1132,7 @@ func init() {
           "street": "Musterstraße",
           "zip": "42069"
         },
-        "best-by-date": "2018-06-21",
+        "bestByDate": "2018-06-21",
         "creator": {
           "_id": "5",
           "firstname": "Marty",
@@ -1146,7 +1146,7 @@ func init() {
           ]
         },
         "name": "Normale Kartoffeln",
-        "requested-by": 12,
+        "requestedBy": 12,
         "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
@@ -2547,7 +2547,7 @@ func init() {
         "address": {
           "$ref": "#/definitions/Address"
         },
-        "best-by-date": {
+        "bestByDate": {
           "type": "string",
           "format": "date"
         },
@@ -2563,7 +2563,7 @@ func init() {
         "name": {
           "type": "string"
         },
-        "requested-by": {
+        "requestedBy": {
           "type": "integer",
           "format": "int64"
         },
@@ -2586,7 +2586,7 @@ func init() {
           "street": "Musterstraße",
           "zip": "42069"
         },
-        "best-by-date": "2018-06-21",
+        "bestByDate": "2018-06-21",
         "creator": {
           "_id": "5",
           "firstname": "Marty",
@@ -2600,7 +2600,7 @@ func init() {
           ]
         },
         "name": "Normale Kartoffeln",
-        "requested-by": 12,
+        "requestedBy": 12,
         "savooded": true,
         "time": "2018-06-21T13:55:58.380Z"
       }
